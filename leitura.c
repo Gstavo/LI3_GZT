@@ -2,6 +2,7 @@
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define MAX_LINE 40
 #define MAX 500000
@@ -43,10 +44,10 @@ void tokenizer(Comp a, int j, char linha[MAX_LINE]){
 			a[j].unidades_compradas=n;
 		}
         	if(x == 3) a[j].tipo = t[0];
-        	if(x == 4) strcpy(a[j].codigo_cliente, t); /* No name codigo_cliente */
+        	if(x == 4) strcpy(a[j].codigo_cliente, t); 
         	if(x == 5) {
 			n=atoi(t);
-			a[j].mes_compra=n;/* no name mes_compra em Compras*/
+			a[j].mes_compra=n;
 		}
         	x++;
         	t=strtok(NULL, " ");
@@ -69,6 +70,7 @@ int main () {
 	int i=0, countC=0, countP=0, countCompras=0;
 	FILE *clientes, *produtos, *fcompras;
 	char **compras, **clnt, **prod;
+	char linha[MAX_LINE];
 	
 	Comp array=(Comp)malloc(MAX*sizeof(Compras));
 /*	init(array); desnecessário ????*/
@@ -89,19 +91,31 @@ int main () {
 	produtos=fopen("produtos.txt","r");
 	fcompras=fopen("compras.txt","r");
 	
-	for(i=0;fgets(clnt[i], MAX_LINE, clientes);i++) 
+	for(i=0;fgets(linha, MAX_LINE, clientes);i++) 
+	{
+			linha[strlen(linha)-1] = '\0';
+			strcpy(clnt[i],linha);
 			countC++;
+	}
 	fclose(clientes);
 	
-	for(i=0;fgets(prod[i], MAX_LINE, produtos);i++) 
+	for(i=0;fgets(linha, MAX_LINE, produtos);i++)
+	{ 
+			linha[strlen(linha)-1] = '\0';
+			strcpy(prod[i],linha);
 			countP++;
+	}
 	fclose(produtos);
 	
-	for(i=0;fgets(compras[i], MAX_LINE,fcompras);i++){
+	for(i=0;fgets(linha, MAX_LINE,fcompras);i++)
+	{
+			linha[strlen(linha)-1] = '\0';
+			strcpy(compras[i],linha);
 			tokenizer(array, i, compras[i]);
 			countCompras++;
-		}
+	}
 	fclose(fcompras);
+	
 	/*
 	printf("\nClientes=%d, Produtos=%d, Compras=%d\n\n", countC, countP, countCompras);
 	* Imprime as primeiras 5 linhas da matriz*
