@@ -16,6 +16,8 @@ typedef struct prodTree {
 
 typedef ProdTree *ProdList;
 
+typedef ProdList Slist[3];
+
 void printTree(ProdList p);
 ProdList insert(ProdList p, char produto[], int *cresceu);
 ProdList insertRight(ProdList p, char produto[], int *cresceu);
@@ -26,11 +28,19 @@ ProdList rotateRight(ProdList p);
 ProdList rotateLeft(ProdList p);
 
 int main() {
-	int i, *cresceu=(int*) malloc(sizeof(int*));
+	int i, index, *cresceu=(int*) malloc(sizeof(int*));
 	char list[3][3]={{'A','B','A'},{'B','A','B'},{'C','A','B'}};
-	ProdList s=NULL;
-	for(i=0; i<3; i++) s=insert(s, list[i], cresceu);
-	printTree(s);
+	Slist s;
+	for(i=0; i<3; i++) s[i]=NULL;
+	for(i=0; i<3; i++) {
+		index=list[i][0]-65;
+		s[index]=insert(s[index], list[i], cresceu);
+	}
+	for(i=0; i<3; i++) {
+		printf("Nova arvore:\n");
+		printTree(s[i]);
+		printf("\n");
+	}
 	return 0;
 }
 
