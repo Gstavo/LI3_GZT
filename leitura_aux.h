@@ -12,6 +12,18 @@ typedef struct compras {
 
 typedef Compras *Comp;
 
+typedef enum balancefactor {LH, EH, RH} BalanceFactor;
+
+typedef struct prodTree {
+	BalanceFactor bf;	/*Fator de balanceamento da arvore*/
+	char code[10];
+	struct prodTree *left, *right;
+} ProdTree;
+
+typedef ProdTree *ProdList;
+
+typedef ProdList Slist[MAX];
+
 void printCompras(Compras a);
 int validaMes(int mes);
 int validaTipo(char a);
@@ -22,3 +34,11 @@ int validaCC(char cc[]);
 int validaCP(char cc[]);
 int validateCompras(Compras a);
 void tokenizer(Comp a, int j, char linha[MAX_LINE]);
+void printTree(ProdList p);
+ProdList insert(ProdList p, char produto[], int *cresceu);
+ProdList insertRight(ProdList p, char produto[], int *cresceu);
+ProdList insertLeft(ProdList p, char produto[], int *cresceu);
+ProdList balanceRight(ProdList p);
+ProdList balanceLeft(ProdList p);
+ProdList rotateRight(ProdList p);
+ProdList rotateLeft(ProdList p);
