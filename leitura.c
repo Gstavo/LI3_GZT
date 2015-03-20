@@ -15,6 +15,7 @@ int main () {
 	Slist cl, pd;	/*cl - array com AVL's de clientes, pd - array com AVL's de produtos*/
 	Comp array=(Comp)malloc(MAX*sizeof(Compras));
 
+	/*Inicializa as estruturas*/
 	for(i=0; i<20000; i++) {
 		cl[i]=(ProdList) malloc(sizeof(struct prodTree));
 		cl[i]=NULL;
@@ -35,6 +36,7 @@ int main () {
 	for(i=0;fgets(linha, MAX_LINE, clientes);i++) 
 	{
 			linha[strlen(linha)-1] = '\0';
+			/*index corresponde ao endereco da AVL onde vai ser intruduzida a linha*/ 
 			index=linha[0]-65;
 			cl[index]=insert(cl[index], linha, cresceu);
 			countC++;
@@ -52,16 +54,20 @@ int main () {
 	
 	for(i=0;fgets(linha, MAX_LINE,fcompras);i++)
 	{
-			int valido;
+			int valido, indexProd, indexClnt;
 			linha[strlen(linha)-1] = '\0';
 			strcpy(compras[i],linha);
 			tokenizer(array, i, compras[i]);
-			valido = validateCompras(array[i]);
-			if(!valido) {   
-           				compras_invalidas++;}
+			/*indexProd e indexClnt dao o endereco das AVL's onde se vai procurar se existe*/
+			indexProd=array[i].codigo_Produto[0]-65;
+			indexClnt=array[i].codigo_cliente[0]-65;
+			valido = validateCompras(array[i], pd[indexProd], cl[indexClnt]);
+			if(!valido) compras_invalidas++;
 			countCompras++;
 	}
 	fclose(fcompras);
+	/*Imprime a AVL de produtos que se iniciam com 'A'*/
+	printTree(pd[0]);
 	
 	/*Codigo imprime compras*/
 	printf("\nCompras:\n\n");

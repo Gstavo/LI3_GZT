@@ -37,26 +37,47 @@ int validaPreco(double p){
 
 int isdigitN(char a) {return ((a >= 48) && (a<=57));}
 
-int validaCC(char cc[]){
+int validaCC(char cc[], ProdList c) {
 	int i;
 	for(i=0;i<2;i++)
 		if (!isalpha(cc[i]) && !isupper(cc[i])) return 0;
 	for(;i<5;i++)
 		if (!isdigitN(cc[i])) return 0;
-	return 1;
+	if(!existeClnt(cc, c)) return 0;
+	else return 1;
 }
 
-int validaCP(char cc[]){
+int validaCP(char cc[], ProdList p) {
 	int i;
 	for(i=0;i<2;i++)
 		if (!isalpha(cc[i]) && !isupper(cc[i])) return 0;
 	for(;i<6;i++)
 		if (!isdigitN(cc[i])) return 0;
-	return 1;
+	if(!existeProd(cc, p)) return 0;
+	else return 1;
 }
 
-int validateCompras(Compras a){
-	return ( validaMes(a.mes_compra) && validaTipo(a.tipo) && validaUnidades(a.unidades_compradas) && validaPreco(a.preco_unitario) && validaCP(a.codigo_Produto) && validaCC(a.codigo_cliente) );
+/*existeClnt e existeProd verificam se a palavra existe na AVL*/
+int existeClnt(char cliente[], ProdList c) {
+	int res;
+	if(c==NULL) res=0;
+	else if(strncmp(cliente, c->code, 5)<0) res=existeClnt(cliente, c->left);
+	     else if(strncmp(cliente, c->code, 5)>0) res=existeClnt(cliente, c->right);
+		  else res=1;
+	return res;
+}
+
+int existeProd(char produto[], ProdList p) {
+	int res;
+	if(p==NULL) res=0;
+	else if(strncmp(produto, p->code, 6)<0) res=existeProd(produto, p->left);
+	     else if(strncmp(produto, p->code, 6)>0) res=existeProd(produto, p->right);
+		  else res=1;
+	return res;
+}
+
+int validateCompras(Compras a, ProdList p, ProdList c) {
+	return ( validaMes(a.mes_compra) && validaTipo(a.tipo) && validaUnidades(a.unidades_compradas) && validaPreco(a.preco_unitario) && validaCP(a.codigo_Produto, p) && validaCC(a.codigo_cliente, c) );
 }
 
 void tokenizer(Comp a, int j, char linha[MAX_LINE]){
@@ -105,7 +126,7 @@ ProdList insert(ProdList p, char produto[], int *cresceu) {
 		p->bf=EH;
 		*cresceu=1;
 	}
-	else if(strcmp(p->code, produto)<0) p=insertLeft(p, produto, cresceu);
+	else if(strncmp(produto, p->code, length(produto))<0) p=insertLeft(p, produto, cresceu);
 	     else p=insertRight(p, produto, cresceu);
 	return p;
 }
@@ -226,6 +247,12 @@ ProdList rotateLeft(ProdList p) {
 		p=aux;
 	}
 	return p;
+}
+
+int length(char s[]) {
+	int i;
+	for(i=0; s[i]!='\0'; i++);
+	return i;
 }
 
 
