@@ -57,7 +57,6 @@ int validaCP(char cc[], ProdList p) {
 	else return 1;
 }
 
-/*existeClnt e existeProd verificam se a palavra existe na AVL*/
 int existeClnt(char cliente[], ProdList c) {
 	int res;
 	if(c==NULL) res=0;
@@ -76,8 +75,20 @@ int existeProd(char produto[], ProdList p) {
 	return res;
 }
 
-int validateCompras(Compras a, ProdList p, ProdList c) {
-	return ( validaMes(a.mes_compra) && validaTipo(a.tipo) && validaUnidades(a.unidades_compradas) && validaPreco(a.preco_unitario) && validaCP(a.codigo_Produto, p) && validaCC(a.codigo_cliente, c) );
+int validateClnt(Compras a, ProdList c) {
+	if(existeClnt(a.codigo_cliente, c)==0) return 0;
+	else return 1;
+}
+
+int validateProd(Compras a, ProdList p) {
+	if(existeProd(a.codigo_Produto, p)==0) return 0;
+	else return 1;
+}
+
+int validateCompras(Compras a) {
+	if(validaMes(a.mes_compra)==0 || validaTipo(a.tipo)==0 || validaUnidades(a.unidades_compradas)==0 || validaPreco(a.preco_unitario)==0)
+		return 0;
+	else return 1;
 }
 
 void tokenizer(Comp a, int j, char linha[MAX_LINE]){
@@ -118,6 +129,7 @@ void printTree(ProdList p) {
 	}
 }
 
+/*produto nao quer dizer que seja um produto, serve tambem para um cliente*/
 ProdList insert(ProdList p, char produto[], int *cresceu) {
 	if(p==NULL) {
 		p=(ProdList) malloc(sizeof(struct prodTree));
@@ -182,16 +194,16 @@ ProdList balanceRight(ProdList p) {
 		p=rotateLeft(p);
 		switch(p->bf) {
 		case EH:
-			if(p->left!=NULL) p->left->bf=EH;
-			if(p->right!=NULL) p->right->bf=EH;
+			p->left->bf=EH;
+			p->right->bf=EH;
 			break;
 		case LH:
-			if(p->left!=NULL) p->left->bf=EH;
-			if(p->right!=NULL) p->right->bf=RH;
+			p->left->bf=EH;
+			p->right->bf=RH;
 			break;
 		case RH:
-			if(p->left!=NULL) p->left->bf=LH;
-			if(p->right!=NULL) p->right->bf=EH;
+			p->left->bf=LH;
+			p->right->bf=EH;
 		}
 		p->bf=EH;
 	}

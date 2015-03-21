@@ -7,7 +7,8 @@
 #include "leitura_aux.h"
 
 int main () {
-	int i=0, countC=0, countP=0, countCompras=0,compras_invalidas=0, index;
+	int i=0, countC=0, countP=0, countCompras=0, compras_invalidas=0, index, fact=0;	/*fact corresponde a faturacao total anual*/
+	int validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0, indexProd, indexClnt;	
 	FILE *clientes, *produtos, *fcompras;
 	char **compras;
 	char linha[MAX_LINE];
@@ -54,31 +55,32 @@ int main () {
 	
 	for(i=0;fgets(linha, MAX_LINE,fcompras);i++)
 	{
-			int valido, indexProd, indexClnt;
 			linha[strlen(linha)-1] = '\0';
 			strcpy(compras[i],linha);
 			tokenizer(array, i, compras[i]);
 			/*indexProd e indexClnt dao o endereco das AVL's onde se vai procurar se existe*/
 			indexProd=array[i].codigo_Produto[0]-65;
 			indexClnt=array[i].codigo_cliente[0]-65;
-			valido = validateCompras(array[i], pd[indexProd], cl[indexClnt]);
-			if(!valido) compras_invalidas++;
+			validaClnt=validateClnt(array[i], cl[indexClnt]);
+			validaProd=validateProd(array[i], pd[indexProd]);
+			validaCmpr=validateCompras(array[i]);
+			if(validaClnt==0) clntInv++;
+			if(validaProd==0) prodInv++;
+			if(validaClnt==0 || validaProd==0 || validaCmpr==0) compras_invalidas++;
+			else fact+=array[i].preco_unitario;
 			countCompras++;
 	}
 	fclose(fcompras);
-	/*Imprime a AVL de produtos que se iniciam com 'A'*/
-	printTree(pd[0]);
-	
-	/*Codigo imprime compras*/
-	printf("\nCompras:\n\n");
-	for(i=0;i<5;i++){
-		printf("Compra n %d\n\n",i+1);
-		printCompras(array[i]);
-		putchar('\n');
-	}
-	printf("\n");
 
-	printf("N compras invalidas %d de %d compras\n",compras_invalidas,countCompras);
+	printf("\nPRODUTOS: %d\n", countP);
+	printf("CLIENTES: %d\n", countC);
+	printf("LINHAS DE COMPRAS: %d\n", countCompras);
+	printf("CODIGOS DE CLIENTE INEXISTENTES: %d\n", clntInv);
+	printf("CODIGOS DE PRODUTO INEXISTENTES: %d\n", prodInv);
+	printf("TOTAL DE COMPRAS INVALIDAS: %d\n", compras_invalidas);
+	printf("--------------------------------------------\n");
+	printf("COMPRAS VALIDAS: %d\n", (countCompras-compras_invalidas));
+	printf("FATURACAO ANUAL TOTAL: %d\n\n", fact);
 
 	for(i=0;i<500000;i++)
 		free(compras[i]);
