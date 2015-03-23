@@ -4,10 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 #include "leitura_aux.h"
 
 int main () {
-	int i=0, countC=0, countP=0, countCompras=0, compras_invalidas=0, index, fact=0;	/*fact corresponde a faturacao total anual*/
+	int i=0, countC=0, countP=0, countCompras=0, compras_invalidas=0, index; 
+	double fact=0, time_spent;	/*fact corresponde a faturacao total anual*/
 	int validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0, indexProd, indexClnt;	
 	FILE *clientes, *produtos, *fcompras;
 	char **compras;
@@ -15,6 +17,9 @@ int main () {
 	int *cresceu=(int*) malloc(sizeof(int*));	/*Verifica se a AVL cresceu*/
 	Slist cl, pd;	/*cl - array com AVL's de clientes, pd - array com AVL's de produtos*/
 	Comp array=(Comp)malloc(MAX*sizeof(Compras));
+	clock_t begin, end;
+	
+	begin=clock();
 
 	/*Inicializa as estruturas*/
 	for(i=0; i<20000; i++) {
@@ -80,11 +85,15 @@ int main () {
 	printf("TOTAL DE COMPRAS INVALIDAS: %d\n", compras_invalidas);
 	printf("--------------------------------------------\n");
 	printf("COMPRAS VALIDAS: %d\n", (countCompras-compras_invalidas));
-	printf("FATURACAO ANUAL TOTAL: %d\n\n", fact);
+	printf("FATURACAO ANUAL TOTAL: %f\n\n", fact);
 
 	for(i=0;i<500000;i++)
 		free(compras[i]);
 	free(compras);
+
+	end=clock();
+	time_spent=(double)(end-begin)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao: %f segundos\n", time_spent);
 	
 	return 0;
 }
