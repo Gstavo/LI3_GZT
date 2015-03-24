@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include "leitura_aux.h"
 
+/*Funcao util para imprimir as compras*/
 void printCompras(Compras a){
 	printf("Codigo Produto = %s\n",a.codigo_Produto);
 	printf("Preco Unitario = %f\n",a.preco_unitario);
@@ -221,16 +222,16 @@ ProdList balanceLeft(ProdList p) {
 		p=rotateRight(p);
 		switch(p->bf) {
 		case EH:
-			if(p->left!=NULL) p->left->bf=EH;
-			if(p->right!=NULL) p->right->bf=EH;
+			p->left->bf=EH;
+			p->right->bf=EH;
 			break;
 		case RH:
-			if(p->right!=NULL) p->right->bf=EH;
-			if(p->left!=NULL) p->left->bf=LH;
+			p->right->bf=EH;
+			p->left->bf=LH;
 			break;
 		case LH:
-			if(p->right!=NULL) p->right->bf=RH;
-			if(p->left!=NULL) p->left->bf=EH;
+			p->right->bf=RH;
+			p->left->bf=EH;
 		}
 		p->bf=EH;
 	}
@@ -265,6 +266,35 @@ int length(char s[]) {
 	int i;
 	for(i=0; s[i]!='\0'; i++);
 	return i;
+}
+
+void codClientes(ProdList array[]){
+	int i;
+  for (i=0;i<MAX_LETTERS;i++){
+     printf("%c : %d\n",i+65,contarNodos(devolveAVL(array, i+65)));
+	}
+} 
+
+void codProdutos(ProdList array[]){
+	int i;
+  for (i=0;i<MAX_LETTERS;i++){
+     printf("%c : %d\n",i+65,contarNodos(devolveAVL(array, i+65)));
+	}
+} 
+
+ProdList devolveAVL(ProdList array[], char a){
+  int pos=a-65;
+  ProdList aux=(ProdList) malloc (sizeof (struct prodTree));
+  aux=array[pos];
+  return aux;
+}
+
+
+int contarNodos(ProdList aux){
+   if(aux == NULL)
+        return 0;
+   else
+        return 1 + contarNodos(aux->left) + contarNodos(aux->right);
 }
 
 

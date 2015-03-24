@@ -31,8 +31,8 @@ int main () {
 		pd[i]=NULL;
 	}
 	
-	compras = calloc(500000,sizeof(char*));
-	for(i=0;i<500000;i++)
+	compras = calloc(MAX,sizeof(char*));
+	for(i=0;i<MAX;i++)
 		compras[i] = calloc(MAX_LINE,sizeof(char));
 	
 	clientes=fopen("clientes.txt","r"); 
@@ -85,15 +85,22 @@ int main () {
 	printf("TOTAL DE COMPRAS INVALIDAS: %d\n", compras_invalidas);
 	printf("--------------------------------------------\n");
 	printf("COMPRAS VALIDAS: %d\n", (countCompras-compras_invalidas));
-	printf("FATURACAO ANUAL TOTAL: %f\n\n", fact);
+	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", fact);
 
-	for(i=0;i<500000;i++)
+	printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
+	codClientes(cl);
+	printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n\n");
+	codProdutos(pd);
+	printf("\n");
+
+
+	for(i=0;i<MAX;i++)
 		free(compras[i]);
 	free(compras);
 
 	end=clock();
 	time_spent=(double)(end-begin)/CLOCKS_PER_SEC;
-	printf("Tempo de execucao: %f segundos\n", time_spent);
+	printf("Tempo de execucao: %.2f segundos\n\n", time_spent);
 	
 	return 0;
 }

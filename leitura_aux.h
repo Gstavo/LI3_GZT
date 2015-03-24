@@ -1,5 +1,6 @@
 #define MAX_LINE 40
 #define MAX 500000
+#define MAX_LETTERS 26
 
 typedef struct compras {
 	char codigo_Produto[10];
@@ -47,3 +48,7 @@ ProdList balanceLeft(ProdList p);
 ProdList rotateRight(ProdList p);
 ProdList rotateLeft(ProdList p);
 int length(char s[]);
+void codClientes(ProdList array[]);
+void codProdutos(ProdList array[]);
+ProdList devolveAVL(ProdList array[], char a);
+int contarNodos(ProdList aux);
