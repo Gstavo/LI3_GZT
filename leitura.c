@@ -15,19 +15,19 @@ int main () {
 	char **compras;
 	char linha[MAX_LINE];
 	int *cresceu=(int*) malloc(sizeof(int*));	/*Verifica se a AVL cresceu*/
-	Slist cl, pd;	/*cl - array com AVL's de clientes, pd - array com AVL's de produtos*/
+	AAVL cl, pd;	/*cl - array com AVL's de clientes, pd - array com AVL's de produtos*/
 	Comp array=(Comp)malloc(MAX*sizeof(Compras));
 	clock_t begin, end;
 	
 	begin=clock();
 
 	/*Inicializa as estruturas*/
-	for(i=0; i<20000; i++) {
-		cl[i]=(ProdList) malloc(sizeof(struct prodTree));
+	for(i=0; i<MAX_LETTERS; i++) {
+		cl[i]=(AVL) malloc(sizeof(struct AVL_struct));
 		cl[i]=NULL;
 	}
-	for(i=0; i<200000; i++) {
-		pd[i]=(ProdList) malloc(sizeof(struct prodTree));
+	for(i=0; i<MAX_LETTERS; i++) {
+		pd[i]=(AVL) malloc(sizeof(struct AVL_struct));
 		pd[i]=NULL;
 	}
 	
@@ -44,7 +44,7 @@ int main () {
 			linha[strlen(linha)-1] = '\0';
 			/*index corresponde ao endereco da AVL onde vai ser intruduzida a linha*/ 
 			index=linha[0]-65;
-			cl[index]=insert(cl[index], linha, cresceu);
+			cl[index]=insert(cl[index], linha, cresceu,Catalogo_C);
 			countC++;
 	}
 	fclose(clientes);
@@ -53,7 +53,7 @@ int main () {
 	{ 
 			linha[strlen(linha)-1] = '\0';
 			index=linha[0]-65;
-			pd[index]=insert(pd[index], linha, cresceu);
+			pd[index]=insert(pd[index], linha, cresceu,Catalogo_P);
 			countP++;
 	}
 	fclose(produtos);

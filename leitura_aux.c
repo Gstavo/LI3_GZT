@@ -5,6 +5,10 @@
 #include <string.h>
 #include <ctype.h>
 #include "leitura_aux.h"
+/*
+#include "avl.h"
+redundante
+*/
 
 /*Funcao util para imprimir as compras*/
 void printCompras(Compras a){
@@ -38,7 +42,7 @@ int validaPreco(double p){
 
 int isdigitN(char a) {return ((a >= 48) && (a<=57));}
 
-int validaCC(char cc[], ProdList c) {
+int validaCC(char cc[], AVL c) {
 	int i;
 	for(i=0;i<2;i++)
 		if (!isalpha(cc[i]) && !isupper(cc[i])) return 0;
@@ -48,7 +52,7 @@ int validaCC(char cc[], ProdList c) {
 	else return 1;
 }
 
-int validaCP(char cc[], ProdList p) {
+int validaCP(char cc[], AVL p) {
 	int i;
 	for(i=0;i<2;i++)
 		if (!isalpha(cc[i]) && !isupper(cc[i])) return 0;
@@ -58,30 +62,32 @@ int validaCP(char cc[], ProdList p) {
 	else return 1;
 }
 
-int existeClnt(char cliente[], ProdList c) {
+int existeClnt(char cliente[], AVL c) {
 	int res;
+	char* code = c->info;
 	if(c==NULL) res=0;
-	else if(strncmp(cliente, c->code, 5)<0) res=existeClnt(cliente, c->left);
-	     else if(strncmp(cliente, c->code, 5)>0) res=existeClnt(cliente, c->right);
+	else if(strncmp(cliente, code, 5)<0) res=existeClnt(cliente, c->left);
+	     else if(strncmp(cliente, code, 5)>0) res=existeClnt(cliente, c->right);
 		  else res=1;
 	return res;
 }
 
-int existeProd(char produto[], ProdList p) {
+int existeProd(char produto[], AVL p) {
 	int res;
+	char* code = p->info;
 	if(p==NULL) res=0;
-	else if(strncmp(produto, p->code, 6)<0) res=existeProd(produto, p->left);
-	     else if(strncmp(produto, p->code, 6)>0) res=existeProd(produto, p->right);
+	else if(strncmp(produto,code, 6)<0) res=existeProd(produto, p->left);
+	     else if(strncmp(produto, code, 6)>0) res=existeProd(produto, p->right);
 		  else res=1;
 	return res;
 }
 
-int validateClnt(Compras a, ProdList c) {
+int validateClnt(Compras a, AVL c) {
 	if(existeClnt(a.codigo_cliente, c)==0) return 0;
 	else return 1;
 }
 
-int validateProd(Compras a, ProdList p) {
+int validateProd(Compras a, AVL p) {
 	if(existeProd(a.codigo_Produto, p)==0) return 0;
 	else return 1;
 }
@@ -119,184 +125,36 @@ void tokenizer(Comp a, int j, char linha[MAX_LINE]){
 	}	
 }
 
-void printTree(ProdList p) {
+void printTree(AVL p) {
 	int i;
 	if(p==NULL) printf("NULL\n");
 	else {
-		for(i=0; i<6; i++) printf("%c", p->code[i]);
+		char* code = p->info;
+		for(i=0; i<6; i++) printf("%c", code[i]);
 		printf("\n");
 		printTree(p->left);
 		printTree(p->right);
 	}
 }
 
-/*produto nao quer dizer que seja um produto, serve tambem para um cliente*/
-ProdList insert(ProdList p, char produto[], int *cresceu) {
-	if(p==NULL) {
-		p=(ProdList) malloc(sizeof(struct prodTree));
-		strcpy(p->code, produto);
-		p->right=p->left=NULL;
-		p->bf=EH;
-		*cresceu=1;
+void codClientes(AVL array[]){
+	int i;
+  for (i=0;i<MAX_LETTERS;i++){
+     printf("%c : %d\n",i+65,contarNodos(devolveAVL(array, i+65)));
 	}
-	else if(strncmp(produto, p->code, length(produto))<0) p=insertLeft(p, produto, cresceu);
-	     else p=insertRight(p, produto, cresceu);
-	return p;
-}
+} 
 
-ProdList insertRight(ProdList p, char produto[], int *cresceu) {
-	p->right=insert(p->right, produto, cresceu);
-	if(*cresceu) {
-		switch(p->bf) {
-		case LH:
-			p->bf=EH;
-			*cresceu=0;
-			break;
-		case EH:
-			p->bf=RH;
-			*cresceu=1;
-			break;
-		case RH:
-			p=balanceRight(p);
-			*cresceu=0;
-		}
+void codProdutos(AVL array[]){
+	int i;
+  for (i=0;i<MAX_LETTERS;i++){
+     printf("%c : %d\n",i+65,contarNodos(devolveAVL(array, i+65)));
 	}
-	return p;
-}
-
-ProdList insertLeft(ProdList p, char produto[], int *cresceu) {
-	p->left=insert(p->left, produto, cresceu);
-	if(*cresceu) {
-		switch(p->bf) {
-		case RH:
-			p->bf=EH;
-			*cresceu=0;
-			break;
-		case EH:
-			p->bf=LH;
-			*cresceu=1;
-			break;
-		case LH:
-			p=balanceLeft(p);
-			*cresceu=0;
-		}
-	}
-	return p;
-}
-
-ProdList balanceRight(ProdList p) {
-	if(p->right->bf==RH) {
-		p=rotateLeft(p);
-		p->bf=EH;
-		p->left->bf=EH;
-	}
-	else {
-		p->right=rotateRight(p->right);
-		p=rotateLeft(p);
-		switch(p->bf) {
-		case EH:
-			p->left->bf=EH;
-			p->right->bf=EH;
-			break;
-		case LH:
-			p->left->bf=EH;
-			p->right->bf=RH;
-			break;
-		case RH:
-			p->left->bf=LH;
-			p->right->bf=EH;
-		}
-		p->bf=EH;
-	}
-	return p;
-}
-
-ProdList balanceLeft(ProdList p) {
-	if(p->left->bf==LH) {
-		p=rotateRight(p);
-		p->bf=EH;
-		p->right->bf=EH;
-	}
-	else {
-		p->left=rotateLeft(p->left);
-		p=rotateRight(p);
-		switch(p->bf) {
-		case EH:
-			p->left->bf=EH;
-			p->right->bf=EH;
-			break;
-		case RH:
-			p->right->bf=EH;
-			p->left->bf=LH;
-			break;
-		case LH:
-			p->right->bf=RH;
-			p->left->bf=EH;
-		}
-		p->bf=EH;
-	}
-	return p;
-}
-
-ProdList rotateRight(ProdList p) {	
-	ProdList aux;
-	if((!p) || (!p->left)) printf("Erro!\n");
-	else {
-		aux=p->left;
-		p->left=aux->right;
-		aux->right=p;
-		p=aux;
-	}
-	return p;
-}
-
-ProdList rotateLeft(ProdList p) {
-	ProdList aux;
-	if((!p) || (!p->right)) printf("Erro!\n");
-	else {
-		aux=p->right;
-		p->right=aux->left;
-		aux->left=p;
-		p=aux;
-	}
-	return p;
-}
+} 
 
 int length(char s[]) {
-	int i;
-	for(i=0; s[i]!='\0'; i++);
-	return i;
+       int i;
+       for(i=0; s[i]!='\0'; i++);
+       return i;
 }
 
-void codClientes(ProdList array[]){
-	int i;
-  for (i=0;i<MAX_LETTERS;i++){
-     printf("%c : %d\n",i+65,contarNodos(devolveAVL(array, i+65)));
-	}
-} 
-
-void codProdutos(ProdList array[]){
-	int i;
-  for (i=0;i<MAX_LETTERS;i++){
-     printf("%c : %d\n",i+65,contarNodos(devolveAVL(array, i+65)));
-	}
-} 
-
-ProdList devolveAVL(ProdList array[], char a){
-  int pos=a-65;
-  ProdList aux=(ProdList) malloc (sizeof (struct prodTree));
-  aux=array[pos];
-  return aux;
-}
-
-
-int contarNodos(ProdList aux){
-   if(aux == NULL)
-        return 0;
-   else
-        return 1 + contarNodos(aux->left) + contarNodos(aux->right);
-}
-
-
-	
 

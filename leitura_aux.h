@@ -2,28 +2,7 @@
 #define MAX 500000
 #define MAX_LETTERS 26
 
-typedef struct compras {
-	char codigo_Produto[10];
-	double preco_unitario;
-	int unidades_compradas;
-	char tipo;	/*promoção-P;normal-N*/
-	char codigo_cliente[10];
-	int mes_compra;
-} Compras;
-
-typedef Compras *Comp;
-
-typedef enum balancefactor {LH, EH, RH} BalanceFactor;
-
-typedef struct prodTree {
-	BalanceFactor bf;	/*Fator de balanceamento da arvore*/
-	char code[10];
-	struct prodTree *left, *right;
-} ProdTree;
-
-typedef ProdTree *ProdList;
-
-typedef ProdList Slist[MAX];
+#include "avl.h"
 
 void printCompras(Compras a);
 int validaMes(int mes);
@@ -31,24 +10,15 @@ int validaTipo(char a);
 int validaUnidades(int unidade);
 int validaPreco(double p);
 int isdigitN(char a);
-int validaCC(char cc[], ProdList c);
-int validaCP(char cc[], ProdList p);
-int existeClnt(char cliente[], ProdList c);
-int existeProd(char produto[], ProdList p);
-int validateClnt(Compras a, ProdList c);
-int validateProd(Compras a, ProdList p);
+int validaCC(char cc[], AVL c);
+int validaCP(char cc[], AVL p);
+int existeClnt(char cliente[], AVL c);
+int existeProd(char produto[], AVL p);
+int validateClnt(Compras a, AVL c);
+int validateProd(Compras a, AVL p);
 int validateCompras(Compras a);
 void tokenizer(Comp a, int j, char linha[MAX_LINE]);
-void printTree(ProdList p);
-ProdList insert(ProdList p, char produto[], int *cresceu);
-ProdList insertRight(ProdList p, char produto[], int *cresceu);
-ProdList insertLeft(ProdList p, char produto[], int *cresceu);
-ProdList balanceRight(ProdList p);
-ProdList balanceLeft(ProdList p);
-ProdList rotateRight(ProdList p);
-ProdList rotateLeft(ProdList p);
+void printTree(AVL p);
+void codClientes(AVL array[]);
+void codProdutos(AVL array[]);
 int length(char s[]);
-void codClientes(ProdList array[]);
-void codProdutos(ProdList array[]);
-ProdList devolveAVL(ProdList array[], char a);
-int contarNodos(ProdList aux);
