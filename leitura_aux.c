@@ -98,6 +98,24 @@ int length(char s[]) {
        return i;
 }
 
+void shiftleft(char* s,int i)
+{
+        while(s[i]!='\0')
+        {
+                s[i] = s[i+1];
+                i++;
+        }
+}
+
+void trim(char* s)
+{
+        int i;
+        for(i = 0;s[i] == ' ';) shiftleft(s,i);
+        for(i = 0;s[i] != '\0';)
+                if(s[i] == ' ' && s[i+1] == ' ') shiftleft(s,i);
+                else i++;
+        if(i > 0 && s[i-1] == ' ') s[i-1] = '\0';
+}
 
 /* Codigo desnecessario/ n usado???
 int validaCC(char cc[], AVL c) {

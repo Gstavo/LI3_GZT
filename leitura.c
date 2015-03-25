@@ -38,6 +38,7 @@ int main () {
 	for(i=0;fgets(linha, MAX_LINE, clientes);i++) 
 	{
 			linha[strlen(linha)-1] = '\0';
+			trim(linha);
 			insertCatalogo_Clientes(cl,linha, cresceu);
 	}
 	fclose(clientes);
@@ -45,6 +46,7 @@ int main () {
 	for(i=0;fgets(linha, MAX_LINE, produtos);i++)
 	{ 
 			linha[strlen(linha)-1] = '\0';
+			trim(linha);
 			insertCatalogo_Produtos(pl, linha, cresceu);
 	}
 	fclose(produtos);
@@ -52,6 +54,7 @@ int main () {
 	for(i=0;fgets(linha, MAX_LINE,fcompras);i++)
 	{
 			linha[strlen(linha)-1] = '\0';
+			trim(linha);
 			strcpy(compras[i],linha);
 			tokenizer(array, i, compras[i]);
 			/*indexProd e indexClnt calculados nos catalagos*/

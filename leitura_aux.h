@@ -22,6 +22,8 @@ int validateCompras(Compras a);
 void tokenizer(Comp a, int j, char linha[MAX_LINE]);
 void printTree(AVL p);
 int length(char s[]);
+void shiftleft(char* s,int i);
+void trim(char* s);
 /* Desnecessarias/ n usadas ?? a apagar
 int validaCC(char cc[], AVL c);
 int validaCP(char cc[], AVL p);
