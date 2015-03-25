@@ -64,21 +64,25 @@ int validaCP(char cc[], AVL p) {
 
 int existeClnt(char cliente[], AVL c) {
 	int res;
-	char* code = c->info;
 	if(c==NULL) res=0;
-	else if(strncmp(cliente, code, 5)<0) res=existeClnt(cliente, c->left);
+	else{
+		char* code = c->info;
+		 if(strncmp(cliente, code, 5)<0) res=existeClnt(cliente, c->left);
 	     else if(strncmp(cliente, code, 5)>0) res=existeClnt(cliente, c->right);
 		  else res=1;
+		}
 	return res;
 }
 
 int existeProd(char produto[], AVL p) {
 	int res;
-	char* code = p->info;
 	if(p==NULL) res=0;
-	else if(strncmp(produto,code, 6)<0) res=existeProd(produto, p->left);
+	else {
+		char* code = p->info;
+		if(strncmp(produto,code, 6)<0) res=existeProd(produto, p->left);
 	     else if(strncmp(produto, code, 6)>0) res=existeProd(produto, p->right);
 		  else res=1;
+	}
 	return res;
 }
 

@@ -76,7 +76,6 @@ int main () {
 			countCompras++;
 	}
 	fclose(fcompras);
-
 	printf("\nPRODUTOS: %d\n", countP);
 	printf("CLIENTES: %d\n", countC);
 	printf("LINHAS DE COMPRAS: %d\n", countCompras);

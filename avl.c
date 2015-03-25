@@ -22,23 +22,27 @@ Tem de se fazer cast do endereço conforme o tipo_AVL a criar
  *
  */
 
+void strcpyU(void* a,char* b){
+	char* c =(char*) a; 
+	strcpy(c,b);
+}
+
 AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
 	
 	if(tipo_AVL == Catalogo_C || tipo_AVL == Catalogo_P)
 	{
-	char* code = unc_info; 
+	char* code = (char*)unc_info; 
 	if(p==NULL) {
 		
 		p = (AVL) malloc(sizeof(struct AVL_struct));
-		p->info = (char*)malloc(sizeof(char));
-		strcpy(p->info, code);
+		p->info = (void*)malloc(10*sizeof(char));
+		strcpyU(p->info, code);
 		p->right=p->left=NULL;
 		p->bf=EH;
 		*cresceu=1;
-		
 		}
 		else {
-			char* info = p->info;
+			char* info = (char*)p->info;
 		if(strncmp(code, info, strlen(code))<0) p=insertLeft(p,unc_info, cresceu,tipo_AVL);
 	     		else p=insertRight(p,unc_info, cresceu,tipo_AVL);
 		}
@@ -73,6 +77,7 @@ AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
 
 	return p;
 }
+
 
 
 AVL insertRight(AVL p, void* info, int *cresceu,int tipo_AVL) {
