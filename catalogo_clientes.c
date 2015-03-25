@@ -1,27 +1,18 @@
 #include <stdio.h>
 #include <string.h>
-#include <errno.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
 
 #include "catalogo_clientes.h"
 
 static int Codigos_Cliente = 0;
 
-int index(char* code) { return code[0] - 65;}
-
 /* return AAVL ?? bug tipos */
-AVL* initCatalogo_Clientes(){
+void initCatalogo_Clientes(AAVL cl){
 	int i;
-	AAVL cl;
 	for(i=0; i<MAX_LETTERS; i++) 
 	{
-                cl[i]=(AVL) malloc(sizeof(struct AVL_struct));
                 cl[i]=NULL;
         }
-	return cl;
 }
 
 /*index corresponde ao endereco da AVL onde vai ser intruduzida a linha*/
@@ -30,7 +21,8 @@ AVL* initCatalogo_Clientes(){
 
 void insertCatalogo_Clientes(AAVL cl,char* code,int* cresceu)
 	{
-		cl[index(code)] = insert(cl[index(code)],code,cresceu,Catalogo_C);
+		int i = index(code);
+		cl[i] = insert(cl[i],code,cresceu,Catalogo_C);
 		Codigos_Cliente++;
 	}
 /*
@@ -51,11 +43,13 @@ void codClientes(AVL array[]){
 
 int existeC_aux(char cliente[], AVL c)	{
         int res;
-        if(c==NULL) return 0;
-	if(strncmp(cliente,(char*)c->info, 5)<0) res=existeC_aux(cliente, c->left);
+        if(c==NULL) res = 0;
+	else {
+
+		if(strncmp(cliente,(char*)c->info, 5)<0) res=existeC_aux(cliente, c->left);
              else if(strncmp(cliente,(char*)c->info, 5)>0) res=existeC_aux(cliente, c->right);
                   else res=1;
-        
+        	}
 	return res;
 }
 

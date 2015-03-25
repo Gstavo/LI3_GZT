@@ -5,12 +5,12 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
-#include "leitura_aux.h"
+#include "leitura.h"
 
 int main () {
 	int i=0,countCompras=0, compras_invalidas=0; 
 	double fact=0, time_spent;	/*fact corresponde a faturacao total anual*/
-	int validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0, indexProd, indexClnt;	
+	int validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0;	
 	FILE *clientes, *produtos, *fcompras;
 	char **compras;
 	char linha[MAX_LINE];
@@ -23,9 +23,9 @@ int main () {
 
 	/*Inicializa as estruturas*/
 	
-	cl = initCatalogo_Clientes();
+	initCatalogo_Clientes(cl);
 
-	pl = initCatalogo_Produtos();
+	initCatalogo_Produtos(pl);
 	
 	compras = calloc(MAX,sizeof(char*));
 	for(i=0;i<MAX;i++)
@@ -45,7 +45,7 @@ int main () {
 	for(i=0;fgets(linha, MAX_LINE, produtos);i++)
 	{ 
 			linha[strlen(linha)-1] = '\0';
-			insertCatalogo_Clientes(pl, linha, cresceu);
+			insertCatalogo_Produtos(pl, linha, cresceu);
 	}
 	fclose(produtos);
 	

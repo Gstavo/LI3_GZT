@@ -1,3 +1,8 @@
+
+#ifndef AVL_H
+
+#define AVL_H
+
 #define MAX_LETTERS 26
 
 #define Catalogo_C 1
@@ -20,7 +25,7 @@ typedef AVL_struct *AVL;
 typedef AVL AAVL[MAX_LETTERS];
 
 typedef struct compras {
-        char codigo_Produto[10];
+        char codigo_produto[10];
         double preco_unitario;
         int unidades_compradas;
         char tipo;      /*promoção-P;normal-N*/
@@ -40,7 +45,9 @@ AVL rotateRight(AVL p);
 AVL rotateLeft(AVL p);
 AVL devolveAVL(AVL array[], char a);
 int contarNodos(AVL aux);
+int index(char* code);
 void compracpy(Comp dest,Comp src);
 int compracmpCC(Comp c1,Comp c2);
 int compracmpCP(Comp c1,Comp c2);
 
+#endif

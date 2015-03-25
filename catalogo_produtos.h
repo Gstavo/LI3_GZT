@@ -1,6 +1,10 @@
+#ifndef CATALOGO_PRODUTOS_H
+
+#define CATALOGO_PRODUTOS_H
+
 #include "avl.h"
 
-AAVL initCatalogo_Produtos();
+void initCatalogo_Produtos();
 
 void insertCatalogo_Produtos(AAVL pl,char* code,int* cresceu);
 
@@ -10,3 +14,5 @@ int codigos_Produto();
 void codProdutos(AVL array[]);
 
 int existeProd(char produto[], AAVL pl);
+
+#endif

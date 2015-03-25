@@ -5,14 +5,10 @@
 #include <string.h>
 #include <ctype.h>
 #include "leitura_aux.h"
-/*
-#include "avl.h"
-redundante
-*/
 
 /*Funcao util para imprimir as compras*/
 void printCompras(Compras a){
-	printf("Codigo Produto = %s\n",a.codigo_Produto);
+	printf("Codigo Produto = %s\n",a.codigo_produto);
 	printf("Preco Unitario = %f\n",a.preco_unitario);
 	printf("Unidades Compradas = %d\n",a.unidades_compradas);
 	printf("Tipo = %c\n",a.tipo);
@@ -40,33 +36,15 @@ int validaPreco(double p){
 	else return 0;			/*Falso*/
 }
 
+int isdigitN(char a) {return ((a >= 48) && (a<=57));}
 
-int validaCP(char cc[], AVL p) {
-	int i;
-	for(i=0;i<2;i++)
-		if (!isalpha(cc[i]) && !isupper(cc[i])) return 0;
-	for(;i<6;i++)
-		if (!isdigitN(cc[i])) return 0;
-	if(!existeProd(cc, p)) return 0;
-	else return 1;
+int validateClnt(Compras a, AAVL cl) {
+        if(existeClnt(a.codigo_cliente, cl)==0) return 0;
+        else return 1;
 }
-
-
-int existeProd(char produto[], AVL p) {
-	int res;
-	if(p==NULL) res=0;
-	else {
-		char* code = p->info;
-		if(strncmp(produto,code, 6)<0) res=existeProd(produto, p->left);
-	     else if(strncmp(produto, code, 6)>0) res=existeProd(produto, p->right);
-		  else res=1;
-	}
-	return res;
-}
-
 
 int validateProd(Compras a, AAVL pl) {
-	if(existeProd(a.codigo_Produto, pl)==0) return 0;
+	if(existeProd(a.codigo_produto, pl)==0) return 0;
 	else return 1;
 }
 
@@ -83,7 +61,7 @@ void tokenizer(Comp a, int j, char linha[MAX_LINE]){
 	t=strtok(linha, " ");
 	while (t!=NULL) 
 	{
-        	if(x == 0) strcpy(a[j].codigo_Produto, t);
+        	if(x == 0) strcpy(a[j].codigo_produto, t);
         	if(x == 1) {
 			m=atof(t);
 			a[j].preco_unitario=m;
@@ -114,23 +92,14 @@ void printTree(AVL p) {
 		printTree(p->right);
 	}
 }
- 
-void codProdutos(AVL array[]){
-	int i;
-  for (i=0;i<MAX_LETTERS;i++){
-     printf("%c : %d\n",i+65,contarNodos(devolveAVL(array, i+65)));
-	}
-} 
-
 int length(char s[]) {
        int i;
        for(i=0; s[i]!='\0'; i++);
        return i;
 }
 
-int isdigitN(char a) {return ((a >= 48) && (a<=57));}
 
-
+/* Codigo desnecessario/ n usado???
 int validaCC(char cc[], AVL c) {
         int i;
         for(i=0;i<2;i++)
@@ -140,10 +109,18 @@ int validaCC(char cc[], AVL c) {
         if(!existeClnt(cc, c)) return 0;
         else return 1;
 }
+*/
 
-
-int validateClnt(Compras a, AAVL cl) {
-        if(existeClnt(a.codigo_cliente, cl)==0) return 0;
-        else return 1;
+/*
+int validaCP(char cc[], AVL p) {
+	int i;
+	for(i=0;i<2;i++)
+		if (!isalpha(cc[i]) && !isupper(cc[i])) return 0;
+	for(;i<6;i++)
+		if (!isdigitN(cc[i])) return 0;
+	if(!existeProd(cc, p)) return 0;
+	else return 1;
 }
+*/
+
 

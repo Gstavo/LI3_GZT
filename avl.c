@@ -22,10 +22,6 @@ Tem de se fazer cast do endereço conforme o tipo_AVL a criar
  *
  */
 
-void strcpyU(void* a,char* b){
-	char* c =(char*) a; 
-	strcpy(c,b);
-}
 
 AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
 	
@@ -36,7 +32,7 @@ AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
 		
 		p = (AVL) malloc(sizeof(struct AVL_struct));
 		p->info = (void*)malloc(10*sizeof(char));
-		strcpyU(p->info, code);
+		strcpy((char*)p->info, code);
 		p->right=p->left=NULL;
 		p->bf=EH;
 		*cresceu=1;
@@ -213,7 +209,20 @@ int contarNodos(AVL aux){
         return 1 + contarNodos(aux->left) + contarNodos(aux->right);
 }
 
+int index(char* code) { return code[0] - 65;}
+
 /* Por fazer , funcionam da mesma maneira q strcpy e strcmp */
-void compracpy(Comp dest,Comp src){}
-int compracmpCC(Comp c1,Comp c2) {return 1;}
-int compracmpCP(Comp c1,Comp c2) {return 1;}
+void compracpy(Comp dest,Comp src){
+	strncpy(dest->codigo_produto,src->codigo_produto,6);
+	dest->preco_unitario = src->preco_unitario;
+	dest->unidades_compradas = src->unidades_compradas;
+	dest->tipo = src->tipo;
+	strncpy(dest->codigo_cliente,src->codigo_cliente,5);
+	dest->mes_compra = src->mes_compra;
+}
+int compracmpCC(Comp c1,Comp c2) {
+	return strncmp(c1->codigo_cliente,c2->codigo_cliente,5);
+}
+int compracmpCP(Comp c1,Comp c2) {
+	return strncmp(c1->codigo_produto,c2->codigo_produto,6);	
+}
