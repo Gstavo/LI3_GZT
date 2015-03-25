@@ -8,28 +8,24 @@
 #include "leitura_aux.h"
 
 int main () {
-	int i=0, countC=0, countP=0, countCompras=0, compras_invalidas=0, index; 
+	int i=0,countCompras=0, compras_invalidas=0; 
 	double fact=0, time_spent;	/*fact corresponde a faturacao total anual*/
 	int validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0, indexProd, indexClnt;	
 	FILE *clientes, *produtos, *fcompras;
 	char **compras;
 	char linha[MAX_LINE];
 	int *cresceu=(int*) malloc(sizeof(int*));	/*Verifica se a AVL cresceu*/
-	AAVL cl, pd;	/*cl - array com AVL's de clientes, pd - array com AVL's de produtos*/
+	AAVL cl, pl;	/*cl - array com AVL's de clientes, pl - array com AVL's de produtos*/
 	Comp array=(Comp)malloc(MAX*sizeof(Compras));
 	clock_t begin, end;
 	
 	begin=clock();
 
 	/*Inicializa as estruturas*/
-	for(i=0; i<MAX_LETTERS; i++) {
-		cl[i]=(AVL) malloc(sizeof(struct AVL_struct));
-		cl[i]=NULL;
-	}
-	for(i=0; i<MAX_LETTERS; i++) {
-		pd[i]=(AVL) malloc(sizeof(struct AVL_struct));
-		pd[i]=NULL;
-	}
+	
+	cl = initCatalogo_Clientes();
+
+	pl = initCatalogo_Produtos();
 	
 	compras = calloc(MAX,sizeof(char*));
 	for(i=0;i<MAX;i++)
@@ -42,19 +38,14 @@ int main () {
 	for(i=0;fgets(linha, MAX_LINE, clientes);i++) 
 	{
 			linha[strlen(linha)-1] = '\0';
-			/*index corresponde ao endereco da AVL onde vai ser intruduzida a linha*/ 
-			index=linha[0]-65;
-			cl[index]=insert(cl[index], linha, cresceu,Catalogo_C);
-			countC++;
+			insertCatalogo_Clientes(cl,linha, cresceu);
 	}
 	fclose(clientes);
 	
 	for(i=0;fgets(linha, MAX_LINE, produtos);i++)
 	{ 
 			linha[strlen(linha)-1] = '\0';
-			index=linha[0]-65;
-			pd[index]=insert(pd[index], linha, cresceu,Catalogo_P);
-			countP++;
+			insertCatalogo_Clientes(pl, linha, cresceu);
 	}
 	fclose(produtos);
 	
@@ -63,11 +54,9 @@ int main () {
 			linha[strlen(linha)-1] = '\0';
 			strcpy(compras[i],linha);
 			tokenizer(array, i, compras[i]);
-			/*indexProd e indexClnt dao o endereco das AVL's onde se vai procurar se existe*/
-			indexProd=array[i].codigo_Produto[0]-65;
-			indexClnt=array[i].codigo_cliente[0]-65;
-			validaClnt=validateClnt(array[i], cl[indexClnt]);
-			validaProd=validateProd(array[i], pd[indexProd]);
+			/*indexProd e indexClnt calculados nos catalagos*/
+			validaClnt=validateClnt(array[i], cl);
+			validaProd=validateProd(array[i], pl);
 			validaCmpr=validateCompras(array[i]);
 			if(validaClnt==0) clntInv++;
 			if(validaProd==0) prodInv++;
@@ -76,8 +65,8 @@ int main () {
 			countCompras++;
 	}
 	fclose(fcompras);
-	printf("\nPRODUTOS: %d\n", countP);
-	printf("CLIENTES: %d\n", countC);
+	printf("\nPRODUTOS: %d\n", codigos_Produto());
+	printf("CLIENTES: %d\n", codigos_Cliente());
 	printf("LINHAS DE COMPRAS: %d\n", countCompras);
 	printf("CODIGOS DE CLIENTE INEXISTENTES: %d\n", clntInv);
 	printf("CODIGOS DE PRODUTO INEXISTENTES: %d\n", prodInv);
@@ -89,7 +78,7 @@ int main () {
 	printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
 	codClientes(cl);
 	printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n\n");
-	codProdutos(pd);
+	codProdutos(pl);
 	printf("\n");
 
 

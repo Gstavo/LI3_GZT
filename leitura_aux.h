@@ -3,6 +3,8 @@
 #define MAX_LETTERS 26
 
 #include "avl.h"
+#include "catalogo_clientes.h"
+#include "catalogo_produtos.h"
 
 void printCompras(Compras a);
 int validaMes(int mes);
@@ -19,6 +21,5 @@ int validateProd(Compras a, AVL p);
 int validateCompras(Compras a);
 void tokenizer(Comp a, int j, char linha[MAX_LINE]);
 void printTree(AVL p);
-void codClientes(AVL array[]);
 void codProdutos(AVL array[]);
 int length(char s[]);

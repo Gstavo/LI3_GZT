@@ -40,17 +40,6 @@ int validaPreco(double p){
 	else return 0;			/*Falso*/
 }
 
-int isdigitN(char a) {return ((a >= 48) && (a<=57));}
-
-int validaCC(char cc[], AVL c) {
-	int i;
-	for(i=0;i<2;i++)
-		if (!isalpha(cc[i]) && !isupper(cc[i])) return 0;
-	for(;i<5;i++)
-		if (!isdigitN(cc[i])) return 0;
-	if(!existeClnt(cc, c)) return 0;
-	else return 1;
-}
 
 int validaCP(char cc[], AVL p) {
 	int i;
@@ -62,17 +51,6 @@ int validaCP(char cc[], AVL p) {
 	else return 1;
 }
 
-int existeClnt(char cliente[], AVL c) {
-	int res;
-	if(c==NULL) res=0;
-	else{
-		char* code = c->info;
-		 if(strncmp(cliente, code, 5)<0) res=existeClnt(cliente, c->left);
-	     else if(strncmp(cliente, code, 5)>0) res=existeClnt(cliente, c->right);
-		  else res=1;
-		}
-	return res;
-}
 
 int existeProd(char produto[], AVL p) {
 	int res;
@@ -86,13 +64,9 @@ int existeProd(char produto[], AVL p) {
 	return res;
 }
 
-int validateClnt(Compras a, AVL c) {
-	if(existeClnt(a.codigo_cliente, c)==0) return 0;
-	else return 1;
-}
 
-int validateProd(Compras a, AVL p) {
-	if(existeProd(a.codigo_Produto, p)==0) return 0;
+int validateProd(Compras a, AAVL pl) {
+	if(existeProd(a.codigo_Produto, pl)==0) return 0;
 	else return 1;
 }
 
@@ -140,14 +114,7 @@ void printTree(AVL p) {
 		printTree(p->right);
 	}
 }
-
-void codClientes(AVL array[]){
-	int i;
-  for (i=0;i<MAX_LETTERS;i++){
-     printf("%c : %d\n",i+65,contarNodos(devolveAVL(array, i+65)));
-	}
-} 
-
+ 
 void codProdutos(AVL array[]){
 	int i;
   for (i=0;i<MAX_LETTERS;i++){
@@ -161,4 +128,22 @@ int length(char s[]) {
        return i;
 }
 
+int isdigitN(char a) {return ((a >= 48) && (a<=57));}
+
+
+int validaCC(char cc[], AVL c) {
+        int i;
+        for(i=0;i<2;i++)
+                if (!isalpha(cc[i]) && !isupper(cc[i])) return 0;
+        for(;i<5;i++)
+                if (!isdigitN(cc[i])) return 0;
+        if(!existeClnt(cc, c)) return 0;
+        else return 1;
+}
+
+
+int validateClnt(Compras a, AAVL cl) {
+        if(existeClnt(a.codigo_cliente, cl)==0) return 0;
+        else return 1;
+}
 
