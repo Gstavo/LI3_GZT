@@ -64,7 +64,7 @@ int main () {
 			if(validaClnt==0) clntInv++;
 			if(validaProd==0) prodInv++;
 			if(validaClnt==0 || validaProd==0 || validaCmpr==0) compras_invalidas++;
-			else fact+=array[i].preco_unitario;
+			else fact+=array[i].preco_unitario*array[i].unidades_compradas;
 			countCompras++;
 	}
 	fclose(fcompras);

@@ -32,7 +32,7 @@ int validaUnidades(int unidade){
 }
 
 int validaPreco(double p){
-	if(p>0.0) return 1;		/*Verdadeiro*/
+	if(p>=0.0) return 1;		/*Verdadeiro*/
 	else return 0;			/*Falso*/
 }
 
