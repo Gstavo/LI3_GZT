@@ -209,7 +209,7 @@ int contarNodos(AVL aux){
         return 1 + contarNodos(aux->left) + contarNodos(aux->right);
 }
 
-int index(char* code) { return code[0] - 65;}
+int indexL(char* code) { return code[0] - 65;}
 
 /* Por fazer , funcionam da mesma maneira q strcpy e strcmp */
 void compracpy(Comp dest,Comp src){

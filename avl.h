@@ -45,7 +45,7 @@ AVL rotateRight(AVL p);
 AVL rotateLeft(AVL p);
 AVL devolveAVL(AVL array[], char a);
 int contarNodos(AVL aux);
-int index(char* code);
+int indexL(char* code);
 void compracpy(Comp dest,Comp src);
 int compracmpCC(Comp c1,Comp c2);
 int compracmpCP(Comp c1,Comp c2);

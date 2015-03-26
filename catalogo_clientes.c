@@ -15,13 +15,13 @@ void initCatalogo_Clientes(AAVL cl){
         }
 }
 
-/*index corresponde ao endereco da AVL onde vai ser intruduzida a linha*/
+/*indexL corresponde ao endereco da AVL onde vai ser intruduzida a linha*/
 
 /* guardar o resultado do insert em cl faz alguma cena util???? */
 
 void insertCatalogo_Clientes(AAVL cl,char* code,int* cresceu)
 	{
-		int i = index(code);
+		int i = indexL(code);
 		cl[i] = insert(cl[i],code,cresceu,Catalogo_C);
 		Codigos_Cliente++;
 	}
@@ -56,7 +56,7 @@ int existeC_aux(char cliente[], AVL c)	{
 
 int existeClnt(char cliente[], AAVL cl)
 {
-	return existeC_aux(cliente,cl[index(cliente)]);
+	return existeC_aux(cliente,cl[indexL(cliente)]);
 } 
 
 

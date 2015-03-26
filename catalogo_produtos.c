@@ -18,7 +18,7 @@ void initCatalogo_Produtos(AAVL pl){
 
 void insertCatalogo_Produtos(AAVL pl,char* code,int* cresceu)
         {
-                pl[index(code)] = insert(pl[index(code)],code,cresceu,Catalogo_P);
+                pl[indexL(code)] = insert(pl[indexL(code)],code,cresceu,Catalogo_P);
                 Codigos_Produto++;
         }
 
@@ -51,7 +51,7 @@ int existeP_aux(char produto[],AVL p)
 
 int existeProd(char produto[], AAVL pl) 
 {
-	return existeP_aux(produto,pl[index(produto)]);
+	return existeP_aux(produto,pl[indexL(produto)]);
 }
 
 
