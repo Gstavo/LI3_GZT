@@ -5,3 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "contabilidade.h"
+
+AVL produtosMes(CONTA array[], int mes){
+	return(array[mes]);
+}
