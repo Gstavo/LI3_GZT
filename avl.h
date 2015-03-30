@@ -33,9 +33,6 @@ typedef struct compras {
         int mes_compra;
 } Compras;
 
-typedef Compras *Comp;
-
-
 AVL insert(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
 AVL insertRight(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
 AVL insertLeft(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
@@ -46,8 +43,8 @@ AVL rotateLeft(AVL p);
 AVL devolveAVL(AVL array[], char a);
 int contarNodos(AVL aux);
 int indexL(char* code);
-void compracpy(Comp dest,Comp src);
-int compracmpCC(Comp c1,Comp c2);
-int compracmpCP(Comp c1,Comp c2);
+void compracpy(Compras *dest,Compras *src);
+int compracmpCC(Compras *c1,Compras *c2);
+int compracmpCP(Compras *c1,Compras *c2);
 
 #endif

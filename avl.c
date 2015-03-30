@@ -6,8 +6,6 @@
 #include <ctype.h>
 #include "avl.h"
 
-/*produto nao quer dizer que seja um produto, serve tambem para um cliente*/
-
 /*
  * Unc_info pode ser uma estrutura de compras ou um codigo de Cliente/Produto.
 Tem de se fazer cast do endereço conforme o tipo_AVL a criar
@@ -22,35 +20,31 @@ Tem de se fazer cast do endereço conforme o tipo_AVL a criar
  *
  */
 
-
-AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
-	
-	if(tipo_AVL == Catalogo_C || tipo_AVL == Catalogo_P)
-	{
-	char* code = (char*)unc_info; 
-	if(p==NULL) {
-		
-		p = (AVL) malloc(sizeof(struct AVL_struct));
-		p->info = (void*)malloc(10*sizeof(char));
-		strcpy((char*)p->info, code);
-		p->right=p->left=NULL;
-		p->bf=EH;
-		*cresceu=1;
+AVL insert(AVL p, void* unc_info, int *cresceu, int tipo_AVL) {
+	if(tipo_AVL == Catalogo_C || tipo_AVL == Catalogo_P) {
+		char* code = (char*)unc_info; 
+		if(p==NULL) {
+			p = (AVL) malloc(sizeof(struct AVL_struct));
+			p->info = (void*)malloc(10*sizeof(char));
+			strcpy((char*)p->info, code);
+			p->right=p->left=NULL;
+			p->bf=EH;
+			*cresceu=1;
 		}
 		else {
 			char* info = (char*)p->info;
-		if(strncmp(code, info, strlen(code))<0) p=insertLeft(p,unc_info, cresceu,tipo_AVL);
+			if(strncmp(code, info, strlen(code))<0) p=insertLeft(p,unc_info, cresceu,tipo_AVL);
 	     		else p=insertRight(p,unc_info, cresceu,tipo_AVL);
 		}
 	}
-	else
+	/*else
 	{
-	Comp compra = unc_info;
-	Comp info = p->info;
+	Compras compra = unc_info;
+	Compras info = p->info;
 		if(p==NULL)
 		{
 		p = (AVL) malloc(sizeof(struct AVL_struct));
-		p->info = (Comp) malloc(sizeof(struct compras));
+		p->info = (Compras) malloc(sizeof(struct compras));
 		compracpy(p->info,compra);
 		p->right=p->left=NULL;
 		p->bf=EH;
@@ -62,19 +56,17 @@ AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
 			if(compracmpCP(compra,info) < 0) p=insertLeft(p,unc_info,cresceu,tipo_AVL);
 				else p = insertRight(p,unc_info,cresceu,tipo_AVL);	
 			}
-		else /* Compras_Ord_CC*/
+		else 
 		{
 
 			if(compracmpCC(compra,info) < 0) p=insertLeft(p,unc_info,cresceu,tipo_AVL);
 				else p = insertRight(p,unc_info,cresceu,tipo_AVL);	
 		}
 	
-	}
+	}*/
 
 	return p;
 }
-
-
 
 AVL insertRight(AVL p, void* info, int *cresceu,int tipo_AVL) {
 	p->right=insert(p->right, info, cresceu,tipo_AVL);
@@ -96,7 +88,7 @@ AVL insertRight(AVL p, void* info, int *cresceu,int tipo_AVL) {
 	return p;
 }
 
-AVL insertLeft(AVL p, void* info, int *cresceu,int tipo_AVL) {
+AVL insertLeft(AVL p, void* info, int *cresceu, int tipo_AVL) {
 	p->left=insert(p->left, info, cresceu,tipo_AVL);
 	if(*cresceu) {
 		switch(p->bf) {
@@ -195,34 +187,34 @@ AVL rotateLeft(AVL p) {
 }
 
 AVL devolveAVL(AVL array[], char a){
-  int pos=a-65;
-  AVL aux=(AVL) malloc (sizeof (struct AVL_struct));
-  aux=array[pos];
-  return aux;
+	int pos=a-65;
+	AVL aux=(AVL) malloc (sizeof (struct AVL_struct));
+	aux=array[pos];
+	return aux;
 }
 
 
 int contarNodos(AVL aux){
-   if(aux == NULL)
-        return 0;
-   else
-        return 1 + contarNodos(aux->left) + contarNodos(aux->right);
+	if(aux == NULL) return 0;
+	else return 1 + contarNodos(aux->left) + contarNodos(aux->right);
 }
 
-int indexL(char* code) { return code[0] - 65;}
+int indexL(char* code) { 
+	return code[0]-65;
+}
 
-/* Por fazer , funcionam da mesma maneira q strcpy e strcmp */
-void compracpy(Comp dest,Comp src){
-	strncpy(dest->codigo_produto,src->codigo_produto,6);
+void compracpy(Compras *dest, Compras *src) {
+	strncpy(dest->codigo_produto, src->codigo_produto,6);
 	dest->preco_unitario = src->preco_unitario;
 	dest->unidades_compradas = src->unidades_compradas;
 	dest->tipo = src->tipo;
 	strncpy(dest->codigo_cliente,src->codigo_cliente,5);
 	dest->mes_compra = src->mes_compra;
 }
-int compracmpCC(Comp c1,Comp c2) {
-	return strncmp(c1->codigo_cliente,c2->codigo_cliente,5);
+int compracmpCC(Compras *c1, Compras *c2) {
+	return strncmp(c1->codigo_cliente, c2->codigo_cliente, 5);
 }
-int compracmpCP(Comp c1,Comp c2) {
-	return strncmp(c1->codigo_produto,c2->codigo_produto,6);	
+
+int compracmpCP(Compras *c1, Compras *c2) {
+	return strncmp(c1->codigo_produto, c2->codigo_produto, 6);	
 }

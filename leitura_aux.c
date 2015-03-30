@@ -6,16 +6,6 @@
 #include <ctype.h>
 #include "leitura_aux.h"
 
-/*Funcao util para imprimir as compras*/
-void printCompras(Compras a){
-	printf("Codigo Produto = %s\n",a.codigo_produto);
-	printf("Preco Unitario = %f\n",a.preco_unitario);
-	printf("Unidades Compradas = %d\n",a.unidades_compradas);
-	printf("Tipo = %c\n",a.tipo);
-	printf("Codigo Cliente = %s\n",a.codigo_cliente);
-	printf("Mes = %d\n",a.mes_compra);
-}
-
 int validaMes(int mes){
 	if(mes>=1 && mes<=12) return 1;		/*Verdadeiro*/
 	else return 0;				/*Falso*/
@@ -38,43 +28,43 @@ int validaPreco(double p){
 
 int isdigitN(char a) {return ((a >= 48) && (a<=57));}
 
-int validateClnt(Compras a, AAVL cl) {
-        if(existeClnt(a.codigo_cliente, cl)==0) return 0;
+int validateClnt(Compras *a, AAVL cl) {
+        if(existeClnt(a->codigo_cliente, cl)==0) return 0;
         else return 1;
 }
 
-int validateProd(Compras a, AAVL pl) {
-	if(existeProd(a.codigo_produto, pl)==0) return 0;
+int validateProd(Compras *a, AAVL pl) {
+	if(existeProd(a->codigo_produto, pl)==0) return 0;
 	else return 1;
 }
 
-int validateCompras(Compras a) {
-	if(validaMes(a.mes_compra)==0 || validaTipo(a.tipo)==0 || validaUnidades(a.unidades_compradas)==0 || validaPreco(a.preco_unitario)==0)
-		return 0;
+int validateCompras(Compras *a) {
+	if(validaMes(a->mes_compra)==0 || validaTipo(a->tipo)==0 || validaUnidades(a->unidades_compradas)==0 || 
+           validaPreco(a->preco_unitario)==0) return 0;
 	else return 1;
 }
 
-void tokenizer(Comp a, int j, char linha[MAX_LINE]){
+void tokenizer(Compras *a, char linha[MAX_LINE]){
 	char* t; 
 	int x=0, n;
 	double m;
 	t=strtok(linha, " ");
 	while (t!=NULL) 
 	{
-        	if(x == 0) strcpy(a[j].codigo_produto, t);
+        	if(x == 0) strcpy(a->codigo_produto, t);
         	if(x == 1) {
 			m=atof(t);
-			a[j].preco_unitario=m;
+			a->preco_unitario=m;
 		}
         	if(x == 2) {
 			n=atoi(t);
-			a[j].unidades_compradas=n;
+			a->unidades_compradas=n;
 		}
-        	if(x == 3) a[j].tipo = t[0];
-        	if(x == 4) strcpy(a[j].codigo_cliente, t); 
+        	if(x == 3) a->tipo = t[0];
+        	if(x == 4) strcpy(a->codigo_cliente, t); 
         	if(x == 5) {
 			n=atoi(t);
-			a[j].mes_compra=n;
+			a->mes_compra=n;
 		}
         	x++;
         	t=strtok(NULL, " ");
@@ -116,29 +106,5 @@ void trim(char* s)
                 else i++;
         if(i > 0 && s[i-1] == ' ') s[i-1] = '\0';
 }
-
-/* Codigo desnecessario/ n usado???
-int validaCC(char cc[], AVL c) {
-        int i;
-        for(i=0;i<2;i++)
-                if (!isalpha(cc[i]) && !isupper(cc[i])) return 0;
-        for(;i<5;i++)
-                if (!isdigitN(cc[i])) return 0;
-        if(!existeClnt(cc, c)) return 0;
-        else return 1;
-}
-*/
-
-/*
-int validaCP(char cc[], AVL p) {
-	int i;
-	for(i=0;i<2;i++)
-		if (!isalpha(cc[i]) && !isupper(cc[i])) return 0;
-	for(;i<6;i++)
-		if (!isdigitN(cc[i])) return 0;
-	if(!existeProd(cc, p)) return 0;
-	else return 1;
-}
-*/
 
 

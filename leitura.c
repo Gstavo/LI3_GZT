@@ -7,16 +7,15 @@
 #include <time.h>
 #include "leitura.h"
 
-int main () {
+int main() {
 	int i=0,countCompras=0, compras_invalidas=0; 
-	double fact=0, time_spent;	/*fact corresponde a faturacao total anual*/
+	double fact=0, time_spent;			/*fact corresponde a faturacao total anual*/
 	int validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0;	
 	FILE *clientes, *produtos, *fcompras;
-	char **compras;
 	char linha[MAX_LINE];
 	int *cresceu=(int*) malloc(sizeof(int*));	/*Verifica se a AVL cresceu*/
-	AAVL cl, pl;	/*cl - array com AVL's de clientes, pl - array com AVL's de produtos*/
-	Comp array=(Comp)malloc(MAX*sizeof(Compras));
+	AAVL cl, pl;					/*cl - array com AVL's de clientes, pl - array com AVL's de produtos*/
+	Compras *array=(Compras*) malloc(sizeof(struct compras));
 	clock_t begin, end;
 	
 	begin=clock();
@@ -24,50 +23,41 @@ int main () {
 	/*Inicializa as estruturas*/
 	
 	initCatalogo_Clientes(cl);
-
 	initCatalogo_Produtos(pl);
-	
-	compras = calloc(MAX,sizeof(char*));
-	for(i=0;i<MAX;i++)
-		compras[i] = calloc(MAX_LINE,sizeof(char));
 	
 	clientes=fopen("clientes.txt","r"); 
 	produtos=fopen("produtos.txt","r");
 	fcompras=fopen("compras.txt","r");
 	
-	for(i=0;fgets(linha, MAX_LINE, clientes);i++) 
-	{
-			linha[strlen(linha)-1] = '\0';
+	for(i=0; fgets(linha, MAX_LINE, clientes); i++)  {
+			linha[strlen(linha)-1]='\0';
 			trim(linha);
-			insertCatalogo_Clientes(cl,linha, cresceu);
+			insertCatalogo_Clientes(cl, linha, cresceu);
 	}
 	fclose(clientes);
 	
-	for(i=0;fgets(linha, MAX_LINE, produtos);i++)
-	{ 
-			linha[strlen(linha)-1] = '\0';
+	for(i=0; fgets(linha, MAX_LINE, produtos); i++) { 
+			linha[strlen(linha)-1]='\0';
 			trim(linha);
 			insertCatalogo_Produtos(pl, linha, cresceu);
 	}
 	fclose(produtos);
 	
-	for(i=0;fgets(linha, MAX_LINE,fcompras);i++)
-	{
+	for(i=0; fgets(linha, MAX_LINE,fcompras); i++) {
 			linha[strlen(linha)-1] = '\0';
 			trim(linha);
-			strcpy(compras[i],linha);
-			tokenizer(array, i, compras[i]);
-			/*indexProd e indexClnt calculados nos catalagos*/
-			validaClnt=validateClnt(array[i], cl);
-			validaProd=validateProd(array[i], pl);
-			validaCmpr=validateCompras(array[i]);
+			tokenizer(array, linha);
+			validaClnt=validateClnt(array, cl);
+			validaProd=validateProd(array, pl);
+			validaCmpr=validateCompras(array);
 			if(validaClnt==0) clntInv++;
 			if(validaProd==0) prodInv++;
 			if(validaClnt==0 || validaProd==0 || validaCmpr==0) compras_invalidas++;
-			else fact+=array[i].preco_unitario*array[i].unidades_compradas;
+			else fact+=array->preco_unitario*array->unidades_compradas;
 			countCompras++;
 	}
 	fclose(fcompras);
+
 	printf("\nPRODUTOS: %d\n", codigos_Produto());
 	printf("CLIENTES: %d\n", codigos_Cliente());
 	printf("LINHAS DE COMPRAS: %d\n", countCompras);
@@ -83,11 +73,6 @@ int main () {
 	printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n\n");
 	codProdutos(pl);
 	printf("\n");
-
-
-	for(i=0;i<MAX;i++)
-		free(compras[i]);
-	free(compras);
 
 	end=clock();
 	time_spent=(double)(end-begin)/CLOCKS_PER_SEC;
