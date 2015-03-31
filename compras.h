@@ -16,7 +16,7 @@ typedef struct compras{
 	int mes;
 }Compras;
 
-typedef struct Compras* Comp;
+typedef struct compras* Comp;
 
 void initCompras(AAVL a);
 
