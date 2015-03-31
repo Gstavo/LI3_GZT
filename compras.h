@@ -8,11 +8,11 @@
 #include "catalogo_produtos.h"
 
 typedef struct compras{
-	char codigo_produto[10];
+	char* codigo_produto;
 	double preco;
 	int quantidade;
 	char tipo;
-	char codigo_cliente[10];
+	char* codigo_cliente;
 	int mes;
 }Compras;
 
