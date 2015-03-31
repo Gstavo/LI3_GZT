@@ -14,7 +14,9 @@ typedef struct compras{
 	char tipo;
 	char codigo_cliente[10];
 	int mes;
-}
+}Compras;
+
+typedef struct Compras* Comp;
 
 void initCompras(AAVL a);
 
