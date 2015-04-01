@@ -78,7 +78,7 @@ int main () {
 	printf("TOTAL DE COMPRAS INVALIDAS: %d\n", compras_invalidas);
 	printf("--------------------------------------------\n");
 	printf("COMPRAS VALIDAS: %d\n", (countCompras-compras_invalidas));
-	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", fact);	
+	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", fact=returnFactTotal());	
 
 	printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
 	codClientes(cl);

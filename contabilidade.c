@@ -43,13 +43,20 @@ void insertContabilidade(Contabilidade c,Comp compra,int* cresceu)
 	neste mes (iM) , adicionar + variáveis globais caso necessário*/
 	/* query 7 feita aqui */
 	compras_mes[iM]++;
-	mDATA[iM].nvendas= compra->quantidade;
-	mDATA[iM].factura= compra->quantidade * compra->preco; 
+	mDATA[iM].nvendas+= compra->quantidade;
+	mDATA[iM].factura+= compra->quantidade * compra->preco; 
 }
 
 /*Devolve a faturacao desse mes*/
 double returnFact(int mes) {
 	return mDATA[mes].factura;
+}
+
+double returnFactTotal(){
+	int i,resultado=0;
+	for(i=0;i<MAX_MONTHS;i++)
+		resultado+=returnFact(i);
+	return resultado;
 }
 
 /*Devolve o numero de vendas efetuadas nesse mes*/
