@@ -53,7 +53,8 @@ double returnFact(int mes) {
 }
 
 double returnFactTotal(){
-	int i,resultado=0;
+	int i;
+	double resultado=0;
 	for(i=0;i<MAX_MONTHS;i++)
 		resultado+=returnFact(i);
 	return resultado;

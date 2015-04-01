@@ -63,7 +63,6 @@ int main () {
 			if(validaClnt==0 || validaProd==0 || validaCmpr==0) compras_invalidas++;
 			else {
 				insertContabilidade(contabilidade,compra,cresceu);
-				fact+=returnFact(indexM(compra));
 				/* Futuramente vai inserir a compra nas estruturas de dados em compras.c tambemaqui */
 			}
 			countCompras++;
@@ -78,7 +77,7 @@ int main () {
 	printf("TOTAL DE COMPRAS INVALIDAS: %d\n", compras_invalidas);
 	printf("--------------------------------------------\n");
 	printf("COMPRAS VALIDAS: %d\n", (countCompras-compras_invalidas));
-	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", fact=returnFactTotal());	
+	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", returnFactTotal());	
 
 	printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
 	codClientes(cl);
@@ -87,7 +86,6 @@ int main () {
 	printf("\n");
 
 	/*Resultados da query 7*/
-	fact=0;
 	printf("INSIRA UM INTERVALO DE MESES:\n");
 	printf("MES INICIAL: "); scanf("%d", &prim);
 	printf("MES FINAL: "); scanf("%d", &ult);
