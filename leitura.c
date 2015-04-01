@@ -8,8 +8,9 @@
 #include "leitura.h"
 
 int main () {
-	int i=0,countCompras=0, compras_invalidas=0; 
-	double fact=0, time_spent;	/*fact corresponde a faturacao total anual*/
+	int i=0,countCompras=0, compras_invalidas=0, vendas=0; 
+	int prim, ult;			/*Utilizados na query 7: prim(primeiro mes), ult(ultimo mes)*/
+	double fact=0, time_spent;	
 	int validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0;	
 	FILE *clientes, *produtos, *fcompras;
 	char linha[MAX_LINE];
@@ -25,11 +26,8 @@ int main () {
 	begin=clock();
 
 	/*Inicializa as estruturas*/
-	
 	initCatalogo_Clientes(cl);
-
 	initCatalogo_Produtos(pl);
-
 	initContabilidade(contabilidade);
 	
 	clientes=fopen("clientes.txt","r"); 
@@ -57,18 +55,17 @@ int main () {
 			linha[strlen(linha)-1] = '\0';
 			trim(linha);
 			tokenizer(compra,linha);
-			/*indexProd e indexClnt calculados nos catalagos*/
 			validaClnt=validateClnt((*compra), cl);
 			validaProd=validateProd((*compra), pl);
 			validaCmpr=validateCompras((*compra));
 			if(validaClnt==0) clntInv++;
 			if(validaProd==0) prodInv++;
 			if(validaClnt==0 || validaProd==0 || validaCmpr==0) compras_invalidas++;
-			else 
-				{
+			else {
 				insertContabilidade(contabilidade,compra,cresceu);
-	/* Futuramente vai inserir a compra nas estruturas de dados em compras.c tambemaqui */
-				}
+				fact+=returnFact(indexM(compra));
+				/* Futuramente vai inserir a compra nas estruturas de dados em compras.c tambemaqui */
+			}
 			countCompras++;
 	}
 	fclose(fcompras);
@@ -81,8 +78,7 @@ int main () {
 	printf("TOTAL DE COMPRAS INVALIDAS: %d\n", compras_invalidas);
 	printf("--------------------------------------------\n");
 	printf("COMPRAS VALIDAS: %d\n", (countCompras-compras_invalidas));
-	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", fact);/*buscar
-		fact a uma funçao de contabilidade */
+	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", fact);	
 
 	printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
 	codClientes(cl);
@@ -90,6 +86,19 @@ int main () {
 	codProdutos(pl);
 	printf("\n");
 
+	/*Resultados da query 7*/
+	fact=0;
+	printf("INSIRA UM INTERVALO DE MESES:\n");
+	printf("MES INICIAL: "); scanf("%d", &prim);
+	printf("MES FINAL: "); scanf("%d", &ult);
+	for(i=prim-1; i<ult; i++) {
+		fact+=returnFact(i);
+		vendas+=returnVendas(i);
+	}
+	printf("\n");
+	printf("TOTAL DE VENDAS EFETUADAS NESSE INTERVALO: %d\n", vendas);
+	printf("FATURACAO TOTAL NESSE INTERVALO: %.2f\n\n", fact);
+	
 	end=clock();
 	time_spent=(double)(end-begin)/CLOCKS_PER_SEC;
 	printf("Tempo de execucao: %.2f segundos\n\n", time_spent);

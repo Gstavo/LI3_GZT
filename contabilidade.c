@@ -47,6 +47,16 @@ void insertContabilidade(Contabilidade c,Comp compra,int* cresceu)
 	mDATA[iM].factura= compra->quantidade * compra->preco; 
 }
 
+/*Devolve a faturacao desse mes*/
+double returnFact(int mes) {
+	return mDATA[mes].factura;
+}
+
+/*Devolve o numero de vendas efetuadas nesse mes*/
+int returnVendas(int mes) {
+	return mDATA[mes].nvendas;
+}
+
 /*
 int removeContabilidade(Contabilidade c,Comp compra)
 */

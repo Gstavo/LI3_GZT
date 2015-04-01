@@ -15,6 +15,10 @@ void initContabilidade(Contabilidade c);
 
 void insertContabilidade(Contabilidade c,Comp compra,int* cresceu);
 
+double returnFact(int mes);
+
+int returnVendas(int mes);
+
 int compras_Mes(int mes);
 
 
