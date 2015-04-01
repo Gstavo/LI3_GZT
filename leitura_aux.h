@@ -7,9 +7,9 @@
 #define MAX 500000
 
 #include "avl.h"
+#include "compras.h"
 #include "catalogo_clientes.h"
 #include "catalogo_produtos.h"
-#include "compras.h"
 #include "contabilidade.h"
 
 void printCompras(Compras a);
@@ -21,7 +21,7 @@ int isdigitN(char a);
 int validateClnt(Compras a, AAVL c);
 int validateProd(Compras a, AAVL p);
 int validateCompras(Compras a);
-void tokenizer(Comp a, int j, char linha[MAX_LINE]);
+void tokenizer(Comp a, char linha[MAX_LINE]);
 void printTree(AVL p);
 int length(char s[]);
 void shiftleft(char* s,int i);

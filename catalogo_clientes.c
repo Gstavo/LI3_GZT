@@ -41,7 +41,7 @@ void codClientes(AVL array[]){
 }
 
 
-int existeC_aux(char cliente[], AVL c)	{
+int existeC_aux(char* cliente, AVL c)	{
         int res;
         if(c==NULL) res = 0;
 	else {
@@ -54,7 +54,7 @@ int existeC_aux(char cliente[], AVL c)	{
 }
 
 
-int existeClnt(char cliente[], AAVL cl)
+int existeClnt(char* cliente, AAVL cl)
 {
 	return existeC_aux(cliente,cl[indexL(cliente)]);
 } 

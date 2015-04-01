@@ -12,12 +12,15 @@ int main () {
 	double fact=0, time_spent;	/*fact corresponde a faturacao total anual*/
 	int validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0;	
 	FILE *clientes, *produtos, *fcompras;
-	char **compras;
 	char linha[MAX_LINE];
-	int *cresceu=(int*) malloc(sizeof(int*));	/*Verifica se a AVL cresceu*/
+	int *cresceu=(int*) malloc(sizeof(int));	/*Verifica se a AVL cresceu*/
 	AAVL cl, pl;	/*cl - array com AVL's de clientes, pl - array com AVL's de produtos*/
-	Comp array=(Comp)malloc(MAX*sizeof(Compras));
+	Contabilidade contabilidade;
 	clock_t begin, end;
+	
+	Comp compra = malloc(sizeof(struct compras));
+	compra->codigo_produto = malloc(10*sizeof(char));
+	compra->codigo_cliente = malloc(10*sizeof(char));
 	
 	begin=clock();
 
@@ -26,10 +29,8 @@ int main () {
 	initCatalogo_Clientes(cl);
 
 	initCatalogo_Produtos(pl);
-	
-	compras = calloc(MAX,sizeof(char*));
-	for(i=0;i<MAX;i++)
-		compras[i] = calloc(MAX_LINE,sizeof(char));
+
+	initContabilidade(contabilidade);
 	
 	clientes=fopen("clientes.txt","r"); 
 	produtos=fopen("produtos.txt","r");
@@ -55,19 +56,23 @@ int main () {
 	{
 			linha[strlen(linha)-1] = '\0';
 			trim(linha);
-			strcpy(compras[i],linha);
-			tokenizer(array, i, compras[i]);
+			tokenizer(compra,linha);
 			/*indexProd e indexClnt calculados nos catalagos*/
-			validaClnt=validateClnt(array[i], cl);
-			validaProd=validateProd(array[i], pl);
-			validaCmpr=validateCompras(array[i]);
+			validaClnt=validateClnt((*compra), cl);
+			validaProd=validateProd((*compra), pl);
+			validaCmpr=validateCompras((*compra));
 			if(validaClnt==0) clntInv++;
 			if(validaProd==0) prodInv++;
 			if(validaClnt==0 || validaProd==0 || validaCmpr==0) compras_invalidas++;
-			else fact+=array[i].preco_unitario*array[i].unidades_compradas;
+			else 
+				{
+				insertContabilidade(contabilidade,compra,cresceu);
+	/* Futuramente vai inserir a compra nas estruturas de dados em compras.c tambemaqui */
+				}
 			countCompras++;
 	}
 	fclose(fcompras);
+
 	printf("\nPRODUTOS: %d\n", codigos_Produto());
 	printf("CLIENTES: %d\n", codigos_Cliente());
 	printf("LINHAS DE COMPRAS: %d\n", countCompras);
@@ -76,18 +81,14 @@ int main () {
 	printf("TOTAL DE COMPRAS INVALIDAS: %d\n", compras_invalidas);
 	printf("--------------------------------------------\n");
 	printf("COMPRAS VALIDAS: %d\n", (countCompras-compras_invalidas));
-	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", fact);
+	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", fact);/*buscar
+		fact a uma funçao de contabilidade */
 
 	printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
 	codClientes(cl);
 	printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n\n");
 	codProdutos(pl);
 	printf("\n");
-
-
-	for(i=0;i<MAX;i++)
-		free(compras[i]);
-	free(compras);
 
 	end=clock();
 	time_spent=(double)(end-begin)/CLOCKS_PER_SEC;

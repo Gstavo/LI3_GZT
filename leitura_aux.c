@@ -52,29 +52,29 @@ int validateCompras(Compras a) {
 	if(validaMes(a.mes)==0 || validaTipo(a.tipo)==0 || validaUnidades(a.quantidade)==0 || validaPreco(a.preco)==0)
 		return 0;
 	else return 1;
-}
+} 
 
-void tokenizer(Comp a, int j, char linha[MAX_LINE]){
+void tokenizer(Comp a, char linha[MAX_LINE]){
 	char* t; 
 	int x=0, n;
 	double m;
 	t=strtok(linha, " ");
 	while (t!=NULL) 
 	{
-        	if(x == 0) strcpy(a[j].codigo_produto, t);
+        	if(x == 0) strcpy(a->codigo_produto, t);
         	if(x == 1) {
 			m=atof(t);
-			a[j].preco=m;
+			a->preco=m;
 		}
         	if(x == 2) {
 			n=atoi(t);
-			a[j].quantidade=n;
+			a->quantidade=n;
 		}
-        	if(x == 3) a[j].tipo = t[0];
-        	if(x == 4) strcpy(a[j].codigo_cliente, t); 
+        	if(x == 3) a->tipo = t[0];
+        	if(x == 4) strcpy(a->codigo_cliente, t); 
         	if(x == 5) {
 			n=atoi(t);
-			a[j].mes=n;
+			a->mes=n;
 		}
         	x++;
         	t=strtok(NULL, " ");

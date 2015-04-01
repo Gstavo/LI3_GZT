@@ -14,14 +14,16 @@ static int compras_mes[MAX_MONTHS];
 
 typedef struct mensalidade{
 	int nvendas;
-	int factura;
+	double factura;
 }Mensalidade[MAX_MONTHS];
 
 Mensalidade mDATA;
 
-void initContabilidade(CONTABILIDADE c)
+int indexM(Comp c){return c->mes-1;}
+
+void initContabilidade(Contabilidade c)
 {
-	int i;
+	int i,j;
 	for(i=0;i < MAX_MONTHS;i++)
 	{
 		for(j=0;j < MAX_LETTERS;j++)
@@ -34,48 +36,46 @@ void initContabilidade(CONTABILIDADE c)
 
 void insertContabilidade(Contabilidade c,Comp compra,int* cresceu)
 {
-	int i;
 	int iM = indexM(compra);
-	int iCC = inexCC(compra);
-	c[iM][iCC] = insert(c[iM][iCC],compra,cresceu,Compras_Ord_CC);
+	int iL = indexL(compra->codigo_cliente);
+	c[iM][iL] = insert(c[iM][iL],compra,cresceu,Compras_Ord_CC);
 	/* Aproveitar para retirar informaçoes sobre a compra
 	neste mes (iM) , adicionar + variáveis globais caso necessário*/
 	/* query 7 feita aqui */
 	compras_mes[iM]++;
-	mDATA[iM].nvendas+= Comp->quantidade;
-	mDATA[iM].factura+= Comp->quantidade * Comp->preco; 
+	mDATA[iM].nvendas= compra->quantidade;
+	mDATA[iM].factura= compra->quantidade * compra->preco; 
 }
 
 /*
 int removeContabilidade(Contabilidade c,Comp compra)
 */
 
-int compras_Mes(int mes){return compras_mes[mes];}
+int compras_Mes(int mes){return compras_mes[mes-1];}
 
 /*
 	Query 5 : Show numero de compras do cliente em cada mês
 */
-
+/*
 int* query5(Contabilidade c,char* cliente)
 {
 	int resultado[MAX_MONTHS],iM;
+	int iL = indexL(cliente);
 	for(iM=0;iM < MAX_MONTHS;iM++)
-	{
-		int iL = indexL(cliente);
 		resultado[iM] = avl_count(c[iM][iL],cliente,Compras_Ord_CC);	
-	}
+	
 	return resultado;
 }
-
+*/
 /*
 	Query 9 : 
 		Recebe um cliente e um mes
 		Show lista CP que comprou ordenada por ordem decrescente 
 		  de quantidade
 */
-
+/*
 char** query9(Contabilidade c,char* cliente,int mes){return NULL;}
-{
+{*/
 	/* 
 	Prototipo
 	1 encontrar a primeira compra do cliente( O resto das compras encontram-se seguidas)
@@ -86,6 +86,6 @@ char** query9(Contabilidade c,char* cliente,int mes){return NULL;}
 
 	A verificar se a info filtrada é util para outras queries
 	*/
-}
+/*}*/
 
 

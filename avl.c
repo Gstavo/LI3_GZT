@@ -45,12 +45,15 @@ AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
 	}
 	else
 	{
-	Comp compra = unc_info;
-	Comp info = p->info;
+	Comp compra = (Comp) unc_info;
 		if(p==NULL)
 		{
+		Comp info = (Comp) p->info;
 		p = (AVL) malloc(sizeof(struct avl_node));
 		p->info = (Comp) malloc(sizeof(struct compras));
+		info = p->info;
+		info->codigo_produto = malloc(10*sizeof(char));
+        	info->codigo_cliente = malloc(10*sizeof(char));
 		compracpy(p->info,compra);
 		p->right=p->left=NULL;
 		p->bf=EH;
@@ -59,13 +62,13 @@ AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
 		
 		else if(tipo_AVL == Compras_Ord_CP)
 		{
-			if(compracmpCP(compra,info) < 0) p=insertLeft(p,unc_info,cresceu,tipo_AVL);
+			if(compracmpCP(compra,p->info) < 0) p=insertLeft(p,unc_info,cresceu,tipo_AVL);
 				else p = insertRight(p,unc_info,cresceu,tipo_AVL);	
 			}
 		else /* Compras_Ord_CC*/
 		{
 
-			if(compracmpCC(compra,info) < 0) p=insertLeft(p,unc_info,cresceu,tipo_AVL);
+			if(compracmpCC(compra,p->info) < 0) p=insertLeft(p,unc_info,cresceu,tipo_AVL);
 				else p = insertRight(p,unc_info,cresceu,tipo_AVL);	
 		}
 	

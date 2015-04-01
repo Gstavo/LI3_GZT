@@ -37,7 +37,7 @@ void codProdutos(AVL array[]){
         }
 }
 
-int existeP_aux(char produto[],AVL p)
+int existeP_aux(char* produto,AVL p)
 {
         int res;
         if(p==NULL) res=0;
@@ -49,7 +49,7 @@ int existeP_aux(char produto[],AVL p)
         return res;
 }
 
-int existeProd(char produto[], AAVL pl) 
+int existeProd(char* produto, AAVL pl) 
 {
 	return existeP_aux(produto,pl[indexL(produto)]);
 }

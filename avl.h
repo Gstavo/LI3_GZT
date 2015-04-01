@@ -3,6 +3,7 @@
 
 #define AVL_H
 
+
 #define MAX_LETTERS 26
 
 #define Catalogo_C 1
@@ -10,7 +11,6 @@
 #define Compras_Ord_CP 3
 #define Compras_Ord_CC 4 
 
-#include "compras.h"
 
 typedef enum balancefactor {LH, EH, RH} BalanceFactor;
 
@@ -18,12 +18,14 @@ typedef struct avl_node {
         BalanceFactor bf;       /*Fator de balanceamento da arvore*/
        /* char code[10]; */
         void* info; 
-        struct AVL_struct *left, *right;
+        struct avl_node *left, *right;
 } AVL_node;
 
-typedef AVL_node *AVL;
+typedef struct avl_node* AVL;
 
 typedef AVL AAVL[MAX_LETTERS];
+
+#include "compras.h"
 
 AVL insert(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
 AVL insertRight(AVL p, void* unc_info, int *cresceu,int tipo_AVL);

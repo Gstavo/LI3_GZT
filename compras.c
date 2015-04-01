@@ -18,11 +18,11 @@ void insertComprasCP(AAVL a,Comp compra,int* cresceu)
 
 
 void compracpy(Comp dest,Comp src){
-        dest->codigo_produto = strdup(src->codigo_produto);
+	strcpy(dest->codigo_produto,src->codigo_produto);
+	strcpy(dest->codigo_cliente,src->codigo_cliente);
         dest->preco = src->preco;
         dest->quantidade = src->quantidade;
         dest->tipo = src->tipo;
-        dest->codigo_cliente = strdup(src->codigo_cliente);
         dest->mes = src->mes;
 }
 
