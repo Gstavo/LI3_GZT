@@ -10,10 +10,11 @@
 int main () {
 	int i=0,countCompras=0, compras_invalidas=0, vendas=0; 
 	int prim, ult;			/*Utilizados na query 7: prim(primeiro mes), ult(ultimo mes)*/
+	int comprasMes[12];		/*Array usado na query 5*/
 	double fact=0, time_spent;	
 	int validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0;	
 	FILE *clientes, *produtos, *fcompras;
-	char linha[MAX_LINE];
+	char linha[MAX_LINE], clnt[5]={'B','I','6','8','4'};
 	int *cresceu=(int*) malloc(sizeof(int));	/*Verifica se a AVL cresceu*/
 	AAVL cl, pl;	/*cl - array com AVL's de clientes, pl - array com AVL's de produtos*/
 	Contabilidade contabilidade;
@@ -32,7 +33,7 @@ int main () {
 	
 	clientes=fopen("clientes.txt","r"); 
 	produtos=fopen("produtos.txt","r");
-	fcompras=fopen("compras.txt","r");
+	fcompras=fopen("compras1.txt","r");
 	
 	for(i=0;fgets(linha, MAX_LINE, clientes);i++) 
 	{
@@ -69,6 +70,7 @@ int main () {
 	}
 	fclose(fcompras);
 
+	/*Query 1*/
 	printf("\nPRODUTOS: %d\n", codigos_Produto());
 	printf("CLIENTES: %d\n", codigos_Cliente());
 	printf("LINHAS DE COMPRAS: %d\n", countCompras);
@@ -79,14 +81,22 @@ int main () {
 	printf("COMPRAS VALIDAS: %d\n", (countCompras-compras_invalidas));
 	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", returnFactTotal());	
 
+	/*Query 2*/
 	printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
 	codClientes(cl);
 	printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n\n");
 	codProdutos(pl);
 	printf("\n");
 
-	/*Resultados da query 7*/
-	printf("INSIRA UM INTERVALO DE MESES:\n");
+	/*Query 5*/
+	printf("CLIENTE: ");
+	/*gets(clnt);*/
+	printf("\n");
+	compMes(contabilidade, clnt, comprasMes);
+	for(i=0; i<12; i++) printf("%d: %d\n", (i+1), comprasMes[i]);
+	
+	/*Query 7*/
+	printf("\nINSIRA UM INTERVALO DE MESES:\n");
 	printf("MES INICIAL: "); scanf("%d", &prim);
 	printf("MES FINAL: "); scanf("%d", &ult);
 	for(i=prim-1; i<ult; i++) {

@@ -37,4 +37,5 @@ AVL rotateLeft(AVL p);
 AVL devolveAVL(AVL array[], char a);
 int contarNodos(AVL aux);
 int indexL(char* code);
+int avl_count(AVL c, char* code);
 #endif

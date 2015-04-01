@@ -214,4 +214,18 @@ int contarNodos(AVL aux){
 
 int indexL(char* code) {return code[0] - 65;}
 
+/*Numero de produtos por cliente ou vice-versa (para ja so funciona para clientes)*/
+int avl_count(AVL c, char* code) {
+	int res;
+	if(c==NULL) res=0;
+	else {
+		Comp info=(Comp) c->info;
+		if(strncmp(info->codigo_cliente, code, 5)<0) res=avl_count(c->left, code);
+		else if(strncmp(info->codigo_cliente, code, 5)>0) res=avl_count(c->right, code);
+		else res=1+avl_count(c->right, code);	/*iguais foram inseridos na AVL direita*/
+	}
+	return res;
+}
+		
+
 

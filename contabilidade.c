@@ -10,12 +10,10 @@
 
 static int compras_mes[MAX_MONTHS];
 
-/* mDATA Query 7 feita */
-
 typedef struct mensalidade{
 	int nvendas;
 	double factura;
-}Mensalidade[MAX_MONTHS];
+} Mensalidade[MAX_MONTHS];
 
 Mensalidade mDATA;
 
@@ -39,9 +37,6 @@ void insertContabilidade(Contabilidade c,Comp compra,int* cresceu)
 	int iM = indexM(compra);
 	int iL = indexL(compra->codigo_cliente);
 	c[iM][iL] = insert(c[iM][iL],compra,cresceu,Compras_Ord_CC);
-	/* Aproveitar para retirar informaçoes sobre a compra
-	neste mes (iM) , adicionar + variáveis globais caso necessário*/
-	/* query 7 feita aqui */
 	compras_mes[iM]++;
 	mDATA[iM].nvendas+= compra->quantidade;
 	mDATA[iM].factura+= compra->quantidade * compra->preco; 
@@ -71,20 +66,13 @@ int removeContabilidade(Contabilidade c,Comp compra)
 
 int compras_Mes(int mes){return compras_mes[mes-1];}
 
-/*
-	Query 5 : Show numero de compras do cliente em cada mês
-*/
-/*
-int* query5(Contabilidade c,char* cliente)
-{
-	int resultado[MAX_MONTHS],iM;
-	int iL = indexL(cliente);
-	for(iM=0;iM < MAX_MONTHS;iM++)
-		resultado[iM] = avl_count(c[iM][iL],cliente,Compras_Ord_CC);	
-	
-	return resultado;
+/*Devolve o numero de compras de um cliente em cada mes*/
+void compMes(Contabilidade c, char* cliente, int resultado[]) {
+	int iM;
+	int iL=indexL(cliente);
+	for(iM=0; iM < MAX_MONTHS; iM++) resultado[iM]=avl_count(c[iM][iL],cliente);	
 }
-*/
+
 /*
 	Query 9 : 
 		Recebe um cliente e um mes
