@@ -7,13 +7,13 @@
 #include "leitura_aux.h"
 
 /*Funcao util para imprimir as compras*/
-void printCompras(Compras a){
-	printf("Codigo Produto = %s\n",a.codigo_produto);
-	printf("Preco Unitario = %f\n",a.preco);
-	printf("Unidades Compradas = %d\n",a.quantidade);
-	printf("Tipo = %c\n",a.tipo);
-	printf("Codigo Cliente = %s\n",a.codigo_cliente);
-	printf("Mes = %d\n",a.mes);
+void printCompras(Comp a){
+	printf("Codigo Produto = %s\n",a->codigo_produto);
+	printf("Preco Unitario = %f\n",a->preco);
+	printf("Unidades Compradas = %d\n",a->quantidade);
+	printf("Tipo = %c\n",a->tipo);
+	printf("Codigo Cliente = %s\n",a->codigo_cliente);
+	printf("Mes = %d\n",a->mes);
 }
 
 int validaMes(int mes){

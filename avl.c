@@ -220,8 +220,8 @@ int avl_count(AVL c, char* code) {
 	if(c==NULL) res=0;
 	else {
 		Comp info=(Comp) c->info;
-		if(strncmp(info->codigo_cliente, code, 5)<0) res=avl_count(c->left, code);
-		else if(strncmp(info->codigo_cliente, code, 5)>0) res=avl_count(c->right, code);
+		if(strncmp(info->codigo_cliente, code, 5)>0) res=avl_count(c->left, code);
+		else if(strncmp(info->codigo_cliente, code, 5)<0) res=avl_count(c->right, code);
 		else res=1+avl_count(c->right, code);	/*iguais foram inseridos na AVL direita*/
 	}
 	return res;

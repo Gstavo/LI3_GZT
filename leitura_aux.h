@@ -12,7 +12,7 @@
 #include "catalogo_produtos.h"
 #include "contabilidade.h"
 
-void printCompras(Compras a);
+void printCompras(Comp a);
 int validaMes(int mes);
 int validaTipo(char a);
 int validaUnidades(int unidade);
