@@ -9,6 +9,11 @@
 #include "leitura.h"
 
 int main () {
+	char escolha;
+	char nome[100];
+	int compras_mes[12][1];
+	int clientes_mes[12][1];
+	char lista_letra[MAX_CLIENTE];/*No maximo tem 20000 codigos de cliente*/
 	int i=0,countCompras=0, compras_invalidas=0, vendas=0; 
 	int prim, ult;			/*Utilizados na query 7: prim(primeiro mes), ult(ultimo mes)*/
 	int comprasMes[12], optn;		/*usados na query 5*/
@@ -117,6 +122,16 @@ int main () {
 	}
 	fclose(compras_cliente);
 	
+	/*Query 6*/
+	printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
+	if(scanf("%d", &escolha));
+	if((escolha>65 && escolha<90)||(escolha>97 && escolha<122)){/*Escolha recebe o char da letra que pode ser maisucula ou minuscula*/
+		imprimir_cliente(lista_letra,cl,escolha);/*cl é o catalogo dos clientes*/
+		for(int i=0;i<strlen(lista_letra);i++)
+			printf("%s\n", lista_letra[i]);
+	}
+	else{printf("\nLETRA INVALIDA:\n");}
+
 	/*Query 7*/
 	printf("\nINSIRA UM INTERVALO DE MESES:\n");
 	printf("MES INICIAL: "); if(scanf("%d", &prim));
@@ -128,6 +143,24 @@ int main () {
 	printf("\n");
 	printf("TOTAL DE VENDAS EFETUADAS NESSE INTERVALO: %d\n", vendas);
 	printf("FATURACAO TOTAL NESSE INTERVALO: %.2f\n\n", fact);
+
+	/*Query 11*/
+
+	/*
+	Não sei se é nescessario mas vou inicializar primeiro a zero
+
+	for(int j=o;j<12;j++){\
+		compras_mes[j][1]=0;
+		clientes_mes[j][1]=0;
+	}
+	*/
+
+	printf("\n INSIRA O NOME DO FICHEIRO .CSV QUE PRETENDE CRIAR: ");
+	gets(nome);
+	preenchecmp(compras_mes);
+	preencheclientes(clientes_mes);
+	create_csv(nome,compras_mes,clientes_mes);
+	
 	
 	end=clock();
 	time_spent=(double)(end-begin)/CLOCKS_PER_SEC;

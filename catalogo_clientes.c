@@ -25,9 +25,15 @@ void insertCatalogo_Clientes(AAVL cl,char* code,int* cresceu)
 		cl[i] = insert(cl[i],code,cresceu,Catalogo_C);
 		Codigos_Cliente++;
 	}
+
 /*
-int removeCatalogo_Clientes(AVL c,char* code)
+int removeCatalogo_Clientes(AVL c,char* code){
+	int i = indexL(code);
+	cl[i] = remove(cl[i],code,Catalogo_C);
+	Codigos_Cliente--;
+}
 */
+
 
 int codigos_Cliente(){return Codigos_Cliente;}
 
@@ -60,7 +66,11 @@ int existeClnt(char* cliente, AAVL cl)
 } 
 
 
-
+void imprimir_cliente(char lista[],AVL array[],char letra){
+	int i=0;
+	if((letra>97 && letra<122)) letra-=32;/*Se for minuscula passa para maiuscula*/
+	guardArray(devolveAVL(array, letra-65),lista);/*Dá a AVL com todos os codigos de cliente com a letra dada*/
+}
 
 
 

@@ -46,4 +46,5 @@ AVL devolveAVL(AVL array[], char a);
 int contarNodos(AVL aux);
 int indexL(char* code);
 int avl_count(AVL c, char* code);
+int guardArray(AVL aux,char lista[]);
 #endif

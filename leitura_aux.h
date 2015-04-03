@@ -12,6 +12,7 @@
 #include "catalogo_produtos.h"
 #include "compras.h"
 #include "contabilidade.h"
+#include "csv_final.h"
 
 void printCompras(Comp a);
 int validaMes(int mes);
