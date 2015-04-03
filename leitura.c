@@ -8,67 +8,43 @@
 #include <math.h>
 #include "leitura.h"
 
-int main () {
-	char escolha;
-	char nome[100];
-	int compras_mes[12][1];
-	int clientes_mes[12][1];
-	char lista_letra[MAX][MAX_LETTERS];	/*No maximo tem 20000 codigos de cliente*/
-	int i=0,countCompras=0, compras_invalidas=0, vendas=0; 
-	int prim, ult;			/*Utilizados na query 7: prim(primeiro mes), ult(ultimo mes)*/
-	int comprasMes[12], optn;		/*usados na query 5*/
-	double fact=0, time_spent;	
-	int validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0;	
-	FILE *clientes, *produtos, *fcompras, *compras_cliente;
-	char linha[MAX_LINE], *clnt=(char*) malloc(5*sizeof(char*));
-	int *cresceu=(int*) malloc(sizeof(int));	/*Verifica se a AVL cresceu*/
-	AAVL cl, pl;	/*cl - array com AVL's de clientes, pl - array com AVL's de produtos*/
-	Contabilidade contabilidade;
-	HashTable ht;
-	clock_t begin, end;
-	
+void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra) {
+	int i, *cresceu=(int*) malloc(sizeof(int)), validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0;	
+	int countCompras=0, compras_invalidas=0;
+	char linha[MAX_LINE];
+	FILE *clientes, *produtos, *fcompras;
 
-	Comp compra = malloc(sizeof(struct compras));
+	compra=malloc(sizeof(struct compras));
 	compra->codigo_produto = malloc(10*sizeof(char));
 	compra->codigo_cliente = malloc(10*sizeof(char));
-	
-	begin=clock();
 
 	/*Inicializa as estruturas*/
-	initCatalogo_Clientes(cl);
-	initCatalogo_Produtos(pl);
-	initContabilidade(contabilidade);
-	ht = NULL; /* necessario pois bug estranho de compilaçao */
+	initCatalogo_Clientes(clnt);
+	initCatalogo_Produtos(prod);
+	initContabilidade(cont);
+	ht=NULL; /* necessario pois bug estranho de compilaçao */
 	initCompras(ht);
-	
+
 	clientes=fopen("clientes.txt","r"); 
 	produtos=fopen("produtos.txt","r");
 	fcompras=fopen("compras1.txt","r");
-	compras_cliente=fopen("compras_cliente.txt", "w");		/*usado na Query 5*/
-	
-	for(i=0;fgets(linha, MAX_LINE, clientes);i++) 
-	{
-			linha[strlen(linha)-1] = '\0';
+
+	for(i=0; fgets(linha, MAX_LINE, clientes); i++) {
+			linha[strlen(linha)-1]='\0';
 			trim(linha);
-			insertCatalogo_Clientes(cl,linha, cresceu);
+			insertCatalogo_Clientes(clnt, linha, cresceu);
 	}
-	fclose(clientes);
-	
-	for(i=0;fgets(linha, MAX_LINE, produtos);i++)
-	{ 
-			linha[strlen(linha)-1] = '\0';
+	for(i=0; fgets(linha, MAX_LINE, produtos); i++) { 
+			linha[strlen(linha)-1]='\0';
 			trim(linha);
-			insertCatalogo_Produtos(pl, linha, cresceu);
+			insertCatalogo_Produtos(prod, linha, cresceu);
 	}
-	fclose(produtos);
-	
-	for(i=0;fgets(linha, MAX_LINE,fcompras);i++)
-	{
+	for(i=0; fgets(linha, MAX_LINE, fcompras); i++) {
 			linha[strlen(linha)-1] = '\0';
 			trim(linha);
-			tokenizer(compra,linha);
-			validaClnt=validateClnt((*compra), cl);
-			validaProd=validateProd((*compra), pl);
+			tokenizer(compra, linha);
+			validaClnt=validateClnt((*compra), clnt);
+			validaProd=validateProd((*compra), prod);
 			validaCmpr=validateCompras((*compra));
 			if(validaClnt==0) clntInv++;
 			if(validaProd==0) prodInv++;
@@ -80,13 +56,15 @@ int main () {
 			}
 			countCompras++;
 	}
+
+	fclose(clientes);
+	fclose(produtos);
 	fclose(fcompras);
 
 	/* Hash - Compras (TESTE) */
 	printf("Numero de vezes de realocaçao da hash : %d\n",getRemakes());
 	printf("Tamanho da hash : %d\n",ht->size);
 
-	/*Query 1*/
 	printf("\nPRODUTOS: %d\n", codigos_Produto());
 	printf("CLIENTES: %d\n", codigos_Cliente());
 	printf("LINHAS DE COMPRAS: %d\n", countCompras);
@@ -95,78 +73,116 @@ int main () {
 	printf("TOTAL DE COMPRAS INVALIDAS: %d\n", compras_invalidas);
 	printf("--------------------------------------------\n");
 	printf("COMPRAS VALIDAS: %d\n", (countCompras-compras_invalidas));
-	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", returnFactTotal());	
-
-	/*Query 2*/
-	printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
-	codClientes(cl);
-	printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n\n");
-	codProdutos(pl);
-	printf("\n");
-
-	/*Query 5*/
-	printf("INSIRA UM CLIENTE: ");
-	if(gets(clnt));
-	compMes(contabilidade, clnt, comprasMes);
-	printf("DESEJA GUARDAR O RESULTADO NUM FICHEIRO DE TEXTO OU IMPRIMIR NO ECRA?\n0 - FICHEIRO, 1 - ECRA: ");
-	if(scanf("%d", &optn));
-	if(optn==1) {
-		printf("\n");
-		printf("COMPRAS DE "); for(i=0; i<5; i++) printf("%c", clnt[i]); printf(" POR MES:\n");
-		for(i=0; i<12; i++) printf("%d: %d\n", (i+1), comprasMes[i]);
-	} 
-	else {
-		fprintf(compras_cliente, "COMPRAS DE ");  
-		for(i=0; i<5; i++) fprintf(compras_cliente, "%c", clnt[i]);
-		fprintf(compras_cliente, " POR MES:\n");
-		for(i=0; i<12; i++) fprintf(compras_cliente, "%d: %d\n", (i+1), comprasMes[i]);
-	}
-	fclose(compras_cliente);
-	
-	/*Query 6*/
-	printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
-	if(scanf("%c", &escolha));
-	if((escolha>65 && escolha<90) || (escolha>97 && escolha<122)) {	
-		imprimir_cliente(lista_letra,cl,escolha);	
-	}
-
-	/*Query 7*/
-	printf("\nINSIRA UM INTERVALO DE MESES:\n");
-	printf("MES INICIAL: "); if(scanf("%d", &prim));
-	printf("MES FINAL: "); if(scanf("%d", &ult));
-	for(i=prim-1; i<ult; i++) {
-		fact+=returnFact(i);
-		vendas+=returnVendas(i);
-	}
-	printf("\n");
-	printf("TOTAL DE VENDAS EFETUADAS NESSE INTERVALO: %d\n", vendas);
-	printf("FATURACAO TOTAL NESSE INTERVALO: %.2f\n\n", fact);
-
-	/*Query 11*/
-
-	/*
-	Não sei se é nescessario mas vou inicializar primeiro a zero
-
-	for(int j=o;j<12;j++){\
-		compras_mes[j][1]=0;
-		clientes_mes[j][1]=0;
-	}
-	*/
-
-	printf("\n INSIRA O NOME DO FICHEIRO .CSV QUE PRETENDE CRIAR: ");
-	if(gets(nome));
-	preenchecmp(compras_mes);
-	preencheclientes(clientes_mes);
-	create_csv(nome,compras_mes,clientes_mes);
-	
-	
-	end=clock();
-	time_spent=(double)(end-begin)/CLOCKS_PER_SEC;
-	printf("Tempo de execucao: %.2f segundos\n\n", time_spent);
-	
-	return 0;
+	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", returnFactTotal());
 }
-	
 
-	
-	
+/*Funcao util para imprimir as compras*/
+void printCompras(Comp a){
+	printf("Codigo Produto = %s\n",a->codigo_produto);
+	printf("Preco Unitario = %f\n",a->preco);
+	printf("Unidades Compradas = %d\n",a->quantidade);
+	printf("Tipo = %c\n",a->tipo);
+	printf("Codigo Cliente = %s\n",a->codigo_cliente);
+	printf("Mes = %d\n",a->mes);
+}
+
+int validaMes(int mes){
+	if(mes>=1 && mes<=12) return 1;		/*Verdadeiro*/
+	else return 0;				/*Falso*/
+}
+
+int validaTipo(char a){
+	if(a=='P' || a=='N') return 1;		/*Verdadeiro*/
+	else return 0;				/*Falso*/
+}
+
+int validaUnidades(int unidade){
+	if(unidade>0 && unidade<200000) return 1;	/*Verdadeiro*/
+	else return 0;					/*Falso*/
+}
+
+int validaPreco(double p){
+	if(p>=0.0) return 1;		/*Verdadeiro*/
+	else return 0;			/*Falso*/
+}
+
+int isdigitN(char a) {return ((a >= 48) && (a<=57));}
+
+int validateClnt(Compras a, AAVL cl) {
+        if(existeClnt(a.codigo_cliente, cl)==0) return 0;
+        else return 1;
+}
+
+int validateProd(Compras a, AAVL pl) {
+	if(existeProd(a.codigo_produto, pl)==0) return 0;
+	else return 1;
+}
+
+int validateCompras(Compras a) {
+	if(validaMes(a.mes)==0 || validaTipo(a.tipo)==0 || validaUnidades(a.quantidade)==0 || validaPreco(a.preco)==0)
+		return 0;
+	else return 1;
+} 
+
+void tokenizer(Comp a, char linha[MAX_LINE]){
+	char* t; 
+	int x=0, n;
+	double m;
+	t=strtok(linha, " ");
+	while (t!=NULL) 
+	{
+        	if(x == 0) strcpy(a->codigo_produto, t);
+        	if(x == 1) {
+			m=atof(t);
+			a->preco=m;
+		}
+        	if(x == 2) {
+			n=atoi(t);
+			a->quantidade=n;
+		}
+        	if(x == 3) a->tipo = t[0];
+        	if(x == 4) strcpy(a->codigo_cliente, t); 
+        	if(x == 5) {
+			n=atoi(t);
+			a->mes=n;
+		}
+        	x++;
+        	t=strtok(NULL, " ");
+	}	
+}
+
+void printTree(AVL p) {
+	int i;
+	if(p==NULL) printf("NULL\n");
+	else {
+		char* code = p->info;
+		for(i=0; i<6; i++) printf("%c", code[i]);
+		printf("\n");
+		printTree(p->left);
+		printTree(p->right);
+	}
+}
+int length(char s[]) {
+       int i;
+       for(i=0; s[i]!='\0'; i++);
+       return i;
+}
+
+void shiftleft(char* s,int i)
+{
+        while(s[i]!='\0')
+        {
+                s[i] = s[i+1];
+                i++;
+        }
+}
+
+void trim(char* s)
+{
+        int i;
+        for(i = 0;s[i] == ' ';) shiftleft(s,i);
+        for(i = 0;s[i] != '\0';)
+                if(s[i] == ' ' && s[i+1] == ' ') shiftleft(s,i);
+                else i++;
+        if(i > 0 && s[i-1] == ' ') s[i-1] = '\0';
+}
