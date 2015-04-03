@@ -15,7 +15,7 @@ void codClientes(AVL array[]);
 
 int existeClnt(char* cliente, AAVL cl);
 
-void imprimir_cliente(char lista[],AVL array[],char letra);
+void imprimir_cliente(char lista[][MAX_LETTERS], AAVL array, char letra);
 
 
 #endif

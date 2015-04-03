@@ -66,10 +66,10 @@ int existeClnt(char* cliente, AAVL cl)
 } 
 
 
-void imprimir_cliente(char lista[],AVL array[],char letra){
+void imprimir_cliente(char lista[][MAX_LETTERS], AAVL array, char letra) {
 	int i=0;
-	if((letra>97 && letra<122)) letra-=32;/*Se for minuscula passa para maiuscula*/
-	guardArray(devolveAVL(array, letra-65),lista);/*Dá a AVL com todos os codigos de cliente com a letra dada*/
+	if((letra>97 && letra<122)) letra-=32;	/*Se for minuscula passa para maiuscula*/
+	guardArray(array[letra-65], lista, 0);	/*Coloca na matriz todos os clientes iniciados pela letra dada*/
 }
 
 

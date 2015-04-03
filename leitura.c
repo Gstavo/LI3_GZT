@@ -13,7 +13,7 @@ int main () {
 	char nome[100];
 	int compras_mes[12][1];
 	int clientes_mes[12][1];
-	char lista_letra[MAX_CLIENTE];/*No maximo tem 20000 codigos de cliente*/
+	char lista_letra[MAX][MAX_LETTERS];	/*No maximo tem 20000 codigos de cliente*/
 	int i=0,countCompras=0, compras_invalidas=0, vendas=0; 
 	int prim, ult;			/*Utilizados na query 7: prim(primeiro mes), ult(ultimo mes)*/
 	int comprasMes[12], optn;		/*usados na query 5*/
@@ -85,6 +85,7 @@ int main () {
 	/* Hash - Compras (TESTE) */
 	printf("Numero de vezes de realocaçao da hash : %d\n",getRemakes());
 	printf("Tamanho da hash : %d\n",ht->size);
+
 	/*Query 1*/
 	printf("\nPRODUTOS: %d\n", codigos_Produto());
 	printf("CLIENTES: %d\n", codigos_Cliente());
@@ -124,13 +125,10 @@ int main () {
 	
 	/*Query 6*/
 	printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
-	if(scanf("%d", &escolha));
-	if((escolha>65 && escolha<90)||(escolha>97 && escolha<122)){/*Escolha recebe o char da letra que pode ser maisucula ou minuscula*/
-		imprimir_cliente(lista_letra,cl,escolha);/*cl é o catalogo dos clientes*/
-		for(int i=0;i<strlen(lista_letra);i++)
-			printf("%s\n", lista_letra[i]);
+	if(scanf("%c", &escolha));
+	if((escolha>65 && escolha<90) || (escolha>97 && escolha<122)) {	
+		imprimir_cliente(lista_letra,cl,escolha);	
 	}
-	else{printf("\nLETRA INVALIDA:\n");}
 
 	/*Query 7*/
 	printf("\nINSIRA UM INTERVALO DE MESES:\n");
@@ -156,7 +154,7 @@ int main () {
 	*/
 
 	printf("\n INSIRA O NOME DO FICHEIRO .CSV QUE PRETENDE CRIAR: ");
-	gets(nome);
+	if(gets(nome));
 	preenchecmp(compras_mes);
 	preencheclientes(clientes_mes);
 	create_csv(nome,compras_mes,clientes_mes);

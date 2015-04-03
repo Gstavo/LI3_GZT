@@ -212,22 +212,16 @@ int contarNodos(AVL aux){
         return 1 + contarNodos(aux->left) + contarNodos(aux->right);
 }
 
-int guardArray(AVL aux,char lista[]){
- 	int ok=1;/*Verdadeira*/
- 	int i;
- 	if(aux==NULL) ok=0;
- 	else{
- 		while(aux!=NULL){
- 			lista[i]=codigo_cliente;
- 			lista[2i+1]=aux->left;
- 			lista[2i+2]=aux->right;
- 			i++;
-
- 		}
- 	}
-
+void guardArray(AVL aux, char lista[][MAX_LETTERS], int index) {	/*index corresponde ao indice da matriz onde colocar o cliente*/
+ 	while(aux!=NULL) {
+		(char*) aux->info;
+		strncpy(lista[index], aux->info, 5);
+		/*Insere primeiro na matriz os elementos que estao na AVL esquerda e depois insere os da direita*/
+		/*O index vai aumentando em cada chamada recursiva*/
+		guardArray(aux->left, lista, index++);
+		guardArray(aux->right, lista, index++);
+	}
 }
-
 
 int indexL(char* code) {return code[0] - 65;}
 
