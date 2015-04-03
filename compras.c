@@ -4,12 +4,13 @@
 
 #include "compras.h"
 
-void initCompras(HashTable ht)
+HashTable initCompras(HashTable ht)
 {
 	int Ncp = codigos_Produto();
 /*	for(i=0;i<MAX_LETTERS;i++)
 		a[i] = NULL; */
-	initHashTable(ht,Ncp);
+	ht = initHashTable(ht,10*Ncp);
+	return ht;
 }
 
 void insertComprasCP(AAVL a,Comp compra,int* cresceu)

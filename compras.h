@@ -19,7 +19,7 @@ typedef struct compras{
 
 typedef struct compras* Comp;
 
-void initCompras(HashTable ht);
+HashTable initCompras(HashTable ht);
 
 void insertComprasHashCP(HashTable ht,Comp compra,int* cresceu);
 

@@ -16,7 +16,7 @@ int getRemakes(){return remakes;}
 
 
 /* cria uma avl de max_size n */
-void initHashTable( HashTable ht,int n)
+HashTable initHashTable( HashTable ht,int n)
 {
 	int i;
 	ht = malloc(sizeof(struct hashtable));
@@ -24,6 +24,7 @@ void initHashTable( HashTable ht,int n)
 	for(i=0;i<n;i++) ht->table[i] = NULL;
 	ht->max_size = n;
 	ht->size = 0;
+	return ht;
 }
 
 /*
@@ -32,17 +33,21 @@ void initHashTable( HashTable ht,int n)
 
 int insertHashTable( HashTable ht, AVL a,int* cresceu)
 {
-	int hash_code,i;
-	if(( (float) ht->size / ht->max_size) > 0.3f )
+	unsigned int hash_code;
+	int i;
+	float ocupacao = (float)ht->size / ht->max_size;
+	if( ocupacao > 0.3)
 	{
+		puts("Remaking hash");
 		remakeHash(ht,1.5*ht->max_size,cresceu);
+		puts("Remake done");
 		remakes++;
 	}
 	if(a)
 	{	
 	Comp compra = (Comp)a->info;
 	Comp casted;
-	hash_code = hash(compra->codigo_produto,ht->max_size);
+	hash_code = hash(compra->codigo_produto) % ht->max_size;
 	i = hash_code;
 	do
 	{
@@ -110,11 +115,12 @@ void freeAVL(AVL p)
 
 double powM(int x,int y)
 {
-	if(y==1) return (double)x;
+	if(y==0) return (double)1;
 	return (double)x*powM(x,--y);
 }
 
 /* Alterar algoritmo de hash, este é horrivel */
+/*
 int hash(char* code,int max)
 {
 	int i,n=6;
@@ -126,4 +132,30 @@ int hash(char* code,int max)
 		}
 	return (int) result % max;	
 }
+*/
 
+/* hash PJWHash algoritmo */
+
+unsigned int hash(char* str)
+{
+   int length = strlen(str);
+   unsigned int BitsInUnsignedInt = (unsigned int)(sizeof(unsigned int) * 8);
+   unsigned int ThreeQuarters     = (unsigned int)((BitsInUnsignedInt  * 3) / 4);
+   unsigned int OneEighth         = (unsigned int)(BitsInUnsignedInt / 8);
+   unsigned int HighBits          = (unsigned int)(0xFFFFFFFF) << (BitsInUnsignedInt - OneEighth);
+   unsigned int hash              = 0;
+   unsigned int test              = 0;
+   int i; 
+   
+   for( i = 0; i < length; i++)
+   {
+      hash = (hash << OneEighth) + str[i];
+ 
+      if((test = hash & HighBits)  != 0)
+      {
+         hash = (( hash ^ (test >> ThreeQuarters)) & (~HighBits));
+      }
+   }
+ 
+   return (hash & 0x7FFFFFFF);
+}
