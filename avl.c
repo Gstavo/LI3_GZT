@@ -212,6 +212,21 @@ int contarNodos(AVL aux){
         return 1 + contarNodos(aux->left) + contarNodos(aux->right);
 }
 
+int guardArray(AVL aux,char lista[]){
+ 	int ok=1;/*Verdadeira*/
+ 	int i;
+ 	if(aux==NULL) ok=0;
+ 	else{
+ 		while(aux!=NULL){
+ 			lista[i]=
+
+
+ 		}
+ 	}
+
+}
+
+
 int indexL(char* code) {return code[0] - 65;}
 
 /*Numero de produtos por cliente ou vice-versa (para ja so funciona para clientes)*/
