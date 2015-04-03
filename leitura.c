@@ -100,10 +100,10 @@ int main () {
 
 	/*Query 5*/
 	printf("INSIRA UM CLIENTE: ");
-	gets(clnt);
+	if(gets(clnt));
 	compMes(contabilidade, clnt, comprasMes);
 	printf("DESEJA GUARDAR O RESULTADO NUM FICHEIRO DE TEXTO OU IMPRIMIR NO ECRA?\n0 - FICHEIRO, 1 - ECRA: ");
-	scanf("%d", &optn);
+	if(scanf("%d", &optn));
 	if(optn==1) {
 		printf("\n");
 		printf("COMPRAS DE "); for(i=0; i<5; i++) printf("%c", clnt[i]); printf(" POR MES:\n");
@@ -119,8 +119,8 @@ int main () {
 	
 	/*Query 7*/
 	printf("\nINSIRA UM INTERVALO DE MESES:\n");
-	printf("MES INICIAL: "); scanf("%d", &prim);
-	printf("MES FINAL: "); scanf("%d", &ult);
+	printf("MES INICIAL: "); if(scanf("%d", &prim));
+	printf("MES FINAL: "); if(scanf("%d", &ult));
 	for(i=prim-1; i<ult; i++) {
 		fact+=returnFact(i);
 		vendas+=returnVendas(i);
