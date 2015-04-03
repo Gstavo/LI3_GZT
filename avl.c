@@ -218,8 +218,10 @@ int guardArray(AVL aux,char lista[]){
  	if(aux==NULL) ok=0;
  	else{
  		while(aux!=NULL){
- 			lista[i]=
-
+ 			lista[i]=codigo_cliente;
+ 			lista[2i+1]=aux->left;
+ 			lista[2i+2]=aux->right;
+ 			i++;
 
  		}
  	}

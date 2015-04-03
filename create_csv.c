@@ -15,7 +15,7 @@ FILE *aux;
 int i,j;
 nome_ficheiro=strcat(nome_ficheiro,".csv");
 aux=fopen(nome_ficheiro,"w+");
-fprintf(aux,"Mês,#Compras,#Clientes");
+fprintf(aux,"Mes,#Compras,#Clientes");
 
 for(i=0;i<MAX_LINE;i++)
 {
