@@ -4,11 +4,12 @@
 
 #include "compras.h"
 
-void initCompras(AAVL a)
+void initCompras(HashTable ht)
 {
-	int i;
-	for(i=0;i<MAX_LETTERS;i++)
-		a[i] = NULL;
+	int Ncp = codigos_Produto();
+/*	for(i=0;i<MAX_LETTERS;i++)
+		a[i] = NULL; */
+	initHashTable(ht,Ncp);
 }
 
 void insertComprasCP(AAVL a,Comp compra,int* cresceu)
@@ -16,6 +17,17 @@ void insertComprasCP(AAVL a,Comp compra,int* cresceu)
 	insert(a[indexL(compra->codigo_produto)],compra,cresceu,Compras_Ord_CP);
 }
 
+void insertComprasHashCP(HashTable ht,Comp compra,int* cresceu)
+{
+	AVL a = malloc(sizeof(struct avl_node));
+	Comp casted;
+	casted = a->info = malloc(sizeof(struct compras));
+	casted->codigo_produto = malloc(10*sizeof(char));	
+	casted->codigo_cliente = malloc(10*sizeof(char));	
+	a->right = a->left = NULL;
+	compracpy(a->info,compra);
+	insertHashTable(ht,a,cresceu);
+}
 
 void compracpy(Comp dest,Comp src){
 	strcpy(dest->codigo_produto,src->codigo_produto);

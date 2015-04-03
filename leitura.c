@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include <math.h>
 #include "leitura.h"
 
 int main () {
@@ -18,8 +19,10 @@ int main () {
 	int *cresceu=(int*) malloc(sizeof(int));	/*Verifica se a AVL cresceu*/
 	AAVL cl, pl;	/*cl - array com AVL's de clientes, pl - array com AVL's de produtos*/
 	Contabilidade contabilidade;
+	HashTable ht;
 	clock_t begin, end;
 	
+
 	Comp compra = malloc(sizeof(struct compras));
 	compra->codigo_produto = malloc(10*sizeof(char));
 	compra->codigo_cliente = malloc(10*sizeof(char));
@@ -30,6 +33,8 @@ int main () {
 	initCatalogo_Clientes(cl);
 	initCatalogo_Produtos(pl);
 	initContabilidade(contabilidade);
+	ht = NULL; /* necessario pois bug estranho de compilaçao */
+	initCompras(ht);
 	
 	clientes=fopen("clientes.txt","r"); 
 	produtos=fopen("produtos.txt","r");
@@ -65,12 +70,16 @@ int main () {
 			if(validaClnt==0 || validaProd==0 || validaCmpr==0) compras_invalidas++;
 			else {
 				insertContabilidade(contabilidade,compra,cresceu);
-				/* Futuramente vai inserir a compra nas estruturas de dados em compras.c tambemaqui */
+				insertComprasHashCP(ht,compra,cresceu);	
+			/* Futuramente vai inserir a compra nas estruturas de dados em compras.c tambemaqui */
 			}
 			countCompras++;
 	}
 	fclose(fcompras);
 
+	/* Hash - Compras (TESTE) */
+	printf("Numero de vezes de realocaçao da hash : %d\n",getRemakes());
+	printf("Tamanho da hash : %d\n",ht->size);
 	/*Query 1*/
 	printf("\nPRODUTOS: %d\n", codigos_Produto());
 	printf("CLIENTES: %d\n", codigos_Cliente());

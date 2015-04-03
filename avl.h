@@ -25,6 +25,14 @@ typedef struct avl_node* AVL;
 
 typedef AVL AAVL[MAX_LETTERS];
 
+typedef struct hashtable{
+        AVL* table;
+        int max_size;
+        int size;
+} Hashtable;
+
+typedef Hashtable* HashTable;
+
 #include "compras.h"
 
 AVL insert(AVL p, void* unc_info, int *cresceu,int tipo_AVL);

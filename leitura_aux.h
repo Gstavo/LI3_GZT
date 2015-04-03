@@ -7,9 +7,10 @@
 #define MAX 500000
 
 #include "avl.h"
-#include "compras.h"
+#include "hashtable.h"
 #include "catalogo_clientes.h"
 #include "catalogo_produtos.h"
+#include "compras.h"
 #include "contabilidade.h"
 
 void printCompras(Comp a);
