@@ -65,9 +65,7 @@ int existeClnt(char* cliente, AAVL cl)
 	return existeC_aux(cliente,cl[indexL(cliente)]);
 } 
 
-
-void imprimir_cliente(char lista[][MAX_LETTERS], AAVL array, char letra) {
-	int i=0;
+void imprimir_cliente(char **lista, AAVL array, char letra) {
 	if((letra>97 && letra<122)) letra-=32;	/*Se for minuscula passa para maiuscula*/
 	guardArray(array[letra-65], lista, 0);	/*Coloca na matriz todos os clientes iniciados pela letra dada*/
 }
