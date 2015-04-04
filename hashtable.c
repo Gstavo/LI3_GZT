@@ -12,6 +12,24 @@ static int codigo_produto_usado = 0;
 
 static int remakes = 0;
 
+static int colisions = 0;
+
+static int noncolisions = 0;
+
+static int firstcolisions = 0;
+
+int getCodigosProdutosUsados() 
+{return codigo_produto_usado;}
+
+int getColisions()
+{return colisions;}
+
+int getNoncolisions()
+{return noncolisions;}
+
+int getFirstcolisions()
+{return firstcolisions;}
+
 int getRemakes(){return remakes;}
 
 
@@ -31,18 +49,18 @@ HashTable initHashTable( HashTable ht,int n)
  *	Realloc a 30 % de ocupação
  */
 
-int insertHashTable( HashTable ht, AVL a,int* cresceu)
+HashTable insertHashTable( HashTable ht, AVL a,int* cresceu)
 {
 	unsigned int hash_code;
 	int i;
 	float ocupacao = (float)ht->size / ht->max_size;
+
 	if( ocupacao > 0.3)
 	{
-		puts("Remaking hash");
-		remakeHash(ht,1.5*ht->max_size,cresceu);
-		puts("Remake done");
+		ht = remakeHash(ht,1.5*ht->max_size);
 		remakes++;
 	}
+	
 	if(a)
 	{	
 	Comp compra = (Comp)a->info;
@@ -58,7 +76,9 @@ int insertHashTable( HashTable ht, AVL a,int* cresceu)
 			ht->table[i] = insert(ht->table[i],compra,cresceu,Compras_Ord_CC);
 			codigo_produto_usado++;
 			ht->size++;
-			return 0;
+			if(i==hash_code) noncolisions++; else colisions++;
+                
+			return ht;
 		}
 		casted = (Comp) ht->table[i]->info;
 		if(strcmp(casted->codigo_produto,compra->codigo_produto) == 0)	
@@ -67,39 +87,52 @@ int insertHashTable( HashTable ht, AVL a,int* cresceu)
 		por quanidade vendidada */
 
 			ht->table[i] = insert(ht->table[i],compra,cresceu,Compras_Ord_CC);
-			return 0;
+			if(i == hash_code) noncolisions++; else colisions++;
+
+			return ht;
 		}
 	/*	}*/
+		if(i == hash_code) firstcolisions++;
 		i = (i + 1) % ht->max_size;
 		
 	}while(i!=hash_code);
 	
 	}	
-	return 1;
+	return ht;
 }
 
-void remakeHash(HashTable ht,int N,int* cresceu){
-	int i;
-	HashTable new,tmp;
-	new = malloc(sizeof(struct hashtable));
-	new->table = calloc(N,sizeof(struct avl_node));
-	new->max_size = N;
-	new->size = ht->size;
+/* da hash à primeira avl e depois insere as avls todas ligadas no new */
+void insertRemake(HashTable new,AVL a)
+{
+	int hash_code,i;
+	Comp compra = (Comp) a->info;
+	hash_code = hash(compra->codigo_produto) % new->max_size;
+	i = hash_code;
 	
-	for(i=0;i<N;i++) new->table[i] = NULL;
-	
-	for(i=0;i<ht->max_size;i++)
-		if(ht->table[i]) 
-			{
-				insertHashTable(new,ht->table[i],cresceu);
-				freeAVL(ht->table[i]);
-			}
-	tmp = ht;
-	ht = new;
-	free(tmp->table);
-	free(tmp);
-	
+	do
+	{
+		if(new->table[i] == NULL)
+		{
+			new->table[i] = a;
+			break;
+		}
+		i = (i + 1) % new->max_size;
+	}while(i!=hash_code);
 }
+
+HashTable remakeHash(HashTable ht,int N){
+	int i;
+	HashTable new=NULL;
+	new = initHashTable(new,N);
+	new->size = ht->size;
+	for(i=0;i<ht->max_size;i++)
+		if(ht->table[i]) insertRemake(new,ht->table[i]);
+	free(ht->table);
+	free(ht);
+	return new;
+}
+
+
 
 void freeAVL(AVL p)
 {
@@ -133,6 +166,7 @@ int hash(char* code,int max)
 	return (int) result % max;	
 }
 */
+
 
 /* hash PJWHash algoritmo */
 

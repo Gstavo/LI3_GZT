@@ -1,5 +1,5 @@
-CFLAGS= -ansi -Wall -pedantic -O2
-OBJS = avl.o hashtable.o compras.o catalogo_clientes.o catalogo_produtos.o leitura_aux.o contabilidade.o 
+CFLAGS= -ansi -Wall -pedantic -O2 
+OBJS = avl.o hashtable.o compras.o catalogo_clientes.o catalogo_produtos.o contabilidade.o leitura.o 
 
 avl: avl.c compras.c 
 	gcc $(CFLAGS) -c avl.c  
@@ -21,21 +21,20 @@ compras: compras.c avl.c catalogo_produtos.c catalogo_clientes.c
 contabilidade: avl.c compras.c catalogo_produtos.c catalogo_clientes.c
 	gcc $(CFLAGS) -c contabilidade.c
 
-leitura_aux: leitura_aux.c avl.c catalogo_clientes.c catalogo_produtos.c compras.c contabilidade.c
-	gcc $(CFLAGS) -c leitura_aux.c 
+leitura: avl.c compras.c catalogo_produtos.c catalogo_clientes.c compras.c hashtable.c contabilidade.c
+	gcc $(CFLAGS) -c leitura.c
 
+main : $(OBJS)
+	gcc $(CFLAGS) main.c -o main $(OBJS)
 
-leitura: $(OBJS)
-	gcc $(CFLAGS) leitura.c -o leitura $(OBJS)
-
-all: avl.c leitura_aux.c leitura.c catalogo_clientes.c catalogo_produtos.c contabilidade.c compras.c
+all: avl.c leitura.c catalogo_clientes.c catalogo_produtos.c contabilidade.c compras.c hashtable.c main.c
 	make avl
 	make hashtable
 	make catalogo_clientes
 	make catalogo_produtos
 	make compras
 	make contabilidade
-	make leitura_aux
 	make leitura
+	make main
 clean:
 	rm -f *.o

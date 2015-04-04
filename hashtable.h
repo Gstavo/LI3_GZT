@@ -6,13 +6,21 @@
 
 #include "compras.h"
 
+int getCodigosProdutosUsados();
+
+int getColisions();
+
+int getNoncolisions();
+
+int getFirstcolisions();
+
 int getRemakes();
 
 HashTable initHashTable( HashTable ht,int n);
 
-int insertHashTable( HashTable ht, AVL a,int* cresceu);
+HashTable insertHashTable( HashTable ht, AVL a,int* cresceu);
 
-void remakeHash(HashTable ht,int N,int* cresceu);
+HashTable remakeHash(HashTable ht,int N);
 
 void freeAVL(AVL p);
 

@@ -22,12 +22,10 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra
 	initCatalogo_Clientes(clnt);
 	initCatalogo_Produtos(prod);
 	initContabilidade(cont);
-	ht=NULL; /* necessario pois bug estranho de compilaçao */
-	initCompras(ht);
 
 	clientes=fopen("clientes.txt","r"); 
 	produtos=fopen("produtos.txt","r");
-	fcompras=fopen("compras1.txt","r");
+	fcompras=fopen("compras.txt","r");
 
 	for(i=0; fgets(linha, MAX_LINE, clientes); i++) {
 			linha[strlen(linha)-1]='\0';
@@ -39,6 +37,9 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra
 			trim(linha);
 			insertCatalogo_Produtos(prod, linha, cresceu);
 	}
+
+	ht = initCompras(ht);
+
 	for(i=0; fgets(linha, MAX_LINE, fcompras); i++) {
 			linha[strlen(linha)-1] = '\0';
 			trim(linha);
@@ -50,8 +51,8 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra
 			if(validaProd==0) prodInv++;
 			if(validaClnt==0 || validaProd==0 || validaCmpr==0) compras_invalidas++;
 			else {
-				insertContabilidade(contabilidade,compra,cresceu);
-				insertComprasHashCP(ht,compra,cresceu);	
+				insertContabilidade(cont,compra,cresceu);
+				ht = insertComprasHashCP(ht,compra,cresceu);	
 			/* Futuramente vai inserir a compra nas estruturas de dados em compras.c tambemaqui */
 			}
 			countCompras++;
@@ -61,9 +62,16 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra
 	fclose(produtos);
 	fclose(fcompras);
 
-	/* Hash - Compras (TESTE) */
+	/* Hash - Compras (TESTE) *//*
 	printf("Numero de vezes de realocaçao da hash : %d\n",getRemakes());
 	printf("Tamanho da hash : %d\n",ht->size);
+	printf("Numero de não colisoes %d\n",getNoncolisions());
+	printf("Numero de colisoes na primeira inserçao %d\n",getFirstcolisions());
+	printf("Numero de colisões %d\n",getColisions());
+	printf("Percentagem de hash codes sem colisao %f\n",(float)getNoncolisions() / ht->size);
+	printf("Codigos de produtos inseridos na hashtable: %d\n",getCodigosProdutosUsados());*/
+	/* Depois tiro isto da hash */
+
 
 	printf("\nPRODUTOS: %d\n", codigos_Produto());
 	printf("CLIENTES: %d\n", codigos_Cliente());

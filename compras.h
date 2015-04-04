@@ -21,7 +21,7 @@ typedef struct compras* Comp;
 
 HashTable initCompras(HashTable ht);
 
-void insertComprasHashCP(HashTable ht,Comp compra,int* cresceu);
+HashTable insertComprasHashCP(HashTable ht,Comp compra,int* cresceu);
 
 void insertComprasCP(AAVL a,Comp compra,int* cresceu);
 

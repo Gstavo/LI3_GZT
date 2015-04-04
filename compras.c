@@ -9,7 +9,7 @@ HashTable initCompras(HashTable ht)
 	int Ncp = codigos_Produto();
 /*	for(i=0;i<MAX_LETTERS;i++)
 		a[i] = NULL; */
-	ht = initHashTable(ht,10*Ncp);
+	ht = initHashTable(ht,2*Ncp);
 	return ht;
 }
 
@@ -18,7 +18,7 @@ void insertComprasCP(AAVL a,Comp compra,int* cresceu)
 	insert(a[indexL(compra->codigo_produto)],compra,cresceu,Compras_Ord_CP);
 }
 
-void insertComprasHashCP(HashTable ht,Comp compra,int* cresceu)
+HashTable insertComprasHashCP(HashTable ht,Comp compra,int* cresceu)
 {
 	AVL a = malloc(sizeof(struct avl_node));
 	Comp casted;
@@ -27,7 +27,8 @@ void insertComprasHashCP(HashTable ht,Comp compra,int* cresceu)
 	casted->codigo_cliente = malloc(10*sizeof(char));	
 	a->right = a->left = NULL;
 	compracpy(a->info,compra);
-	insertHashTable(ht,a,cresceu);
+	ht = insertHashTable(ht,a,cresceu);
+	return ht;
 }
 
 void compracpy(Comp dest,Comp src){

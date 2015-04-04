@@ -6,22 +6,31 @@
 #include <ctype.h>
 #include <time.h>
 #include <math.h>
+#include "leitura.h"
+
 
 int main() {
-	int comprasMes[12], optn, prim, ult, vendas=0, compras_mes[12][1], clientes_mes[12][1];
+	int comprasMes[12], optn, prim, ult, vendas=0,i;/* compras_mes[12][1], clientes_mes[12][1];*/
 	double time_spent, fact=0;
-	char *cl=(char*) malloc(5*sizeof(char*)), escolha, **lista_letra=(char**) malloc(MAX*sizeof(char**)), nome[100];
+	char *cl=(char*) malloc(5*sizeof(char*)), escolha, **lista_letra=(char**) malloc(MAX*sizeof(char**)); /* nome[100] */
 	FILE *compras_cliente;
 	AAVL clnt, prod;
 	Contabilidade cont;
 	HashTable ht;
 	Comp compra;
 	clock_t begin, end;
-	
+	char scanmenu;
+
 	begin=clock();
+
 
 	/*Query 1*/
 	leitura(clnt, prod, cont, ht, compra);
+
+	
+	puts("Deseja ir para as queries?? s/n");
+	if(scanf("%c",&scanmenu) && (scanmenu == 's' || scanmenu == 'S'))
+	{	
 
 	/*Query 2*/
 	printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
@@ -82,6 +91,7 @@ int main() {
 	preencheclientes(clientes_mes);
 	create_csv(nome,compras_mes,clientes_mes);*/
 
+	}
 	end=clock();
 	time_spent=(double)(end-begin)/CLOCKS_PER_SEC;
 	printf("Tempo de execucao: %.2f segundos\n\n", time_spent);
