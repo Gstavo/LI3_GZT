@@ -10,9 +10,9 @@
 
 
 int main() {
-	int comprasMes[12], optn, prim, ult, vendas=0,i;/* compras_mes[12][1], clientes_mes[12][1];*/
+	int comprasMes[12], optn, prim, ult, vendas=0,i, compras_mes[12][1], clientes_mes[12][1];
 	double time_spent, fact=0;
-	char *cl=(char*) malloc(5*sizeof(char*)), escolha, **lista_letra=(char**) malloc(MAX*sizeof(char**)); /* nome[100] */
+	char *cl=(char*) malloc(5*sizeof(char*)), escolha, **lista_letra=(char**) malloc(MAX*sizeof(char**)), nome[100];
 	FILE *compras_cliente;
 	AAVL clnt, prod;
 	Contabilidade cont;
