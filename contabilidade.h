@@ -21,6 +21,8 @@ double returnFact(int mes);
 
 int returnVendas(int mes);
 
+int returnClientes(int mes);
+
 int compras_Mes(int mes);
 
 void compMes(Contabilidade c, char* cliente, int resultado[]);

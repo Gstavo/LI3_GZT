@@ -78,18 +78,12 @@ int main() {
 	printf("TOTAL DE VENDAS EFETUADAS NESSE INTERVALO: %d\n", vendas);
 	printf("FATURACAO TOTAL NESSE INTERVALO: %.2f\n\n", fact);
 
-	/*Query 11
-	Não sei se é nescessario mas vou inicializar primeiro a zero
-
-	for(int j=o;j<12;j++){\
-		compras_mes[j][1]=0;
-		clientes_mes[j][1]=0;
-	}
+	/*Query 11*/
 	printf("\n INSIRA O NOME DO FICHEIRO .CSV QUE PRETENDE CRIAR: ");
-	if(gets(nome));
+	/*if(gets(nome));*/
 	preenchecmp(compras_mes);
 	preencheclientes(clientes_mes);
-	create_csv(nome,compras_mes,clientes_mes);*/
+	create_csv(nome,compras_mes,clientes_mes);
 
 	}
 	end=clock();

@@ -12,6 +12,7 @@ static int compras_mes[MAX_MONTHS];
 
 typedef struct mensalidade{
 	int nvendas;
+	int nclientes;
 	double factura;
 } Mensalidade[MAX_MONTHS];
 
@@ -28,7 +29,7 @@ void initContabilidade(Contabilidade c)
 			c[i][j] = NULL;
 		
 		compras_mes[i] = 0;
-		mDATA[i].nvendas = 0; mDATA[i].factura = 0;
+		mDATA[i].nvendas = 0; mDATA[i].factura = 0; mDATA[i].nclientes=0;
 	}
 }
 
@@ -39,6 +40,7 @@ void insertContabilidade(Contabilidade c,Comp compra,int* cresceu)
 	c[iM][iL] = insert(c[iM][iL],compra,cresceu,Compras_Ord_CC);
 	compras_mes[iM]++;
 	mDATA[iM].nvendas+= compra->quantidade;
+	mDATA[iM].nclientes+=1;
 	mDATA[iM].factura+= compra->quantidade * compra->preco; 
 }
 
@@ -58,6 +60,11 @@ double returnFactTotal(){
 /*Devolve o numero de vendas efetuadas nesse mes*/
 int returnVendas(int mes) {
 	return mDATA[mes].nvendas;
+}
+
+/*Devolve o numero de clientes nesse mes*/
+int returnClientes(int mes) {
+	return mDATA[mes].nclientes;
 }
 
 /*
