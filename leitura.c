@@ -14,11 +14,6 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra
 	char linha[MAX_LINE];
 	FILE *clientes, *produtos, *fcompras;
 
-	/*Inicializa as estruturas*/
-	initCatalogo_Clientes(clnt);
-	initCatalogo_Produtos(prod);
-	initContabilidade(cont);
-
 	clientes=fopen("clientes.txt","r"); 
 	produtos=fopen("produtos.txt","r");
 	fcompras=fopen("compras.txt","r");
@@ -63,7 +58,7 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra
 	printf("Numero de colisões %d\n",getColisions());
 	printf("Percentagem de hash codes sem colisao %f\n",(float)getNoncolisions() / ht->size);
 	printf("Codigos de produtos inseridos na hashtable: %d\n",getCodigosProdutosUsados());*/
-	/* Depois tiro isto da hash */
+	/* Depois tiro isto da hash*/
 
 
 	printf("\nPRODUTOS: %d\n", codigos_Produto());

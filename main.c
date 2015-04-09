@@ -23,9 +23,12 @@ int main() {
 
 	begin=clock();
 
-	/*Inicializa a estrutura e a HashTable de compras, respetivamente*/
+	/*Inicializa as estruturas*/
 	compra=initCompra();
 	ht=initHashCompras();
+	initCatalogo_Clientes(clnt);
+	initCatalogo_Produtos(prod);
+	initContabilidade(cont);
 
 	/*Query 1*/
 	leitura(clnt, prod, cont, ht, compra);
