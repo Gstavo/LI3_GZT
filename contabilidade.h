@@ -7,23 +7,32 @@
 
 #define MAX_MONTHS 12
 
+typedef double FACTORACAO_TOTAL;
+typedef double FACTORACAO_MES;
+typedef int VENDAS_MES;
+typedef int CLIENTES_MES;
+typedef int COMPRAS_MES;
+typedef int INDICE_MES;
+
+
+
 typedef AAVL Contabilidade[MAX_MONTHS];
 
-int indexM(Comp c);
+INDICE_MES indexM(Comp c);
 
 void initContabilidade(Contabilidade c);
 
 void insertContabilidade(Contabilidade c,Comp compra,int* cresceu);
 
-double returnFactTotal();
+FACTORACAO_TOTAL returnFactTotal();
 
-double returnFact(int mes);
+FACTORACAO_MES returnFact(int mes);
 
-int returnVendas(int mes);
+VENDAS_MES returnVendas(int mes);
 
-int returnClientes(int mes);
+CLIENTES_MES returnClientes(int mes);
 
-int compras_Mes(int mes);
+COMPRAS_MES compras_Mes(int mes);
 
 void compMes(Contabilidade c, char* cliente, int resultado[]);
 
