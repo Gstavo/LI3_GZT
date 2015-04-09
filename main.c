@@ -14,7 +14,7 @@ int main() {
 	VENDAS_MES vendas=0;
 	double time_spent;
 	FACTORACAO_TOTAL fact=0;
-	char *cl=(char*) malloc(5*sizeof(char*)), escolha, **lista_letra=(char**) malloc(MAX*sizeof(char**)), nome[100];
+	char *cl=(char*) malloc(5*sizeof(char*)), escolha, **lista_letra=(char**) malloc(MAX*sizeof(char**)), nome[50];
 	FILE *compras_cliente;
 	AAVL clnt, prod;
 	Contabilidade cont;
@@ -55,7 +55,8 @@ int main() {
 	/*Query 5*/
 	begQue5=clock();
 	printf("INSIRA UM CLIENTE: ");
-	if(gets(cl));
+	/*if(gets(cl));*/
+	if(scanf("%s", &cl));
 	compMes(cont, cl, comprasMes);
 	printf("DESEJA GUARDAR O RESULTADO NUM FICHEIRO DE TEXTO OU IMPRIMIR NO ECRA?\n0 - FICHEIRO, 1 - ECRA: ");
 	if(scanf("%d", &optn));
@@ -101,6 +102,7 @@ int main() {
 	begQue11=clock();
 	printf("\n INSIRA O NOME DO FICHEIRO .CSV QUE PRETENDE CRIAR: ");
 	/*if(gets(nome));*/
+	if(scanf("%s", &nome));
 	preenchecmp(compras_mes);
 	preencheclientes(clientes_mes);
 	create_csv(nome,compras_mes,clientes_mes);
