@@ -10,7 +10,6 @@
 #include "catalogo_produtos.h"
 #include "compras.h"
 #include "contabilidade.h"
-#include "csv_final.h"
 
 void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra);
 void printCompras(Comp a);
