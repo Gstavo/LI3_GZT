@@ -3,6 +3,7 @@
 #define CATALOGO_CLIENTES_H
 
 #include "avl.h"
+#include "boolean.h"
 
 void initCatalogo_Clientes();
 
@@ -13,7 +14,7 @@ int codigos_Cliente();
 /* funçao a alterar(esta a fazer printf) */
 void codClientes(AVL array[]);
 
-int existeClnt(char* cliente, AAVL cl);
+BOOLEAN existeClnt(char* cliente, AAVL cl);
 
 void imprimir_cliente(char **lista, AAVL array, char letra);
 
