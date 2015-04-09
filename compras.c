@@ -6,9 +6,15 @@
 
 #define N_Codigos_Produto 200000
 
-HashTable initCompras()
-{
-	HashTable ht = initHashTable(2 * N_Codigos_Produto);
+Comp initCompra() {
+	Comp compra=malloc(sizeof(struct compras));
+	compra->codigo_produto = malloc(10*sizeof(char));
+	compra->codigo_cliente = malloc(10*sizeof(char));
+	return compra;
+}
+
+HashTable initHashCompras() {
+	HashTable ht=initHashTable(2*N_Codigos_Produto);
 	return ht;
 }
 

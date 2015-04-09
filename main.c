@@ -23,11 +23,13 @@ int main() {
 
 	begin=clock();
 
+	/*Inicializa a estrutura e a HashTable de compras, respetivamente*/
+	compra=initCompra();
+	ht=initHashCompras();
 
 	/*Query 1*/
 	leitura(clnt, prod, cont, ht, compra);
 
-	
 	puts("Deseja ir para as queries?? s/n");
 	if(scanf("%c",&scanmenu) && (scanmenu == 's' || scanmenu == 'S'))
 	{	

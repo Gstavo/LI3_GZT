@@ -14,10 +14,6 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra
 	char linha[MAX_LINE];
 	FILE *clientes, *produtos, *fcompras;
 
-	compra=malloc(sizeof(struct compras));
-	compra->codigo_produto = malloc(10*sizeof(char));
-	compra->codigo_cliente = malloc(10*sizeof(char));
-
 	/*Inicializa as estruturas*/
 	initCatalogo_Clientes(clnt);
 	initCatalogo_Produtos(prod);
@@ -37,9 +33,6 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra
 			trim(linha);
 			insertCatalogo_Produtos(prod, linha, cresceu);
 	}
-
-	ht = initCompras(ht);
-
 	for(i=0; fgets(linha, MAX_LINE, fcompras); i++) {
 			linha[strlen(linha)-1] = '\0';
 			trim(linha);
