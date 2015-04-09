@@ -42,3 +42,4 @@ all: avl.c leitura.c catalogo_clientes.c catalogo_produtos.c contabilidade.c com
 	make gesthip
 clean:
 	rm -f *.o
+	rm -f *.csv
