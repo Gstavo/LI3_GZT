@@ -18,7 +18,7 @@ typedef struct mensalidade{
 
 Mensalidade mDATA;
 
-int indexM(Comp c){return c->mes-1;}
+INDICE_MES indexM(Comp c){return c->mes-1;}
 
 void initContabilidade(Contabilidade c)
 {
@@ -45,25 +45,25 @@ void insertContabilidade(Contabilidade c,Comp compra,int* cresceu)
 }
 
 /*Devolve a faturacao desse mes*/
-double returnFact(int mes) {
+FACTORACAO_MES returnFact(int mes) {
 	return mDATA[mes].factura;
 }
 
-double returnFactTotal(){
+FACTORACAO_TOTAL returnFactTotal(){
 	int i;
-	double resultado=0;
+	FACTORACAO_TOTAL resultado=0;
 	for(i=0;i<MAX_MONTHS;i++)
 		resultado+=returnFact(i);
 	return resultado;
 }
 
 /*Devolve o numero de vendas efetuadas nesse mes*/
-int returnVendas(int mes) {
+VENDAS_MES returnVendas(int mes) {
 	return mDATA[mes].nvendas;
 }
 
 /*Devolve o numero de clientes nesse mes*/
-int returnClientes(int mes) {
+CLIENTES_MES returnClientes(int mes) {
 	return mDATA[mes].nclientes;
 }
 
@@ -71,7 +71,7 @@ int returnClientes(int mes) {
 int removeContabilidade(Contabilidade c,Comp compra)
 */
 
-int compras_Mes(int mes){return compras_mes[mes-1];}
+COMPRAS_MES compras_Mes(int mes){return compras_mes[mes-1];}
 
 /*Devolve o numero de compras de um cliente em cada mes*/
 void compMes(Contabilidade c, char* cliente, int resultado[]) {

@@ -47,20 +47,20 @@ void codClientes(AVL array[]){
 }
 
 
-int existeC_aux(char* cliente, AVL c)	{
+BOOLEAN existeC_aux(char* cliente, AVL c)	{
         int res;
-        if(c==NULL) res = 0;
+        if(c==NULL) res = FALSE;
 	else {
 
 		if(strncmp(cliente,(char*)c->info, 5)<0) res=existeC_aux(cliente, c->left);
              else if(strncmp(cliente,(char*)c->info, 5)>0) res=existeC_aux(cliente, c->right);
-                  else res=1;
+                  else res=TRUE;
         	}
 	return res;
 }
 
 
-int existeClnt(char* cliente, AAVL cl)
+BOOLEAN existeClnt(char* cliente, AAVL cl)
 {
 	return existeC_aux(cliente,cl[indexL(cliente)]);
 } 

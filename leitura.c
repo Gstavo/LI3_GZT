@@ -82,42 +82,42 @@ void printCompras(Comp a){
 	printf("Mes = %d\n",a->mes);
 }
 
-int validaMes(int mes){
-	if(mes>=1 && mes<=12) return 1;		/*Verdadeiro*/
-	else return 0;				/*Falso*/
+BOOLEAN validaMes(int mes){
+	if(mes>=1 && mes<=12) return TRUE;		/*Verdadeiro*/
+	else return FALSE;				/*Falso*/
 }
 
-int validaTipo(char a){
-	if(a=='P' || a=='N') return 1;		/*Verdadeiro*/
-	else return 0;				/*Falso*/
+BOOLEAN validaTipo(char a){
+	if(a=='P' || a=='N') return TRUE;		/*Verdadeiro*/
+	else return FALSE;				/*Falso*/
 }
 
-int validaUnidades(int unidade){
-	if(unidade>0 && unidade<200000) return 1;	/*Verdadeiro*/
-	else return 0;					/*Falso*/
+BOOLEAN validaUnidades(int unidade){
+	if(unidade>0 && unidade<200000) return TRUE;	/*Verdadeiro*/
+	else return FALSE;					/*Falso*/
 }
 
-int validaPreco(double p){
-	if(p>=0.0) return 1;		/*Verdadeiro*/
-	else return 0;			/*Falso*/
+BOOLEAN validaPreco(double p){
+	if(p>=0.0) return TRUE;		/*Verdadeiro*/
+	else return FALSE;			/*Falso*/
 }
 
-int isdigitN(char a) {return ((a >= 48) && (a<=57));}
+BOOLEAN isdigitN(char a) {return ((a >= 48) && (a<=57));}
 
-int validateClnt(Compras a, AAVL cl) {
-        if(existeClnt(a.codigo_cliente, cl)==0) return 0;
-        else return 1;
+BOOLEAN validateClnt(Compras a, AAVL cl) {
+        if(existeClnt(a.codigo_cliente, cl)==FALSE) return FALSE;
+        else return TRUE;
 }
 
-int validateProd(Compras a, AAVL pl) {
-	if(existeProd(a.codigo_produto, pl)==0) return 0;
-	else return 1;
+BOOLEAN validateProd(Compras a, AAVL pl) {
+	if(existeProd(a.codigo_produto, pl)==FALSE) return FALSE;
+	else return TRUE;
 }
 
-int validateCompras(Compras a) {
-	if(validaMes(a.mes)==0 || validaTipo(a.tipo)==0 || validaUnidades(a.quantidade)==0 || validaPreco(a.preco)==0)
-		return 0;
-	else return 1;
+BOOLEAN validateCompras(Compras a) {
+	if(validaMes(a.mes)==FALSE || validaTipo(a.tipo)==FALSE || validaUnidades(a.quantidade)==FALSE || validaPreco(a.preco)==FALSE)
+		return FALSE;
+	else return TRUE;
 } 
 
 void tokenizer(Comp a, char linha[MAX_LINE]){
@@ -158,7 +158,7 @@ void printTree(AVL p) {
 		printTree(p->right);
 	}
 }
-int length(char s[]) {
+COMPRIMENTO length(char s[]) {
        int i;
        for(i=0; s[i]!='\0'; i++);
        return i;

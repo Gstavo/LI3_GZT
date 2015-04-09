@@ -5,13 +5,12 @@
 #include "avl.h"
 #include "boolean.h"
 
-typedef int CODIGOS_PROD;
 
 void initCatalogo_Produtos();
 
 void insertCatalogo_Produtos(AAVL pl,char* code,int* cresceu);
 
-CODIGOS_PROD codigos_Produto();
+int codigos_Produto();
 
 /* A alterar ta a dar printf */
 void codProdutos(AVL array[]);

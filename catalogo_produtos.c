@@ -37,19 +37,19 @@ void codProdutos(AVL array[]){
         }
 }
 
-int existeP_aux(char* produto,AVL p)
+BOOLEAN existeP_aux(char* produto,AVL p)
 {
         int res;
-        if(p==NULL) res=0;
+        if(p==NULL) res=FALSE;
         else {
                 if(strncmp(produto,(char*)p->info, 6)<0) res=existeP_aux(produto, p->left);
              else if(strncmp(produto,(char*)p->info, 6)>0) res=existeP_aux(produto, p->right);
-                  else res=1;
+                  else res=TRUE;
         }
         return res;
 }
 
-int existeProd(char* produto, AAVL pl) 
+BOOLEAN existeProd(char* produto, AAVL pl) 
 {
 	return existeP_aux(produto,pl[indexL(produto)]);
 }
