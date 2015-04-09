@@ -16,7 +16,7 @@ int getFirstcolisions();
 
 int getRemakes();
 
-HashTable initHashTable( HashTable ht,int n);
+HashTable initHashTable(int n);
 
 HashTable insertHashTable( HashTable ht, AVL a,int* cresceu);
 

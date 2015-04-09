@@ -34,8 +34,9 @@ int getRemakes(){return remakes;}
 
 
 /* cria uma avl de max_size n */
-HashTable initHashTable( HashTable ht,int n)
+HashTable initHashTable(int n)
 {
+	HashTable ht;
 	int i;
 	ht = malloc(sizeof(struct hashtable));
 	ht->table = calloc(n,sizeof(AVL));
@@ -101,6 +102,17 @@ HashTable insertHashTable( HashTable ht, AVL a,int* cresceu)
 	return ht;
 }
 
+/*
+AVL searchHash(HashTable ht,char* code)
+{
+	int i = hash(code);
+	for(; ht->table[i] ; i = (i+1) % ht->max_size) 
+		if(strcmp(code,ht->table[i]->codigo_produto)==0)
+		return ht->table[i];
+	return NULL;
+}
+*/
+
 /* da hash à primeira avl e depois insere as avls todas ligadas no new */
 void insertRemake(HashTable new,AVL a)
 {
@@ -122,8 +134,7 @@ void insertRemake(HashTable new,AVL a)
 
 HashTable remakeHash(HashTable ht,int N){
 	int i;
-	HashTable new=NULL;
-	new = initHashTable(new,N);
+	HashTable new = initHashTable(N);
 	new->size = ht->size;
 	for(i=0;i<ht->max_size;i++)
 		if(ht->table[i]) insertRemake(new,ht->table[i]);
