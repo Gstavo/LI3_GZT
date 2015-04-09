@@ -19,6 +19,8 @@ int main() {
 	HashTable ht;
 	Comp compra;
 	clock_t begin, end;
+	clock_t begQue1;begQue2;begQue5;begQue6;begQue7;begQue11;endQue1;endQue2;endQue5;endQue6;endQue7;endQue11;
+	double time_spent_Q1;time_spent_Q2;time_spent_Q5;time_spent_Q6;time_spent_Q7;time_spent_Q11;
 	char scanmenu;
 
 	begin=clock();
@@ -31,20 +33,25 @@ int main() {
 	initContabilidade(cont);
 
 	/*Query 1*/
+	begQue1=clock();
 	leitura(clnt, prod, cont, ht, compra);
+	endQue1=clock();
 
 	puts("Deseja ir para as queries?? s/n");
 	if(scanf("%c",&scanmenu) && (scanmenu == 's' || scanmenu == 'S'))
 	{	
 
 	/*Query 2*/
+	begQue2=clock();
 	printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
 	codClientes(clnt);
 	printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n\n");
 	codProdutos(prod);
 	printf("\n");
+	endQue2=clock();
 
 	/*Query 5*/
+	begQue5=clock();
 	printf("INSIRA UM CLIENTE: ");
 	if(gets(cl));
 	compMes(cont, cl, comprasMes);
@@ -63,15 +70,19 @@ int main() {
 		for(i=0; i<12; i++) fprintf(compras_cliente, "%d: %d\n", (i+1), comprasMes[i]);
 		fclose(compras_cliente);
 	}
+	endQue5=clock();
 
 	/*Query 6*/
+	begQue6=clock();
 	printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
 	if(scanf("%c", &escolha));
 	if((escolha>65 && escolha<90) || (escolha>97 && escolha<122)) {	
 		imprimir_cliente(lista_letra, clnt, escolha);	
 	}
+	endQue6=clock();
 
 	/*Query 7*/
+	begQue7=clock();
 	printf("\nINSIRA UM INTERVALO DE MESES:\n");
 	printf("MES INICIAL: "); if(scanf("%d", &prim));
 	printf("MES FINAL: "); if(scanf("%d", &ult));
@@ -82,19 +93,35 @@ int main() {
 	printf("\n");
 	printf("TOTAL DE VENDAS EFETUADAS NESSE INTERVALO: %d\n", vendas);
 	printf("FATURACAO TOTAL NESSE INTERVALO: %.2f\n\n", fact);
+	endQue7=clock();
 
 	/*Query 11*/
+	begQue11=clock();
 	printf("\n INSIRA O NOME DO FICHEIRO .CSV QUE PRETENDE CRIAR: ");
 	/*if(gets(nome));*/
 	preenchecmp(compras_mes);
 	preencheclientes(clientes_mes);
 	create_csv(nome,compras_mes,clientes_mes);
+	endQue11=clock();
 
 	}
 	end=clock();
 	time_spent=(double)(end-begin)/CLOCKS_PER_SEC;
 	printf("Tempo de execucao: %.2f segundos\n\n", time_spent);
-	
+	time_spent_Q1=(double)(endQue1-begQue1)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 1: %.2f segundos\n\n", time_spent_Q1);	
+	time_spent_Q2=(double)(endQue2-begQue2)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 2: %.2f segundos\n\n", time_spent_Q2);	
+	time_spent_Q5=(double)(endQue5-begQue5)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 5: %.2f segundos\n\n", time_spent_Q5);
+	time_spent_Q6=(double)(endQue6-begQue6)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 6: %.2f segundos\n\n", time_spent_Q6);
+	time_spent_Q7=(double)(endQue7-begQue7)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 7: %.2f segundos\n\n", time_spent_Q7);	
+	time_spent_Q11=(double)(endQue11-begQue11)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 11: %.2f segundos\n\n", time_spent_Q11);	
+
+
 	return 0;
 }
 	
