@@ -26,7 +26,7 @@ void insertContabilidade(Contabilidade c,Comp compra,int* cresceu);
 
 FACTORACAO_TOTAL returnFactTotal();
 
-FACTORACAO_MES returnFact(int mes);
+FACTORACAO_TOTAL returnFact(int mes);
 
 VENDAS_MES returnVendas(int mes);
 

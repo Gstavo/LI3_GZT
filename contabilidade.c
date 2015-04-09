@@ -45,7 +45,7 @@ void insertContabilidade(Contabilidade c,Comp compra,int* cresceu)
 }
 
 /*Devolve a faturacao desse mes*/
-FACTORACAO_MES returnFact(int mes) {
+FACTORACAO_TOTAL returnFact(int mes) {
 	return mDATA[mes].factura;
 }
 

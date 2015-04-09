@@ -9,7 +9,8 @@
 #include "leitura.h"
 
 void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra) {
-	int i, *cresceu=(int*) malloc(sizeof(int)), validaClnt=0, validaProd=0, validaCmpr=0, clntInv=0, prodInv=0;	
+	int i, *cresceu=(int*) malloc(sizeof(int)), clntInv=0, prodInv=0;	
+	BOOLEAN validaClnt=FALSE, validaProd=FALSE, validaCmpr=FALSE;
 	int countCompras=0, compras_invalidas=0;
 	char linha[MAX_LINE];
 	FILE *clientes, *produtos, *fcompras;
@@ -35,9 +36,9 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra
 			validaClnt=validateClnt((*compra), clnt);
 			validaProd=validateProd((*compra), prod);
 			validaCmpr=validateCompras((*compra));
-			if(validaClnt==0) clntInv++;
-			if(validaProd==0) prodInv++;
-			if(validaClnt==0 || validaProd==0 || validaCmpr==0) compras_invalidas++;
+			if(validaClnt==FALSE) clntInv++;
+			if(validaProd==FALSE) prodInv++;
+			if(validaClnt==FALSE || validaProd==FALSE || validaCmpr==FALSE) compras_invalidas++;
 			else {
 				insertContabilidade(cont,compra,cresceu);
 				ht = insertComprasHashCP(ht,compra,cresceu);	

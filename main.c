@@ -10,8 +10,10 @@
 
 
 int main() {
-	int comprasMes[12], optn, prim, ult, vendas=0,i, compras_mes[12][1], clientes_mes[12][1];
-	double time_spent, fact=0;
+	int comprasMes[12], optn, prim, ult, i, compras_mes[12][1], clientes_mes[12][1];
+	VENDAS_MES vendas=0;
+	double time_spent;
+	FACTORACAO_TOTAL fact=0;
 	char *cl=(char*) malloc(5*sizeof(char*)), escolha, **lista_letra=(char**) malloc(MAX*sizeof(char**)), nome[100];
 	FILE *compras_cliente;
 	AAVL clnt, prod;
@@ -19,8 +21,8 @@ int main() {
 	HashTable ht;
 	Comp compra;
 	clock_t begin, end;
-	clock_t begQue1;begQue2;begQue5;begQue6;begQue7;begQue11;endQue1;endQue2;endQue5;endQue6;endQue7;endQue11;
-	double time_spent_Q1;time_spent_Q2;time_spent_Q5;time_spent_Q6;time_spent_Q7;time_spent_Q11;
+	clock_t begQue1;begQue2;begQue3;begQue4;begQue5;begQue6;begQue7;begQue8;begQue9;begQue10;begQue11;begQue12;begQue13;begQue14;endQue1;endQue2;endQue3;endQue4;endQue5;endQue6;endQue7;endQue8;endQue9;endQue10;endQue11;endQue12;endQue13;endQue14;
+	double time_spent_Q1;time_spent_Q2;time_spent_Q3;time_spent_Q4;time_spent_Q5;time_spent_Q6;time_spent_Q7;time_spent_Q8;time_spent_Q9;time_spent_Q10;time_spent_Q11;time_spent_Q12;time_spent_Q13;time_spent_Q14;
 	char scanmenu;
 
 	begin=clock();
@@ -111,16 +113,37 @@ int main() {
 	time_spent_Q1=(double)(endQue1-begQue1)/CLOCKS_PER_SEC;
 	printf("Tempo de execucao Query 1: %.2f segundos\n\n", time_spent_Q1);	
 	time_spent_Q2=(double)(endQue2-begQue2)/CLOCKS_PER_SEC;
-	printf("Tempo de execucao Query 2: %.2f segundos\n\n", time_spent_Q2);	
+	printf("Tempo de execucao Query 2: %.2f segundos\n\n", time_spent_Q2);
+	/*
+	time_spent_Q3=(double)(endQue3-begQue3)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 3: %.2f segundos\n\n", time_spent_Q3);	
+	time_spent_Q4=(double)(endQue4-begQue4)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 4: %.2f segundos\n\n", time_spent_Q4);	
+	*/
 	time_spent_Q5=(double)(endQue5-begQue5)/CLOCKS_PER_SEC;
 	printf("Tempo de execucao Query 5: %.2f segundos\n\n", time_spent_Q5);
 	time_spent_Q6=(double)(endQue6-begQue6)/CLOCKS_PER_SEC;
 	printf("Tempo de execucao Query 6: %.2f segundos\n\n", time_spent_Q6);
 	time_spent_Q7=(double)(endQue7-begQue7)/CLOCKS_PER_SEC;
 	printf("Tempo de execucao Query 7: %.2f segundos\n\n", time_spent_Q7);	
+	/*
+	time_spent_Q8=(double)(endQue8-begQue8)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 8: %.2f segundos\n\n", time_spent_Q8);
+	time_spent_Q9=(double)(endQue9-begQue9)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 9: %.2f segundos\n\n", time_spent_Q9);
+	time_spent_Q10=(double)(endQue10-begQue10)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 10: %.2f segundos\n\n", time_spent_Q10);	
+	*/
 	time_spent_Q11=(double)(endQue11-begQue11)/CLOCKS_PER_SEC;
-	printf("Tempo de execucao Query 11: %.2f segundos\n\n", time_spent_Q11);	
-
+	printf("Tempo de execucao Query 11: %.2f segundos\n\n", time_spent_Q11);
+	/*
+	time_spent_Q12=(double)(endQue12-begQue12)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 12: %.2f segundos\n\n", time_spent_Q12);
+	time_spent_Q13=(double)(endQue13-begQue13)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 13: %.2f segundos\n\n", time_spent_Q13);
+	time_spent_Q14=(double)(endQue14-begQue14)/CLOCKS_PER_SEC;
+	printf("Tempo de execucao Query 14: %.2f segundos\n\n", time_spent_Q14);	
+	*/
 
 	return 0;
 }
