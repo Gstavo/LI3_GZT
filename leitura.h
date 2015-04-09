@@ -10,20 +10,23 @@
 #include "catalogo_produtos.h"
 #include "compras.h"
 #include "contabilidade.h"
+#include "boolean.h"
+
+typedef int COMPRIMENTO;
 
 void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra);
 void printCompras(Comp a);
-int validaMes(int mes);
-int validaTipo(char a);
-int validaUnidades(int unidade);
-int validaPreco(double p);
-int isdigitN(char a);
-int validateClnt(Compras a, AAVL c);
-int validateProd(Compras a, AAVL p);
-int validateCompras(Compras a);
+BOOLEAN validaMes(int mes);
+BOOLEAN validaTipo(char a);
+BOOLEAN validaUnidades(int unidade);
+BOOLEAN validaPreco(double p);
+BOOLEAN isdigitN(char a);
+BOOLEAN validateClnt(Compras a, AAVL c);
+BOOLEAN validateProd(Compras a, AAVL p);
+BOOLEAN validateCompras(Compras a);
 void tokenizer(Comp a, char linha[MAX_LINE]);
 void printTree(AVL p);
-int length(char s[]);
+COMPRIMENTO length(char s[]);
 void shiftleft(char* s,int i);
 void trim(char* s);
 

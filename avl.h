@@ -11,7 +11,9 @@
 #define Compras_Ord_CP 3
 #define Compras_Ord_CC 4 
 
-
+typedef int INDICE_CODIGOS;
+typedef int NUM_NODOS;
+typedef int NUM_OCORRENCIAS_CODE;
 typedef enum balancefactor {LH, EH, RH} BalanceFactor;
 
 typedef struct avl_node {
@@ -43,9 +45,9 @@ AVL balanceLeft(AVL p);
 AVL rotateRight(AVL p);
 AVL rotateLeft(AVL p);
 AVL devolveAVL(AVL array[], char a);
-int contarNodos(AVL aux);
-int indexL(char* code);
-int avl_count(AVL c, char* code);
+NUM_NODOS contarNodos(AVL aux);
+INDICE_CODIGOS indexL(char* code);
+NUM_OCORRENCIAS_CODE avl_count(AVL c, char* code);
 void guardArray(AVL aux, char **lista, int index);
 
 #endif

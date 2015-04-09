@@ -205,7 +205,7 @@ AVL devolveAVL(AVL array[], char a){
 }
 
 
-int contarNodos(AVL aux){
+NUM_NODOS contarNodos(AVL aux){
    if(aux == NULL)
         return 0;
    else
@@ -228,11 +228,11 @@ void guardArray(AVL aux, char **lista, int index) {	/*index corresponde ao indic
 	}
 }
 
-int indexL(char* code) {return code[0] - 65;}
+INDICE_CODIGOS indexL(char* code) {return code[0] - 65;}
 
 /*Numero de produtos por cliente ou vice-versa (para ja so funciona para clientes)*/
-int avl_count(AVL c, char* code) {
-	int res;
+NUM_OCORRENCIAS_CODE avl_count(AVL c, char* code) {
+	NUM_OCORRENCIAS_CODE res;
 	if(c==NULL) res=0;
 	else {
 		Comp info=(Comp) c->info;
