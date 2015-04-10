@@ -47,7 +47,8 @@ AVL rotateLeft(AVL p);
 AVL devolveAVL(AVL array[], char a);
 NUM_NODOS contarNodos(AVL aux);
 INDICE_CODIGOS indexL(char* code);
-NUM_OCORRENCIAS_CODE avl_count(AVL c, char* code);
+NUM_OCORRENCIAS_CODE avl_count(AVL c, char* code, int tipo, char mode);
 void guardArray(AVL aux, char **lista, int index);
+double avl_countFact(AVL c, char* code);
 
 #endif

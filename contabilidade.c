@@ -33,15 +33,14 @@ void initContabilidade(Contabilidade c)
 	}
 }
 
-void insertContabilidade(Contabilidade c,Comp compra,int* cresceu)
-{
-	int iM = indexM(compra);
-	int iL = indexL(compra->codigo_cliente);
-	c[iM][iL] = insert(c[iM][iL],compra,cresceu,Compras_Ord_CC);
+void insertContabilidade(Contabilidade contClnt, Contabilidade contProd, Comp compra, int* cresceu) {
+	int iM=indexM(compra), iLC=indexL(compra->codigo_cliente), iLP=indexL(compra->codigo_produto);
+	contClnt[iM][iLC]=insert(contClnt[iM][iLC], compra, cresceu, Compras_Ord_CC);
+	contProd[iM][iLP]=insert(contProd[iM][iLP], compra, cresceu, Compras_Ord_CP);
 	compras_mes[iM]++;
-	mDATA[iM].nvendas+= compra->quantidade;
+	mDATA[iM].nvendas+=compra->quantidade;
 	mDATA[iM].nclientes+=1;
-	mDATA[iM].factura+= compra->quantidade * compra->preco; 
+	mDATA[iM].factura+=compra->quantidade * compra->preco; 
 }
 
 /*Devolve a faturacao desse mes*/
@@ -77,7 +76,7 @@ COMPRAS_MES compras_Mes(int mes){return compras_mes[mes-1];}
 void compMes(Contabilidade c, char* cliente, int resultado[]) {
 	int iM;
 	int iL=indexL(cliente);
-	for(iM=0; iM < MAX_MONTHS; iM++) resultado[iM]=avl_count(c[iM][iL],cliente);	
+	for(iM=0; iM < MAX_MONTHS; iM++) resultado[iM]=avl_count(c[iM][iL], cliente, Compras_Ord_CC, 'N');	
 }
 
 /*12 linhas que representam os 12 meses e so tem 1 coluna com o respectivo valor total*/
@@ -108,6 +107,19 @@ void create_csv(char *nome_ficheiro, int compras_mes[12][1], int clientes_mes[12
 	printf("\n%s :Ficheiro Criado com Sucesso!!!\n",nome_ficheiro);
 }
 
+/*Devolve o numero de compras do tipo modo nesse mes*/
+int comprasModo(Contabilidade contProd, int mes, char *code, char modo) {
+	int iL=indexL(code), res;
+	res=avl_count(contProd[mes][iL], code, Compras_Ord_CP, modo);
+	return res;
+}
+
+/*Devolve a faturacao total de um produto num dado mes*/
+double totalFactProdMes(Contabilidade contProd, int mes, char *code) {
+	int iL=indexL(code), res;
+	res=avl_countFact(contProd[mes][iL], code);
+	return res;
+}
 
 /*
 	Query 9 : 

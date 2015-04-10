@@ -230,15 +230,35 @@ void guardArray(AVL aux, char **lista, int index) {	/*index corresponde ao indic
 
 INDICE_CODIGOS indexL(char* code) {return code[0] - 65;}
 
-/*Numero de produtos por cliente ou vice-versa (para ja so funciona para clientes)*/
-NUM_OCORRENCIAS_CODE avl_count(AVL c, char* code) {
+/*Numero de produtos por cliente ou numero de produtos por tipo de compra*/
+NUM_OCORRENCIAS_CODE avl_count(AVL c, char* code, int tipo, char mode) {
 	NUM_OCORRENCIAS_CODE res;
+	if(c==NULL) res=0;
+	else if(tipo==Compras_Ord_CC) {
+		Comp info=(Comp) c->info;
+		if(strncmp(info->codigo_cliente, code, 5)>0) res=avl_count(c->left, code, tipo, mode);
+		else if(strncmp(info->codigo_cliente, code, 5)<0) res=avl_count(c->right, code, tipo, mode);
+		else res=1+avl_count(c->right, code, tipo, mode);	/*iguais foram inseridos na AVL direita*/
+	}
+	else {
+		Comp info=(Comp) c->info;
+		if(strncmp(info->codigo_produto, code, 6)>0) res=avl_count(c->left, code, tipo, mode);
+		else if(strncmp(info->codigo_produto, code, 6)<0) res=avl_count(c->right, code, tipo, mode);
+		else if(strncmp(info->codigo_produto, code, 6)==0 && mode==info->tipo) res=1+avl_count(c->right, code, tipo, mode);
+		else res=avl_count(c->right, code, tipo, mode);
+	}
+	return res;
+}
+
+/*Retorna a faturacao de um produto*/
+double avl_countFact(AVL c, char* code) {
+	double res;
 	if(c==NULL) res=0;
 	else {
 		Comp info=(Comp) c->info;
-		if(strncmp(info->codigo_cliente, code, 5)>0) res=avl_count(c->left, code);
-		else if(strncmp(info->codigo_cliente, code, 5)<0) res=avl_count(c->right, code);
-		else res=1+avl_count(c->right, code);	/*iguais foram inseridos na AVL direita*/
+		if(strncmp(info->codigo_produto, code, 6)>0) res=avl_countFact(c->left, code);
+		else if(strncmp(info->codigo_produto, code, 6)<0) res=avl_countFact(c->right, code);
+		else res=(info->preco*info->quantidade)+avl_countFact(c->right, code);
 	}
 	return res;
 }

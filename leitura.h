@@ -14,7 +14,7 @@
 
 typedef int COMPRIMENTO;
 
-void leitura(AAVL clnt, AAVL prod, Contabilidade cont, HashTable ht, Comp compra);
+void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, Contabilidade contProd, HashTable ht, Comp compra);
 void printCompras(Comp a);
 BOOLEAN validaMes(int mes);
 BOOLEAN validaTipo(char a);
