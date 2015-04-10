@@ -10,7 +10,7 @@
 
 
 int main() {
-	int comprasMes[12], optn, prim, ult, i, compras_mes[12][1], clientes_mes[12][1], query, mes;
+	int comprasMes[12], optn, prim, ult, i, j, compras_mes[12][1], clientes_mes[12][1], query, mes;
 	int compModeN, compModeP;
 	double time_spent;
 	VENDAS_MES vendas=0;
@@ -25,6 +25,7 @@ int main() {
 	Comp compra;
 	clock_t begin, end;
 
+	/*Nome de teste eqnquanto nao se consegue inserir pelo stdin*/
 	code="ZC3371\0";
 	
 	begin=clock();
@@ -51,7 +52,9 @@ int main() {
 		}
 		else if(query==3) {	/*Funcional*/
 			printf("\nINSIRA UM MES: "); if(scanf("%d", &mes));
-			printf("INSIRA UM CODIGO DE PRODUTO: "); /*gets(code);*/
+			printf("INSIRA UM CODIGO DE PRODUTO: ");
+			/*for(i=0; i<6; i++) code[i]=getchar();
+			getchar();*/
 			if(validaMes(mes)==FALSE || existeProd(code, prod)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
 			else {
 				compModeN=comprasModo(contProd, (mes-1), code, 'N');
@@ -64,7 +67,8 @@ int main() {
 		}
 		else if(query==5) {	/*Funcional*/
 			printf("INSIRA UM CLIENTE: ");
-			/*gets(cl);*/
+			/*for(i=0; i<5; i++) code[i]=getchar();
+			getchar();*/	
 			compMes(contClnt, code, comprasMes);
 			printf("DESEJA GUARDAR O RESULTADO NUM FICHEIRO DE TEXTO OU IMPRIMIR NO ECRA?\n0 - FICHEIRO, 1 - ECRA: ");
 			if(scanf("%d", &optn)) {
@@ -83,10 +87,14 @@ int main() {
 				}
 			}
 		}
-		else if(query==6) {	/*Funcional*/
+		else if(query==6) {	/*Seg.Fault na impressao*/
 			printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
-			/*scanf("%c", &escolha);*/
-			if((escolha>65 && escolha<90) || (escolha>97 && escolha<122)) imprimir_cliente(lista_letra, clnt, escolha);	
+			/*escolha=getchar();*/
+			imprimir_cliente(lista_letra, clnt, escolha);	
+			for(i=0; strlen(lista_letra[i])!=0; i++) {
+				for(j=0; j<5; j++) printf("%c", lista_letra[i][j]);
+				putchar('\n');
+			}
 		}
 		else if(query==7) {	/*Funcional*/
 			printf("\nINSIRA UM INTERVALO DE MESES:\n");
@@ -100,9 +108,8 @@ int main() {
 			printf("TOTAL DE VENDAS EFETUADAS NESSE INTERVALO: %d\n", vendas);
 			printf("FATURACAO TOTAL NESSE INTERVALO: %.2f\n\n", fact);
 		}
-		else if(query==11) {	/*Funcional*/
+		else if(query==11) {	/*Funcional (nome sera query11, dado de forma predefinida)*/
 			printf("\nINSIRA O NOME DO FICHEIRO .CSV QUE PRETENDE CRIAR: ");
-			/*gets(nome);*/
 			preenchecmp(compras_mes);
 			preencheclientes(clientes_mes);
 			create_csv(nome, compras_mes, clientes_mes);
