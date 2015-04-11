@@ -2,6 +2,33 @@
 
 #define HASHTABLE_H
 
+typedef struct cpinfolist{
+        char* cliente;
+        char tipo;
+        struct cpinfolist *next;
+}cpinfolist;
+
+typedef cpinfolist* CpInfoList;
+
+typedef struct cpinfo{
+        int vendas;
+        int clientes;
+        char* produto;
+        CpInfoList first;
+        CpInfoList last;
+}cpinfo;
+
+typedef cpinfo* CpInfo;
+
+typedef struct hashtable{
+        CpInfo* table;
+        int max_size;
+        int size;
+} Hashtable;
+
+typedef Hashtable* HashTable;
+
+
 #include "avl.h"
 
 #include "compras.h"
@@ -12,23 +39,20 @@ int getColisions();
 
 int getNoncolisions();
 
-int getFirstcolisions();
+float getColisionsRate();
 
 int getRemakes();
 
 HashTable initHashTable(int n);
 
-HashTable insertHashTable( HashTable ht, AVL a,int* cresceu);
+HashTable insertHashTable( HashTable ht, Comp compra);
+
+CpInfo searchHash(HashTable ht,char* code);
 
 HashTable remakeHash(HashTable ht,int N);
 
-void freeAVL(AVL p);
 
 unsigned int hash(char* str);
 
-/*
-
-int hash(char* code,int max);
-*/
 
 #endif

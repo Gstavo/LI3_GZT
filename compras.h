@@ -3,10 +3,6 @@
 
 #define COMPRAS_H
 
-#include "hashtable.h"
-#include "avl.h"
-#include "catalogo_clientes.h"
-#include "catalogo_produtos.h"
 
 
 typedef struct compras{
@@ -20,12 +16,20 @@ typedef struct compras{
 
 typedef struct compras* Comp;
 
+#include "avl.h"
+#include "hashtable.h"
+#include "catalogo_clientes.h"
+#include "catalogo_produtos.h"
+
 Comp initCompra();
+
 HashTable initHashCompras();
-
-HashTable insertComprasHashCP(HashTable ht,Comp compra,int* cresceu);
-
+/*
+HashTable insertComprasHashCP(HashTable ht,Comp compra);
+*/
 void insertComprasCP(AAVL a,Comp compra,int* cresceu);
+
+CpInfoList query8(HashTable ht,char* cp);
 
 void compracpy(Comp dest,Comp src);
 

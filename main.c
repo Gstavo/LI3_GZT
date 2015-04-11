@@ -17,6 +17,7 @@ int main() {
 	double fact=0;
 	char *code=(char*) malloc(10*sizeof(char*)), **lista_letra=(char**) malloc(MAX*sizeof(char**));
 	char nome[30]="query11\0";
+	char cp[10],sn;/*Q 8*/ 
 	char escolha='A';
 	FILE *compras_cliente;
 	AAVL clnt, prod;
@@ -107,6 +108,27 @@ int main() {
 			printf("\n");
 			printf("TOTAL DE VENDAS EFETUADAS NESSE INTERVALO: %d\n", vendas);
 			printf("FATURACAO TOTAL NESSE INTERVALO: %.2f\n\n", fact);
+		}
+		else if(query==8){
+			printf("\nInsira um codigo de produto\n");
+			if(scanf("%s",cp))
+				{
+				CpInfoList tmp = query8(ht,cp);
+				if(getRemakes()) puts("A ht foi realocada n vai funcionar direito");
+				if(!tmp) puts("Produto sem actividade");
+				else{
+					for(i=0;tmp && i<25;i++){
+						printf("Cliente %s  Tipo %c\n",tmp->cliente,tmp->tipo);
+						tmp = tmp->next;
+						if(i==24 && tmp)
+						{
+							puts("Deseja aceder a mais informação? s/n");
+							if(scanf("%c",&sn))
+							if(sn=='s'||sn=='S') i=-1;
+						}
+						}
+					}
+				}
 		}
 		else if(query==11) {	/*Funcional (nome sera query11, dado de forma predefinida)*/
 			printf("\nINSIRA O NOME DO FICHEIRO .CSV QUE PRETENDE CRIAR: ");

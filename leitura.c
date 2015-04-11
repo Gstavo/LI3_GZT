@@ -41,7 +41,7 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, Contabilidade contPro
 			if(validaClnt==FALSE || validaProd==FALSE || validaCmpr==FALSE) compras_invalidas++;
 			else {
 				insertContabilidade(contClnt, contProd, compra, cresceu);
-				ht = insertComprasHashCP(ht,compra,cresceu);	
+				ht = insertHashTable(ht,compra);	
 			/* Futuramente vai inserir a compra nas estruturas de dados em compras.c tambemaqui */
 			}
 			countCompras++;
@@ -51,14 +51,15 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, Contabilidade contPro
 	fclose(produtos);
 	fclose(fcompras);
 
-	/* Hash - Compras (TESTE) *//*
+	/* Hash - Compras (TESTE) */
+	/*
 	printf("Numero de vezes de realocaçao da hash : %d\n",getRemakes());
 	printf("Tamanho da hash : %d\n",ht->size);
 	printf("Numero de não colisoes %d\n",getNoncolisions());
-	printf("Numero de colisoes na primeira inserçao %d\n",getFirstcolisions());
 	printf("Numero de colisões %d\n",getColisions());
-	printf("Percentagem de hash codes sem colisao %f\n",(float)getNoncolisions() / ht->size);
-	printf("Codigos de produtos inseridos na hashtable: %d\n",getCodigosProdutosUsados());*/
+	printf("Percentagem de hash codes em colisao %f\n", getColisionsRate());
+	printf("Codigos de produtos inseridos na hashtable: %d\n",getCodigosProdutosUsados());
+	*/
 	/* Depois tiro isto da hash*/
 
 

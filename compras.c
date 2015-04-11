@@ -14,7 +14,7 @@ Comp initCompra() {
 }
 
 HashTable initHashCompras() {
-	HashTable ht=initHashTable(2*N_Codigos_Produto);
+	HashTable ht=initHashTable(4*N_Codigos_Produto);
 	return ht;
 }
 
@@ -22,54 +22,24 @@ void insertComprasCP(AAVL a,Comp compra,int* cresceu)
 {
 	insert(a[indexL(compra->codigo_produto)],compra,cresceu,Compras_Ord_CP);
 }
-
-HashTable insertComprasHashCP(HashTable ht,Comp compra,int* cresceu)
+/*
+HashTable insertComprasHashCP(HashTable ht,Comp compra)
 {
-	AVL a = malloc(sizeof(struct avl_node));
-	Comp casted;
-	casted = a->info = malloc(sizeof(struct compras));
-	casted->codigo_produto = malloc(10*sizeof(char));	
-	casted->codigo_cliente = malloc(10*sizeof(char));	
-	a->right = a->left = NULL;
-	compracpy(a->info,compra);
-	ht = insertHashTable(ht,a,cresceu);
+	ht = insertHashTable(ht,compra);
 	return ht;
 }
+*/
 
 /*
-	Query 9: show lista de CC distiguindo N/P
+	Query 8: show lista de CC distiguindo N/P
 		de um dado CP
-
-	typedef struct cc_pn{
-		char* codigo_cliente;
-		char PN;
-		struct cc_pn next*;
-	} *CC_PN;
-
-	CC_PN query9(HashTable ht,char* cp){
-		AVL a = searchHash(ht,cp);
-		if(a==NULL) return NULL;
-		CC_PN inicio;
-		query9_aux(a,inicio);			
-		
-		return inicio;			
-
-	}
-	CC_PN query9_aux(AVL a,CC_PN inicio){
-		CC_PN last;
-		if(a==NULL) inicio->next = NULL;
-		else{
-			Comp casted = (Comp) a->info;
-                        inicio = malloc(sizeof(struct cc_pn));
-                        strcpy(inicio->codigo_cliente,casted->codigo_cliente);                          inicio->PN = casted->tipo;
-			last = query9_aux(a->left,inicio);
-			last = query9_aux(a->right,last);
-			}
-		return last;
-	}	
-
-
 */
+
+CpInfoList query8(HashTable ht,char* cp){
+	CpInfo cpinfo = searchHash(ht,cp);
+	if(!cpinfo) return NULL;
+	return cpinfo->first;			
+	}
 
 void compracpy(Comp dest,Comp src){
 	strcpy(dest->codigo_produto,src->codigo_produto);
