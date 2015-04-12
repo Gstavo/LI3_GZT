@@ -228,6 +228,12 @@ void guardArray(AVL aux, char **lista, int index) {	/*index corresponde ao indic
 	}
 }
 
+void limpaBuffer(char **buf){
+	int i=0;
+	/*20 é o tamanho do buffer definido na main,ou seja só permite guardar os 20 resultados anteriores*/
+	for(i=0; i<20; i++){buf[i]=NULL;}
+}
+
 INDICE_CODIGOS indexL(char* code) {return code[0] - 65;}
 
 /*Numero de produtos por cliente ou numero de produtos por tipo de compra*/

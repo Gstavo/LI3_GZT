@@ -15,10 +15,11 @@ int main() {
 	double time_spent;
 	VENDAS_MES vendas=0;
 	double fact=0;
-	char *code=(char*) malloc(10*sizeof(char*)), **lista_letra=(char**) malloc(MAX*sizeof(char**));
+	char *code=(char*) malloc(10*sizeof(char*)), **lista_letra=(char**) malloc(MAX*sizeof(char**)) , **buffer=(char**) malloc(20*sizeof(char**)); /*O buffer é igual a lista_letra e vai armazenar 20 resultados que já foram vistos e que permitirá ao utilizador voltar a ver mais tarde*/
 	char nome[30]="query11\0";
 	char cp[10],sn;/*Q 8*/ 
-	char escolha='A';
+	/*char escolha='A';*/
+	char escolha;
 	FILE *compras_cliente;
 	AAVL clnt, prod;
 	Contabilidade contClnt, contProd;	/*contProd - contabilidade por codigo de produto*/
@@ -91,11 +92,53 @@ int main() {
 		else if(query==6) {	/*Seg.Fault na impressao*/
 			printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
 			/*escolha=getchar();*/
+			if(scanf("%c",escolha)){
 			imprimir_cliente(lista_letra, clnt, escolha);	
+			limpaBuffer(buffer);
+			/*Só mostra 20 primeiros resultados do char escolha*/
+			for(i=0; strlen(lista_letra[i])<20; i++) {
+				for(j=0; j<5; j++) {
+					buffer[i][j]=lista_letra[i][j];/*Vai guardando em buffer*/
+					printf("%c", lista_letra[i][j]);
+				}
+				putchar('\n');
+			}	
+			}		
+			printf("\nDESEJA CONTINUAR? SE NÃO INSIRA A LETRA S.");
+			if(scanf("%c",escolha)){
+				if(escolha=='s' || escolha=='S') break;
+				else{ 
+					printf("\nSE DESEJAR VOLTAR A VER OS CODIGOS DE CLIENTES ANTERIORES INSIRA A LETRA A.\nSE DESEJAR VER OS PRÓXIMOS 20 RESULTADOS INSIRA A LETRA P");
+					if(scanf("%c",escolha)){
+					if(escolha=='p' || escolha=='P') {/*mais 20 resultados*/
+						for(; strlen(lista_letra[i])<20; i++) {/*receberá o i anterior*/
+							for(j=0; j<5; j++) {
+								limpaBuffer(buffer);
+								buffer[i][j]=lista_letra[i][j];/*Vai guardando em buffer*/
+								printf("%c", lista_letra[i][j]);
+							}
+							putchar('\n');
+						}	
+					}
+					if(escolha=='a' || escolha=='A'){/*mostrar só o buffer*/
+						for(i=0; strlen(buffer[i])!=0; i++) {
+							for(j=0; j<5; j++) printf("%c", buffer[i][j]);
+							putchar('\n');
+						}
+					}
+
+					}
+			}
+
+
+
+			/*
 			for(i=0; strlen(lista_letra[i])!=0; i++) {
 				for(j=0; j<5; j++) printf("%c", lista_letra[i][j]);
 				putchar('\n');
 			}
+			*/
+
 		}
 		else if(query==7) {	/*Funcional*/
 			printf("\nINSIRA UM INTERVALO DE MESES:\n");
