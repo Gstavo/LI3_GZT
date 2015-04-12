@@ -103,13 +103,14 @@ int main() {
 				}
 				putchar('\n');
 			}	
+
 			}		
 			printf("\nDESEJA CONTINUAR? SE NÃO INSIRA A LETRA S.");
-			if(scanf("%c",escolha)){
-				if(escolha=='s' || escolha=='S') break;
-				else{ 
-					printf("\nSE DESEJAR VOLTAR A VER OS CODIGOS DE CLIENTES ANTERIORES INSIRA A LETRA A.\nSE DESEJAR VER OS PRÓXIMOS 20 RESULTADOS INSIRA A LETRA P");
-					if(scanf("%c",escolha)){
+			if(scanf("%c",escolha)) {
+
+			do {
+				printf("\nSE DESEJAR VOLTAR A VER OS CODIGOS DE CLIENTES ANTERIORES INSIRA A LETRA A.\nSE DESEJAR VER OS PRÓXIMOS 20 RESULTADOS INSIRA A LETRA P");
+				if(scanf("%c",escolha)){
 					if(escolha=='p' || escolha=='P') {/*mais 20 resultados*/
 						for(; strlen(lista_letra[i])<20; i++) {/*receberá o i anterior*/
 							for(j=0; j<5; j++) {
@@ -117,9 +118,10 @@ int main() {
 								buffer[i][j]=lista_letra[i][j];/*Vai guardando em buffer*/
 								printf("%c", lista_letra[i][j]);
 							}
-							putchar('\n');
+						putchar('\n');
 						}	
 					}
+
 					if(escolha=='a' || escolha=='A'){/*mostrar só o buffer*/
 						for(i=0; strlen(buffer[i])!=0; i++) {
 							for(j=0; j<5; j++) printf("%c", buffer[i][j]);
@@ -127,10 +129,8 @@ int main() {
 						}
 					}
 
-					}
+				}while(escolha!='s' || escolha!='S');
 			}
-
-
 
 			/*
 			for(i=0; strlen(lista_letra[i])!=0; i++) {
