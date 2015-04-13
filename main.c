@@ -104,7 +104,7 @@ int main(){
 				putchar('\n');
 			}	
 
-			}		
+			}else{printf("NÃO FOI POSSIVEL A LEITURA DA LETRA\n");}
 			printf("\nDESEJA CONTINUAR? SE NÃO INSIRA A LETRA S.");
 			if(scanf("%c",&escolha)) {
 
@@ -114,7 +114,6 @@ int main(){
 					if(escolha=='p' || escolha=='P') {/*mais 20 resultados*/
 						for(; strlen(lista_letra[i])<20; i++) {/*receberá o i anterior*/
 							for(j=0; j<5; j++) {
-								limpaBuffer(buffer);
 								buffer[i][j]=lista_letra[i][j];/*Vai guardando em buffer*/
 								printf("%c", lista_letra[i][j]);
 							}
@@ -132,6 +131,7 @@ int main(){
 				}
 			}while(escolha!='s' || escolha!='S');
 		}
+		else{printf("NÃO FOI POSSIVEL A LEITURA DA LETRA\n");}
 		}
 
 		else if(query==7) {	
