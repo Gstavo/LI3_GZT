@@ -17,4 +17,6 @@ void codProdutos(AVL array[]);
 
 BOOLEAN existeProd(char* produto, AAVL pl);
 
+void imprimir_produto(char **lista, AAVL array, char letra);
+
 #endif

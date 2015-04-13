@@ -40,8 +40,9 @@ AVL devolveAVL(AVL array[], char a);
 NUM_NODOS contarNodos(AVL aux);
 INDICE_CODIGOS indexL(char* code);
 NUM_OCORRENCIAS_CODE avl_count(AVL c, char* code, int tipo, char mode);
-void guardArray(AVL aux, char **lista, int index);
-void limpaBuffer(char **buf);
+void guardArrayCl(AVL aux, char **lista, int index);
+void guardArrayPr(AVL aux, char **lista, int index);
+void limpaLista(char **buf);
 double avl_countFact(AVL c, char* code);
 
 #endif

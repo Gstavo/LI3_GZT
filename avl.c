@@ -212,7 +212,7 @@ NUM_NODOS contarNodos(AVL aux){
         return 1 + contarNodos(aux->left) + contarNodos(aux->right);
 }
 
-void guardArray(AVL aux, char **lista, int index) {	/*index corresponde ao indice da matriz onde colocar o cliente*/
+void guardArrayCl(AVL aux, char **lista, int index) {	/*index corresponde ao indice da matriz onde colocar o cliente*/
 	int i;
  	if(aux!=NULL) {
 		char *p=(char*) aux->info;
@@ -228,10 +228,25 @@ void guardArray(AVL aux, char **lista, int index) {	/*index corresponde ao indic
 	}
 }
 
-void limpaBuffer(char **buf){
+void guardArrayPr(AVL aux, char **lista, int index) {	/*index corresponde ao indice da matriz onde colocar o cliente*/
+	int i;
+ 	if(aux!=NULL) {
+		char *p=(char*) aux->info;
+		lista[index]=(char*) malloc(6*sizeof(char*));
+		strncpy(lista[index], p, 6);
+		for(i=0; i<6; i++) printf("%c", lista[index][i]);
+		printf("\n");
+		index++;
+		/*Insere primeiro na matriz os elementos que estao na AVL esquerda e depois insere os da direita*/
+		/*O index vai aumentando em cada chamada recursiva*/
+		guardArray(aux->left, lista, index);
+		guardArray(aux->right, lista, index);
+	}
+}
+
+void limpaLista(char **lista){
 	int i=0;
-	/*20 é o tamanho do buffer definido na main,ou seja só permite guardar os 20 resultados anteriores*/
-	for(i=0; i<20; i++){buf[i]=NULL;}
+	for(i=0; i<MAX; i++){lista[i]=NULL;}
 }
 
 INDICE_CODIGOS indexL(char* code) {return code[0] - 65;}

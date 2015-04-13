@@ -54,6 +54,10 @@ BOOLEAN existeProd(char* produto, AAVL pl)
 	return existeP_aux(produto,pl[indexL(produto)]);
 }
 
+void imprimir_produto(char **lista, AAVL array, char letra) {
+    if((letra>97 && letra<122)) letra-=32;  /*Se for minuscula passa para maiuscula*/
+    guardArrayPr(array[letra-65], lista, 0);  /*Coloca na matriz todos os clientes iniciados pela letra dada*/
+}
 
 
 

@@ -8,18 +8,27 @@
 #include <math.h>
 #include "leitura.h"
 
+void imprime30(char **lista,int index){
+    int i;
+    for(i=0;i<30;i++){
+        printf("%s\n", lista[index+i]);
+    }
+}
+
+
+
 
 int main(){
 	int comprasMes[12], optn, prim, ult, i=0, j, compras_mes[12][1], clientes_mes[12][1], query, mes,N;
+	int seguintes=0,anteriores=0,q=0,k;/*Query 6*/
 	int compModeN, compModeP;
 	double time_spent;
 	VENDAS_MES vendas=0;
 	double fact=0;
-	char *code=(char*) malloc(10*sizeof(char*)), **lista_letra=(char**) malloc(MAX*sizeof(char**)) , **buffer=(char**) malloc(20*sizeof(char**)); /*O buffer é igual a lista_letra e vai armazenar 20 resultados que já foram vistos e que permitirá ao utilizador voltar a ver mais tarde*/
+	char *code=(char*) malloc(10*sizeof(char*)), **lista_letra=(char**) malloc(MAX*sizeof(char**)); 
 	char nome[30]="query11\0";
 	char cp[10],sn;/*Q 8*/ 
-	/*char escolha='A';*/
-	char escolha;
+	char escolha=' ';
 	FILE *compras_cliente;
 	AAVL clnt, prod;
 	Contabilidade contClnt, contProd;	/*contProd - contabilidade por codigo de produto*/
@@ -46,11 +55,45 @@ int main(){
 	puts("ESCOLHA UMA QUERY: ");
 	if(scanf("%d", &query)) {
 		if(query==2) {		/*Funcional*/
-			printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
-			codClientes(clnt);
-			printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n\n");
-			codProdutos(prod);
-			printf("\n");
+			printf("INSIRA C PARA VER CATALOGO CLIENTES.\n");
+			printf("OU INSIRA P PARA VER CATALOGO PRODUTOS.\n");
+			printf("INSIRA S PARA PESQUISAR POR LETRA.\n");
+			scanf("%c", &escolha);
+			if(escolha=='C'|| escolha=='c') {
+					printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
+					codClientes(clnt);
+					printf("\n");
+
+			}
+			else if(escolha=='P'|| escolha=='p') {
+					printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n\n");
+					codProdutos(prod);
+					printf("\n");
+				}
+			else{
+				printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE PRODUTOS QUE DESEJA SABER:\n");
+				scanf("%c",&escolha);
+				imprimir_produto(lista_letra, prod, escolha);
+				i=0;
+    			printf("\nOS PRIMEIROS RESULTADOS:\n");
+    			imprime30(lista_letra,i);
+    			printf("SE DESEJAR SAIR ESCREVA S.\n");
+    			printf("SE DESEJAR CONTINUAR ESCREVA P.\n");
+    			printf("SE DESEJAR VER OS RESULTADOS ANTERIORES ESCREVA A.\n");
+				do {
+						scanf("%c", &escolha);
+						if(escolha=='S' || escolha=='s') break;
+        				else if(escolha=='P'|| escolha=='p') {
+								seguintes++;
+								i+=(30*seguintes);
+								imprime30(lista_letra, i);
+						}
+        				else if(escolha=='A'|| escolha=='a') {
+								anteriores++;
+								i-=(30*anteriores);
+								imprime30(lista_letra,i);
+						}
+    				} while(escolha!='s'|| escolha!='S');
 		}
 		else if(query==3) {	/*Funcional*/
 			printf("\nINSIRA UM MES: "); if(scanf("%d", &mes));
@@ -91,49 +134,29 @@ int main(){
 		}
 		else if(query==6) {	/*Seg.Fault na impressao*/
 			printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
-			/*escolha=getchar();*/
-			if(scanf("%c",&escolha)){
-			imprimir_cliente(lista_letra, clnt, escolha);	
-			limpaBuffer(buffer);
-			/*Só mostra 20 primeiros resultados do char escolha*/
-			for(i=0; strlen(lista_letra[i])<20; i++) {
-				for(j=0; j<5; j++) {
-					buffer[i][j]=lista_letra[i][j];/*Vai guardando em buffer*/
-					printf("%c", lista_letra[i][j]);
+			scanf("%c",&escolha);
+			imprimir_cliente(lista_letra, clnt, escolha);
+			i=0;
+    		printf("\nOS PRIMEIROS RESULTADOS:\n");
+    		imprime30(lista_letra,i);
+    		printf("SE DESEJAR SAIR ESCREVA S.\n");
+    		printf("SE DESEJAR CONTINUAR ESCREVA P.\n");
+    		printf("SE DESEJAR VER OS RESULTADOS ANTERIORES ESCREVA A.\n");
+    		do {
+				scanf("%c", &escolha);
+				if(escolha=='S' || escolha=='s') break;
+        		else if(escolha=='P'|| escolha=='p') {
+					seguintes++;
+					i+=(30*seguintes);
+					imprime30(lista_letra, i);
 				}
-				putchar('\n');
-			}	
-
-			}else{printf("NÃO FOI POSSIVEL A LEITURA DA LETRA\n");}
-			printf("\nDESEJA CONTINUAR? SE NÃO INSIRA A LETRA S.");
-			if(scanf("%c",&escolha)) {
-
-			do {
-				printf("\nSE DESEJAR VOLTAR A VER OS CODIGOS DE CLIENTES ANTERIORES INSIRA A LETRA A.\nSE DESEJAR VER OS PRÓXIMOS 20 RESULTADOS INSIRA A LETRA P");
-				if(scanf("%c",&escolha)){
-					if(escolha=='p' || escolha=='P') {/*mais 20 resultados*/
-						for(; strlen(lista_letra[i])<20; i++) {/*receberá o i anterior*/
-							for(j=0; j<5; j++) {
-								buffer[i][j]=lista_letra[i][j];/*Vai guardando em buffer*/
-								printf("%c", lista_letra[i][j]);
-							}
-						putchar('\n');
-						}	
-					}
-
-					if(escolha=='a' || escolha=='A'){/*mostrar só o buffer*/
-						for(i=0; strlen(buffer[i])!=0; i++) {
-							for(j=0; j<5; j++) printf("%c", buffer[i][j]);
-							putchar('\n');
-						}
-					}
-
+        		else if(escolha=='A'|| escolha=='a') {
+					anteriores++;
+					i-=(30*anteriores);
+					imprime30(lista_letra,i);
 				}
-			}while(escolha!='s' || escolha!='S');
+    		} while(escolha!='s'|| escolha!='S');
 		}
-		else{printf("NÃO FOI POSSIVEL A LEITURA DA LETRA\n");}
-		}
-
 		else if(query==7) {	
 			printf("\nINSIRA UM INTERVALO DE MESES:\n");
 			printf("MES INICIAL: "); if(scanf("%d", &prim));

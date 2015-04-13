@@ -67,7 +67,7 @@ BOOLEAN existeClnt(char* cliente, AAVL cl)
 
 void imprimir_cliente(char **lista, AAVL array, char letra) {
 	if((letra>97 && letra<122)) letra-=32;	/*Se for minuscula passa para maiuscula*/
-	guardArray(array[letra-65], lista, 0);	/*Coloca na matriz todos os clientes iniciados pela letra dada*/
+	guardArrayCl(array[letra-65], lista, 0);	/*Coloca na matriz todos os clientes iniciados pela letra dada*/
 }
 
 
