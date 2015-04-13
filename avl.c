@@ -213,34 +213,28 @@ NUM_NODOS contarNodos(AVL aux){
 }
 
 void guardArrayCl(AVL aux, char **lista, int index) {	/*index corresponde ao indice da matriz onde colocar o cliente*/
-	int i;
  	if(aux!=NULL) {
 		char *p=(char*) aux->info;
 		lista[index]=(char*) malloc(5*sizeof(char*));
 		strncpy(lista[index], p, 5);
-		for(i=0; i<5; i++) printf("%c", lista[index][i]);
-		printf("\n");
 		index++;
 		/*Insere primeiro na matriz os elementos que estao na AVL esquerda e depois insere os da direita*/
 		/*O index vai aumentando em cada chamada recursiva*/
-		guardArray(aux->left, lista, index);
-		guardArray(aux->right, lista, index);
+		guardArrayCl(aux->left, lista, index);
+		guardArrayCl(aux->right, lista, index);
 	}
 }
 
 void guardArrayPr(AVL aux, char **lista, int index) {	/*index corresponde ao indice da matriz onde colocar o cliente*/
-	int i;
  	if(aux!=NULL) {
 		char *p=(char*) aux->info;
 		lista[index]=(char*) malloc(6*sizeof(char*));
 		strncpy(lista[index], p, 6);
-		for(i=0; i<6; i++) printf("%c", lista[index][i]);
-		printf("\n");
 		index++;
 		/*Insere primeiro na matriz os elementos que estao na AVL esquerda e depois insere os da direita*/
 		/*O index vai aumentando em cada chamada recursiva*/
-		guardArray(aux->left, lista, index);
-		guardArray(aux->right, lista, index);
+		guardArrayPr(aux->left, lista, index);
+		guardArrayPr(aux->right, lista, index);
 	}
 }
 

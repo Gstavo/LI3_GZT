@@ -40,10 +40,8 @@ int codigos_Cliente(){return Codigos_Cliente;}
 /* Mudem esta funçao depois, Nao pode imprimir nada neste modulo */
 
 void codClientes(AVL array[]){
-        int i;
-  for (i=0;i<MAX_LETTERS;i++){
-     printf("%c : %d\n",i+65,contarNodos(devolveAVL(array, i+65)));
-        }
+	int i;
+  	for(i=0;i<MAX_LETTERS;i++) printf("%c: %d\n", i+65, contarNodos(devolveAVL(array, i+65)));
 }
 
 

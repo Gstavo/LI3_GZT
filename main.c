@@ -15,9 +15,6 @@ void imprime30(char **lista,int index){
     }
 }
 
-
-
-
 int main(){
 	int comprasMes[12], optn, prim, ult, i=0, j, compras_mes[12][1], clientes_mes[12][1], query, mes,N;
 	int seguintes=0,anteriores=0,q=0,k;/*Query 6*/
@@ -35,9 +32,6 @@ int main(){
 	HashTable ht;
 	Comp compra;
 	clock_t begin, end;
-
-	/*Nome de teste eqnquanto nao se consegue inserir pelo stdin*/
-	code="ZC3371\0";
 	
 	begin=clock();
 
@@ -54,108 +48,111 @@ int main(){
 
 	puts("ESCOLHA UMA QUERY: ");
 	if(scanf("%d", &query)) {
-		if(query==2) {		/*Funcional*/
-			printf("INSIRA C PARA VER CATALOGO CLIENTES.\n");
-			printf("OU INSIRA P PARA VER CATALOGO PRODUTOS.\n");
-			printf("INSIRA S PARA PESQUISAR POR LETRA.\n");
-			scanf("%c", &escolha);
-			if(escolha=='C'|| escolha=='c') {
-					printf("-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
+		if(query==2) {		/*Não lê o carater escolha*/
+			printf("\nINSIRA:\n1-NUMERO DE CLIENTES POR LETRA\n2-NUMERO DE PRODUTOS POR LETRA\n3-LISTA PRODUTOS\n");
+			if(scanf("%d", &optn)) {
+				if(optn==1) {
+					printf("\n-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
 					codClientes(clnt);
 					printf("\n");
 
-			}
-			else if(escolha=='P'|| escolha=='p') {
+				}
+				else if(optn==2) {
 					printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n\n");
 					codProdutos(prod);
 					printf("\n");
 				}
-			else{
-				printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE PRODUTOS QUE DESEJA SABER:\n");
-				scanf("%c",&escolha);
-				imprimir_produto(lista_letra, prod, escolha);
-				i=0;
-    			printf("\nOS PRIMEIROS RESULTADOS:\n");
-    			imprime30(lista_letra,i);
-    			printf("SE DESEJAR SAIR ESCREVA S.\n");
-    			printf("SE DESEJAR CONTINUAR ESCREVA P.\n");
-    			printf("SE DESEJAR VER OS RESULTADOS ANTERIORES ESCREVA A.\n");
-				do {
-						scanf("%c", &escolha);
-						if(escolha=='S' || escolha=='s') break;
-        				else if(escolha=='P'|| escolha=='p') {
-								seguintes++;
-								i+=(30*seguintes);
-								imprime30(lista_letra, i);
-						}
-        				else if(escolha=='A'|| escolha=='a') {
-								anteriores++;
-								i-=(30*anteriores);
-								imprime30(lista_letra,i);
-						}
-    				} while(escolha!='s'|| escolha!='S');
+				else {
+					printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE PRODUTOS QUE DESEJA SABER:\n");
+					if(scanf("%c",&escolha)) {
+						imprimir_produto(lista_letra, prod, escolha);
+						i=0;
+    						printf("\nOS PRIMEIROS RESULTADOS:\n");
+    						imprime30(lista_letra,i);
+    						printf("SE DESEJAR SAIR ESCREVA S.\n");
+    						printf("SE DESEJAR CONTINUAR ESCREVA P.\n");
+    						printf("SE DESEJAR VER OS RESULTADOS ANTERIORES ESCREVA A.\n");
+						do {
+							if(scanf("%c", &escolha)) {
+								if(escolha=='S' || escolha=='s') break;
+        							else if(escolha=='P'|| escolha=='p') {
+									seguintes++;
+									i+=(30*seguintes);
+									imprime30(lista_letra, i);
+								}
+        							else if(escolha=='A'|| escolha=='a') {
+									anteriores++;
+									i-=(30*anteriores);
+									imprime30(lista_letra,i);
+								}
+							}
+    						} while(escolha!='s'|| escolha!='S');
+					}
+				}
+			}
 		}
 		else if(query==3) {	/*Funcional*/
 			printf("\nINSIRA UM MES: "); if(scanf("%d", &mes));
 			printf("INSIRA UM CODIGO DE PRODUTO: ");
-			/*for(i=0; i<6; i++) code[i]=getchar();
-			getchar();*/
-			if(validaMes(mes)==FALSE || existeProd(code, prod)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
-			else {
-				compModeN=comprasModo(contProd, (mes-1), code, 'N');
-				compModeP=comprasModo(contProd, (mes-1), code, 'P');
-				fact=totalFactProdMes(contProd, (mes-1), code);
-				printf("\nTOTAL DE COMPRAS EM MODO N: %d\n", compModeN);
-				printf("TOTAL DE COMPRAS EM MODO P: %d\n", compModeP);
-				printf("TOTAL FATURADO PELO PRODUTO NESSE MES: %.2f\n", fact);
+			if(scanf("%s", code)) {
+				if(validaMes(mes)==FALSE || existeProd(code, prod)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
+				else {
+					compModeN=comprasModo(contProd, (mes-1), code, 'N');
+					compModeP=comprasModo(contProd, (mes-1), code, 'P');
+					fact=totalFactProdMes(contProd, (mes-1), code);
+					printf("\nTOTAL DE COMPRAS EM MODO N: %d\n", compModeN);
+					printf("TOTAL DE COMPRAS EM MODO P: %d\n", compModeP);
+					printf("TOTAL FATURADO PELO PRODUTO NESSE MES: %.2f\n", fact);
+				}
 			}
 		}
 		else if(query==5) {	/*Funcional*/
-			printf("INSIRA UM CLIENTE: ");
-			/*for(i=0; i<5; i++) code[i]=getchar();
-			getchar();*/	
-			compMes(contClnt, code, comprasMes);
-			printf("DESEJA GUARDAR O RESULTADO NUM FICHEIRO DE TEXTO OU IMPRIMIR NO ECRA?\n0 - FICHEIRO, 1 - ECRA: ");
-			if(scanf("%d", &optn)) {
-				if(optn==1) {
-					printf("\n");
-					printf("COMPRAS DE "); for(i=0; i<5; i++) printf("%c", code[i]); printf(" POR MES:\n");
-					for(i=0; i<12; i++) printf("%d: %d\n", (i+1), comprasMes[i]);
-				} 
-				else {
-					compras_cliente=fopen("compras_cliente.txt", "w");
-					fprintf(compras_cliente, "COMPRAS DE ");  
-					for(i=0; i<5; i++) fprintf(compras_cliente, "%c", code[i]);
-					fprintf(compras_cliente, " POR MES:\n");
-					for(i=0; i<12; i++) fprintf(compras_cliente, "%d: %d\n", (i+1), comprasMes[i]);
-					fclose(compras_cliente);
+			printf("\nINSIRA UM CLIENTE: ");
+			if(scanf("%s", code)) {	
+				compMes(contClnt, code, comprasMes);
+				printf("DESEJA GUARDAR O RESULTADO NUM FICHEIRO DE TEXTO OU IMPRIMIR NO ECRA?\n0 - FICHEIRO, 1 - ECRA: ");
+				if(scanf("%d", &optn)) {
+					if(optn==1) {
+						printf("\n");
+						printf("COMPRAS DE "); for(i=0; i<5; i++) printf("%c", code[i]); printf(" POR MES:\n");
+						for(i=0; i<12; i++) printf("%d: %d\n", (i+1), comprasMes[i]);
+					} 
+					else {
+						compras_cliente=fopen("compras_cliente.txt", "w");
+						fprintf(compras_cliente, "COMPRAS DE ");  
+						for(i=0; i<5; i++) fprintf(compras_cliente, "%c", code[i]);
+						fprintf(compras_cliente, " POR MES:\n");
+						for(i=0; i<12; i++) fprintf(compras_cliente, "%d: %d\n", (i+1), comprasMes[i]);
+						fclose(compras_cliente);
+					}
 				}
 			}
 		}
-		else if(query==6) {	/*Seg.Fault na impressao*/
+		else if(query==6) {	/*Nao lê o carater escolha*/
 			printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
-			scanf("%c",&escolha);
-			imprimir_cliente(lista_letra, clnt, escolha);
-			i=0;
-    		printf("\nOS PRIMEIROS RESULTADOS:\n");
-    		imprime30(lista_letra,i);
-    		printf("SE DESEJAR SAIR ESCREVA S.\n");
-    		printf("SE DESEJAR CONTINUAR ESCREVA P.\n");
-    		printf("SE DESEJAR VER OS RESULTADOS ANTERIORES ESCREVA A.\n");
-    		do {
-				scanf("%c", &escolha);
-				if(escolha=='S' || escolha=='s') break;
-        		else if(escolha=='P'|| escolha=='p') {
-					seguintes++;
-					i+=(30*seguintes);
-					imprime30(lista_letra, i);
-				}
-        		else if(escolha=='A'|| escolha=='a') {
-					anteriores++;
-					i-=(30*anteriores);
-					imprime30(lista_letra,i);
-				}
-    		} while(escolha!='s'|| escolha!='S');
+			if(scanf("%c", &escolha)) {
+				imprimir_cliente(lista_letra, clnt, escolha);
+    				printf("\nOS PRIMEIROS RESULTADOS:\n");
+    				imprime30(lista_letra, 0);
+    				printf("SE DESEJAR SAIR ESCREVA S.\n");
+    				printf("SE DESEJAR CONTINUAR ESCREVA P.\n");
+    				printf("SE DESEJAR VER OS RESULTADOS ANTERIORES ESCREVA A.\n");
+    				do {
+					if(scanf("%c", &escolha)) {
+						if(escolha=='S' || escolha=='s') break;
+        					else if(escolha=='P'|| escolha=='p') {
+							seguintes++;
+							i+=(30*seguintes);
+							imprime30(lista_letra, i);
+						}
+        					else if(escolha=='A'|| escolha=='a') {
+							anteriores++;
+							i-=(30*anteriores);
+							imprime30(lista_letra,i);
+						}
+					}
+    				} while(escolha!='s'|| escolha!='S');
+			}
 		}
 		else if(query==7) {	
 			printf("\nINSIRA UM INTERVALO DE MESES:\n");
