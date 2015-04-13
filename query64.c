@@ -37,16 +37,20 @@ int main(){
     printf("SE DESEJAR SAIR ESCREVA S.\n");
     printf("SE DESEJAR CONTINUAR ESCREVA P.\n");
     printf("SE DESEJAR VER OS RESULTADOS ANTERIORES ESCREVA A.\n");
-    escolha=getchar();
-    while(escolha!='s'||escolha!='S' ){
-        if(escolha=='P'||escolha=='p'){seguintes++;i+=(30*seguintes);imprime30(lista_letra,i);}
-        else if(escolha=='A'||escolha=='a'){anteriores++;i-=(30*anteriores);imprime30(lista_letra,i);}
-        else break;
-        escolha=getchar();
-
-    }
-   
-
+    do {
+	scanf("%c", &escolha);
+	if(escolha=='S' || escolha=='s') break;
+        else if(escolha=='P'|| escolha=='p') {
+		seguintes++;
+		i+=(30*seguintes);
+		imprime30(lista_letra, i);
+	}
+        else if(escolha=='A'|| escolha=='a') {
+		anteriores++;
+		i-=(30*anteriores);
+		imprime30(lista_letra,i);
+	}
+    } while(escolha!='s'|| escolha!='S');
     return 0;
 }
 
