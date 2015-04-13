@@ -9,8 +9,8 @@
 #include "leitura.h"
 
 
-int main() {
-	int comprasMes[12], optn, prim, ult, i, j, compras_mes[12][1], clientes_mes[12][1], query, mes;
+int main(){
+	int comprasMes[12], optn, prim, ult, i=0, j, compras_mes[12][1], clientes_mes[12][1], query, mes,N;
 	int compModeN, compModeP;
 	double time_spent;
 	VENDAS_MES vendas=0;
@@ -92,7 +92,7 @@ int main() {
 		else if(query==6) {	/*Seg.Fault na impressao*/
 			printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
 			/*escolha=getchar();*/
-			if(scanf("%c",escolha)){
+			if(scanf("%c",&escolha)){
 			imprimir_cliente(lista_letra, clnt, escolha);	
 			limpaBuffer(buffer);
 			/*Só mostra 20 primeiros resultados do char escolha*/
@@ -106,11 +106,11 @@ int main() {
 
 			}		
 			printf("\nDESEJA CONTINUAR? SE NÃO INSIRA A LETRA S.");
-			if(scanf("%c",escolha)) {
+			if(scanf("%c",&escolha)) {
 
 			do {
 				printf("\nSE DESEJAR VOLTAR A VER OS CODIGOS DE CLIENTES ANTERIORES INSIRA A LETRA A.\nSE DESEJAR VER OS PRÓXIMOS 20 RESULTADOS INSIRA A LETRA P");
-				if(scanf("%c",escolha)){
+				if(scanf("%c",&escolha)){
 					if(escolha=='p' || escolha=='P') {/*mais 20 resultados*/
 						for(; strlen(lista_letra[i])<20; i++) {/*receberá o i anterior*/
 							for(j=0; j<5; j++) {
@@ -129,18 +129,12 @@ int main() {
 						}
 					}
 
-				}while(escolha!='s' || escolha!='S');
-			}
-
-			/*
-			for(i=0; strlen(lista_letra[i])!=0; i++) {
-				for(j=0; j<5; j++) printf("%c", lista_letra[i][j]);
-				putchar('\n');
-			}
-			*/
-
+				}
+			}while(escolha!='s' || escolha!='S');
 		}
-		else if(query==7) {	/*Funcional*/
+		}
+
+		else if(query==7) {	
 			printf("\nINSIRA UM INTERVALO DE MESES:\n");
 			printf("MES INICIAL: "); if(scanf("%d", &prim));
 			printf("MES FINAL: "); if(scanf("%d", &ult));
@@ -179,11 +173,26 @@ int main() {
 			preencheclientes(clientes_mes);
 			create_csv(nome, compras_mes, clientes_mes);
 		}
+
+		else if(query==12) {
+			puts("INSIRA N PARA OBTER OS N PRODUTOS MAIS VENDIDOS");
+			if(scanf("%d",&N))
+			{
+				Heap* h = initHeap(ht);
+				for(i=0;i < N;i++)
+				{
+					printf("Produto: %s\n",h->values[i]->produto);
+					printf("      Vendas: %d Clientes: %d\n",h->values[i]->vendas, h->values[i]->clientes);
+				}
+			}
+		}
+	
 	}
+
 	end=clock();
-	time_spent=(double)(end-begin)/CLOCKS_PER_SEC;
+	time_spent=(double)(end-begin)/CLOCKS_PER_SEC ;
 	printf("\nTempo de execucao: %.2f segundos\n\n", time_spent);
-	
+
 	return 0;
+
 }
-	

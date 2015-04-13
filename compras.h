@@ -18,12 +18,15 @@ typedef struct compras* Comp;
 
 #include "avl.h"
 #include "hashtable.h"
+#include "heap.h"
 #include "catalogo_clientes.h"
 #include "catalogo_produtos.h"
 
 Comp initCompra();
 
 HashTable initHashCompras();
+
+Heap* initHeap(HashTable ht);
 /*
 HashTable insertComprasHashCP(HashTable ht,Comp compra);
 */

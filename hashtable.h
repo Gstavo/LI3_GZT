@@ -28,6 +28,16 @@ typedef struct hashtable{
 
 typedef Hashtable* HashTable;
 
+typedef CpInfo Elem;
+
+typedef struct {
+  int size;
+  int used;
+  Elem *values;
+} Heap;
+
+
+#include "heap.h"
 
 #include "avl.h"
 

@@ -18,6 +18,15 @@ HashTable initHashCompras() {
 	return ht;
 }
 
+Heap* initHeap(HashTable ht){
+	int i;
+	Heap* h = newHeap( ht->size );
+	for(i = 0; i < ht->max_size ; i++)
+		if(ht->table[i]) insertHeap(h,ht->table[i]);
+	heapSort(h->values,h->used);
+	return h;
+}
+
 void insertComprasCP(AAVL a,Comp compra,int* cresceu)
 {
 	insert(a[indexL(compra->codigo_produto)],compra,cresceu,Compras_Ord_CP);
