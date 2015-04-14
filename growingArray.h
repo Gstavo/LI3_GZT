@@ -3,6 +3,16 @@
 #define GROWINGARRAY_H
 
 #define ArrayString 1
+#define ArrayCompProduto 2
+
+
+typedef struct compras_prod {
+        char* codigo_produto;
+        int quantidade;
+} ComprasProd;
+
+typedef struct compras_prod *CompProduto;
+
 
 typedef void* Objeto;
 

@@ -217,7 +217,9 @@ NUM_NODOS contarNodos(AVL aux){
 
 void guardArrayAVL(AVL aux, GrowingArray lista,int tipo) {	
 	if(aux!=NULL) {
-		insertGrowingArray(lista,aux->info,tipo);
+		char* o = malloc(10*sizeof(char));
+		strcpy(o,aux->info);
+		insertGrowingArray(lista,o,tipo);
 		/*Insere primeiro na matriz os elementos que estao na AVL esquerda e depois insere os da direita*/
 		guardArrayAVL(aux->left, lista, tipo);
 		guardArrayAVL(aux->right, lista, tipo);
@@ -235,7 +237,23 @@ void guardOcurrencesAVLaux(AVL avl,GrowingArray array,int tipo,char* codigo)
 			else tmp = compra->codigo_cliente;
 		if(strcmp(codigo,tmp) == 0)
 			{
-				insertGrowingArray(array,tmp,tipo);
+				if(tipo == ArrayString)
+				{
+					char* o = malloc(10*sizeof(char));
+					strcpy(o,tmp);
+					insertGrowingArray(array,o,tipo);
+				}
+				
+				if(tipo == ArrayCompProduto)
+				{
+					CompProduto p = malloc(sizeof(struct compras_prod));
+					p->quantidade = compra->quantidade;
+					p->codigo_produto = malloc(10*sizeof(char));
+					strcpy(p->codigo_produto,tmp);
+					
+					insertGrowingArray(array,p,tipo);
+				}
+
 				guardOcurrencesAVLaux(avl->left,array,tipo,codigo);
 				guardOcurrencesAVLaux(avl->right,array,tipo,codigo);
 			}
@@ -253,8 +271,24 @@ void guardOcurrencesAVL(AVL avl,GrowingArray array,int tipo,char* codigo){
 		if(strlen(codigo) == 6) tmp = compra->codigo_produto;
 			else tmp = compra->codigo_cliente;
 		if(strcmp(codigo,tmp) == 0)
-			{
-				insertGrowingArray(array,tmp,tipo);
+			{	
+				if(tipo == ArrayString)
+				{
+					char* o = malloc(10*sizeof(char));
+					strcpy(o,tmp);
+					insertGrowingArray(array,o,tipo);
+				}
+
+				if(tipo == ArrayCompProduto)
+				{
+					CompProduto p = malloc(sizeof(struct compras_prod));
+					p->quantidade = compra->quantidade;
+					p->codigo_produto = malloc(10*sizeof(char));
+					strcpy(p->codigo_produto,tmp);
+					
+					insertGrowingArray(array,p,tipo);
+				}
+
 				guardOcurrencesAVLaux(avl->left,array,tipo,codigo);
 				guardOcurrencesAVLaux(avl->right,array,tipo,codigo);
 			}
@@ -269,7 +303,19 @@ void guardOcurrencesAVL(AVL avl,GrowingArray array,int tipo,char* codigo){
 	}
 }
 
-
+/* Feito para o tipo AVL Compras_Ord_CC */
+BOOLEAN countainAVL(AVL a,char* code)
+{
+	if(a)
+	{
+		Comp compra = a->info;
+		
+		if(strcmp(code,compra->codigo_cliente) == 0) return TRUE;
+		if(strcmp(code,compra->codigo_cliente) < 0) countainAVL(a->left,code);
+		else countainAVL(a->right,code);
+	}
+	return FALSE;
+}
 
 
 void limpaLista(char **lista){

@@ -28,6 +28,7 @@ typedef AVL AAVL[MAX_LETTERS];
 
 #include "compras.h"
 #include "growingArray.h"
+#include "boolean.h"
 
 AVL insert(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
 AVL insertRight(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
@@ -44,5 +45,7 @@ void guardArrayAVL(AVL aux,GrowingArray array,int tipo);
 void guardOcurrencesAVL(AVL avl,GrowingArray array,int tipo,char* codigo);
 void limpaLista(char **buf);
 double avl_countFact(AVL c, char* code);
+BOOLEAN countainAVL(AVL a,char* code);
+
 
 #endif

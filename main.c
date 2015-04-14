@@ -8,6 +8,14 @@
 #include <math.h>
 #include "leitura.h"
 
+/* Imprime bue codigos depois melhorar o visual */
+
+void query4(HashTable ht, AAVL cp);
+
+void query10();
+
+void query14();
+
 void imprime30(GrowingArray ga,int index) {
 	int i;
 	for(i=0; i<30 && (index + i) < ga->size ; i++) printf("%s\n",(char*)ga->Elems[index+i]);
@@ -43,6 +51,12 @@ int main(){
 
 	/*Query 1 (Funcional)*/
 	leitura(clnt, prod, contClnt, contProd, ht, compra);
+
+	/*
+	Faz uma travessia a todos os codigos de cliente recolhendo informaçoes
+sobre a atividade de cada -> Query 10 e 14(1/2)
+				*/
+	gatherData(clnt,contClnt);
 
 	puts("ESCOLHA UMA QUERY: ");
 	if(scanf("%d", &query)) {
@@ -101,6 +115,7 @@ int main(){
 				}
 			}
 		}
+		else if(query==4) query4(ht,prod);
 		else if(query==5) {	/*Funcional*/
 			printf("\nINSIRA UM CLIENTE: ");
 			if(scanf("%s", code)) {	
@@ -177,6 +192,7 @@ int main(){
 				}
 			}
 		}
+		else if(query==10) query10();
 		else if(query==11) {	/*Funcional*/
 			preenchecmp(compras_mes);
 			preencheclientes(clientes_mes);
@@ -193,6 +209,7 @@ int main(){
 				}
 			}
 		}
+		else if(query==14) query14();
 	
 	}
 
@@ -201,5 +218,38 @@ int main(){
 	printf("\nTempo de execucao: %.2f segundos\n\n", time_spent);
 
 	return 0;
+
+}
+
+void query4(HashTable ht, AAVL cp)
+{
+        int i,counter=0;
+        GrowingArray ga = initGrowingArray(200000,ArrayString);
+
+        for(i=0;i<MAX_LETTERS;i++)
+                guardArrayAVL(cp[i],ga,ArrayString);
+        for(i=0;i < ga->size;i++)
+                if(!searchHash(ht,ga->Elems[i])) 
+			{
+			printf("%s\n",(char*)ga->Elems[i]);
+			counter++;
+			}
+	printf("\n %d codigos de produto inativos\n",counter);
+}
+
+void query10()
+{
+	GrowingArray cm = getClientesMensais();
+	int i;
+	for(i=0 ; i < cm->size; i++)
+		printf("%s\n",(char*)cm->Elems[i]);
+	printf("\n%d codigos\n",cm->size);
+}
+
+void query14()
+{
+	int clientes_inativos = getClientesInativos();
+	int produtos_inativos = codigos_Produto() - getCodigosProdutosUsados();
+	printf("Clientes inativos = %d\nProdutos inativos = %d",clientes_inativos,produtos_inativos);
 
 }

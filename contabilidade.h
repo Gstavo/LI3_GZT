@@ -24,11 +24,14 @@ FACTORACAO_TOTAL returnFact(int mes);
 VENDAS_MES returnVendas(int mes);
 CLIENTES_MES returnClientes(int mes);
 COMPRAS_MES compras_Mes(int mes);
+GrowingArray getClientesMensais();
+int getClientesInativos();
 void compMes(Contabilidade c, char* cliente, int resultado[]);
 void preenchecmp(int compras_mes[12][1]);
 void preencheclientes(int clientes_mes[12][1]);
 void create_csv(char *nome_ficheiro,int compras_mes[12][1],int clientes_mes[12][1]);
 int comprasModo(Contabilidade contProd, int mes, char *code, char modo);
 double totalFactProdMes(Contabilidade contProd, int mes, char *code);
+void gatherData(AAVL cl,Contabilidade c);
 
 #endif

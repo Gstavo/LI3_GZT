@@ -18,6 +18,10 @@ typedef struct mensalidade{
 
 Mensalidade mDATA;
 
+GrowingArray clientesMensais;  
+
+static int clientes_inativos = 0;
+
 INDICE_MES indexM(Comp c){return c->mes-1;}
 
 void initContabilidade(Contabilidade c)
@@ -32,6 +36,7 @@ void initContabilidade(Contabilidade c)
 		mDATA[i].nvendas = 0; mDATA[i].factura = 0; mDATA[i].nclientes=0;
 	}
 }
+
 
 void insertContabilidade(Contabilidade contClnt, Contabilidade contProd, Comp compra, int* cresceu) {
 	int iM=indexM(compra), iLC=indexL(compra->codigo_cliente), iLP=indexL(compra->codigo_produto);
@@ -71,6 +76,19 @@ int removeContabilidade(Contabilidade c,Comp compra)
 */
 
 COMPRAS_MES compras_Mes(int mes){return compras_mes[mes-1];}
+
+/* Retorna o resultado da query 10 */
+
+GrowingArray getClientesMensais()
+{
+	return clientesMensais;
+}
+
+/* Retorna metade do resultado da query 14 */
+int getClientesInativos()
+{
+	return clientes_inativos;
+}
 
 /*Devolve o numero de compras de um cliente em cada mes*/
 void compMes(Contabilidade c, char* cliente, int resultado[]) {
@@ -121,6 +139,8 @@ double totalFactProdMes(Contabilidade contProd, int mes, char *code) {
 	return res;
 }
 
+
+
 /*
 	Query 9 : 
 		Recebe um cliente e um mes
@@ -143,3 +163,22 @@ char** query9(Contabilidade c,char* cliente,int mes){return NULL;}
 /*}*/
 
 
+void gatherData(AAVL cl,Contabilidade c)
+{
+	int i;
+	GrowingArray clientes = initGrowingArray(20000,ArrayString);
+        clientesMensais = initGrowingArray(10,ArrayString);
+	for(i=0;i<MAX_LETTERS;i++)
+		guardArrayAVL(cl[i],clientes,ArrayString);
+	for(i=0;i<clientes->size;i++){
+		int im,meses_activos=0;		
+		for(im = 0; im < MAX_MONTHS;im++)
+		{
+			int iL = indexL(clientes->Elems[i]);
+			if(countainAVL(c[im][iL],clientes->Elems[i])) meses_activos++;
+		}
+		if(meses_activos == 0) clientes_inativos++;
+		if(meses_activos == 12) insertGrowingArray(clientesMensais,clientes->Elems[i],ArrayString);  
+		
+	}
+}

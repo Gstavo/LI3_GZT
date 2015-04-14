@@ -43,19 +43,9 @@ HashTable insertComprasHashCP(HashTable ht,Comp compra)
 	Query 8: show lista de CC distiguindo N/P
 		de um dado CP
 */
-/*
-query4(HashTable ht, AAVL cp)
-{
-	int i,*index;
-	char** lista;
-	
-	for(i=0;i<MAX_LETTERS;i++)
-		guardArray(cp[i],lista,index);
-	for(i=0;i < *index;i++)
-		if(!searchHash(ht,lista[i])) printf("%s\n",lista[i]);
 
-}
-*/
+
+
 
 CpInfoList query8(HashTable ht,char* cp){
 	CpInfo cpinfo = searchHash(ht,cp);

@@ -15,6 +15,17 @@ GrowingArray initGrowingArray(int max_size,int tipo)
 		novo->Elems = calloc(max_size,sizeof(char *));
 		for(i=0;i < max_size;i++)
 			novo->Elems[i] = malloc(10*sizeof(char));
+	}
+	if(tipo == ArrayCompProduto)
+	{
+		int i;
+		novo->Elems = calloc(max_size,sizeof(struct compras_prod));
+		for(i=0;i < max_size;i++)
+		{
+			CompProduto o = novo->Elems[i];
+			o->codigo_produto = malloc(10*sizeof(char));
+			o->quantidade = 0;
+		}
 	}	
 	return novo;
 }
@@ -36,8 +47,14 @@ void resizeGrowingArray(GrowingArray a,int tipo)
 	for(;i<a->max_size;i++)
 	{
 		if(tipo==ArrayString) a->Elems[i] = malloc(10*sizeof(char));
+	
+	    	if(tipo == ArrayCompProduto)
+		{
+			CompProduto o = a->Elems[i];
+			o->codigo_produto = malloc(10*sizeof(char));
+			o->quantidade = 0;
+		}
 	}
-
 }
 
 

@@ -4,13 +4,7 @@
 
 #include "avl.h"
 #include "boolean.h"
-
-typedef struct compras_prod {
-	char* codigo_produto;
-	int quantidade;
-} ComprasProd;
-
-typedef struct compras_prod *CompProduto;
+#include "growingArray.h"
 
 typedef CompProduto listaProdutos[MAX_PROD];
 
@@ -25,7 +19,7 @@ void codClientes(AVL array[]);
 
 BOOLEAN existeClnt(char* cliente, AAVL cl);
 
-void imprimir_cliente(char **lista, AAVL array, char letra);
+void imprimir_cliente(GrowingArray ga, AAVL array, char letra);
 
 
 #endif
