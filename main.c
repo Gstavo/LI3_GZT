@@ -154,7 +154,7 @@ int main(){
     				} while(escolha!='s'|| escolha!='S');
 			}
 		}
-		else if(query==7) {	
+		else if(query==7) {	/*Funcional*/
 			printf("\nINSIRA UM INTERVALO DE MESES:\n");
 			printf("MES INICIAL: "); if(scanf("%d", &prim));
 			printf("MES FINAL: "); if(scanf("%d", &ult));
@@ -166,43 +166,37 @@ int main(){
 			printf("TOTAL DE VENDAS EFETUADAS NESSE INTERVALO: %d\n", vendas);
 			printf("FATURACAO TOTAL NESSE INTERVALO: %.2f\n\n", fact);
 		}
-		else if(query==8){
-			printf("\nInsira um codigo de produto\n");
-			if(scanf("%s",cp))
-				{
-				CpInfoList tmp = query8(ht,cp);
-				if(getRemakes()) puts("A ht foi realocada n vai funcionar direito");
-				if(!tmp) puts("Produto sem actividade");
-				else{
-					for(i=0;tmp && i<25;i++){
-						printf("Cliente %s  Tipo %c\n",tmp->cliente,tmp->tipo);
-						tmp = tmp->next;
-						if(i==24 && tmp)
-						{
-							puts("Deseja aceder a mais informação? s/n");
-							if(scanf("%c",&sn))
-							if(sn=='s'||sn=='S') i=-1;
-						}
+		else if(query==8) {	/*Funcional*/
+			printf("\nINSIRA UM CODIGO DE PRODUTO:\n");
+			if(scanf("%s", cp)) {
+				CpInfoList tmp=query8(ht,cp);
+				if(getRemakes()) puts("A HASH TABLE FOI REALOCADA E NAO IRA FUNCIONAR DEVIDAMENTE!");
+				if(!tmp) puts("PRODUTO SEM ATIVIDADE");
+				else {
+					for(i=0;tmp && i<25;i++) {
+						printf("CLIENTE %s  TIPO %c\n", tmp->cliente, tmp->tipo);
+						tmp=tmp->next;
+						if(i==24 && tmp) {
+							puts("DESEJA ACEDER A MAIS INFORMACAO?\n");
+							if(scanf("%c", &sn)) if(sn=='s'||sn=='S') i=-1;
 						}
 					}
 				}
+			}
 		}
-		else if(query==11) {	/*Funcional (nome sera query11, dado de forma predefinida)*/
-			printf("\nINSIRA O NOME DO FICHEIRO .CSV QUE PRETENDE CRIAR: ");
+		else if(query==11) {	/*Funcional*/
 			preenchecmp(compras_mes);
 			preencheclientes(clientes_mes);
 			create_csv(nome, compras_mes, clientes_mes);
 		}
 
-		else if(query==12) {
-			puts("INSIRA N PARA OBTER OS N PRODUTOS MAIS VENDIDOS");
-			if(scanf("%d",&N))
-			{
-				Heap* h = initHeap(ht);
-				for(i=0;i < N;i++)
-				{
-					printf("Produto: %s\n",h->values[i]->produto);
-					printf("      Vendas: %d Clientes: %d\n",h->values[i]->vendas, h->values[i]->clientes);
+		else if(query==12) {	/*Funcional*/
+			puts("\nINSIRA N PARA OBTER OS N PRODUTOS MAIS VENDIDOS: ");
+			if(scanf("%d", &N)) {
+				Heap* h=initHeap(ht);
+				for(i=0;i < N;i++) {
+					printf("PRODUTO: %s\n", h->values[i]->produto);
+					printf("      VENDAS: %d CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
 				}
 			}
 		}
