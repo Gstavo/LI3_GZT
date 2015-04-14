@@ -224,13 +224,29 @@ void guardArrayAVL(AVL aux, GrowingArray lista,int tipo) {
 	}
 }
 
+
+void guardOcurrencesAVLaux(AVL avl,GrowingArray array,int tipo,char* codigo)
+{
+	if(avl)
+	{
+		Comp compra = avl->info;
+		char* tmp;
+		if(strlen(codigo) == 6) tmp = compra->codigo_produto;
+			else tmp = compra->codigo_cliente;
+		if(strcmp(codigo,tmp) == 0)
+			{
+				insertGrowingArray(array,tmp,tipo);
+				guardOcurrencesAVLaux(avl->left,array,tipo,codigo);
+				guardOcurrencesAVLaux(avl->right,array,tipo,codigo);
+			}
+	}
+}
+
 /* Guarda no array todos os elementos iguais ao argumento */
 /* Funciona para codigos de cliente e produto */
 
-void guardOcurrencesAVLaux(AVL avl,GrowingArray array,int tipo,char* codigo)
-
 void guardOcurrencesAVL(AVL avl,GrowingArray array,int tipo,char* codigo){
-	if(aux)
+	if(avl)
 	{
 		Comp compra = avl->info;
 		char* tmp;

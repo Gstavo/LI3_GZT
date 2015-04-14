@@ -28,6 +28,7 @@ typedef struct avl_node* AVL;
 typedef AVL AAVL[MAX_LETTERS];
 
 #include "compras.h"
+#include "GrowingArray.h"
 
 AVL insert(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
 AVL insertRight(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
@@ -40,8 +41,7 @@ AVL devolveAVL(AVL array[], char a);
 NUM_NODOS contarNodos(AVL aux);
 INDICE_CODIGOS indexL(char* code);
 NUM_OCORRENCIAS_CODE avl_count(AVL c, char* code, int tipo, char mode);
-void guardArrayCl(AVL aux, char **lista, int index);
-void guardArrayPr(AVL aux, char **lista, int index);
+void guardOcurrencesAVL(AVL avl,GrowingArray array,int tipo,char* codigo)
 void limpaLista(char **buf);
 double avl_countFact(AVL c, char* code);
 

@@ -1,0 +1,27 @@
+#ifndef GROWINGARRAY_H
+
+#define GROWINGARRAY_H
+
+#define ArrayString 1
+
+typedef void* Objeto;
+
+typedef struct growingarray{
+        Objeto* Elems;
+        int size;
+        int max_size;
+}growingarray;
+
+typedef growingarray* GrowingArray;
+
+GrowingArray initGrowingArray(int max_size,int tipo);
+
+void insertGrowingArray(GrowingArray a, Objeto o,int tipo);
+
+void resizeGrowingArray(GrowingArray a,int tipo);
+
+#endif
+
+	
+
+

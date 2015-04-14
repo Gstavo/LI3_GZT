@@ -1,22 +1,12 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include "growingArray.h"
 
-#define ArrayString 1
-
-typedef void* Object;
-
-typedef struct growingarray{
-	Object* Elems;
-	int size;
-	int max_size;
-}growingarray;
-
-typedef growingarray* GrowingArray;
 
 GrowingArray initGrowingArray(int max_size,int tipo)
 {
-	GrowingArray novo;
+	GrowingArray novo = malloc(sizeof(struct growingarray));
 	novo->size = 0;
 	novo->max_size = max_size;
 	if(tipo == ArrayString)
@@ -24,12 +14,12 @@ GrowingArray initGrowingArray(int max_size,int tipo)
 		int i;
 		novo->Elems = calloc(max_size,sizeof(char *));
 		for(i=0;i < max_size;i++)
-			Elems[i] = malloc(10*sizeof(char));
+			novo->Elems[i] = malloc(10*sizeof(char));
 	}	
 	return novo;
 }
 
-void insertGrowingArray(GrowingArray a, Object o,int tipo)
+void insertGrowingArray(GrowingArray a, Objeto o,int tipo)
 {
 	if(a->size == a->max_size) resizeGrowingArray(a,tipo);
 	
@@ -45,7 +35,7 @@ void resizeGrowingArray(GrowingArray a,int tipo)
 	
 	for(;i<a->max_size;i++)
 	{
-		if(tipo==ArrayString) Elems[i] = malloc(10*sizeof(char));
+		if(tipo==ArrayString) a->Elems[i] = malloc(10*sizeof(char));
 	}
 
 }

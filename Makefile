@@ -1,7 +1,10 @@
 CFLAGS= -ansi -Wall -pedantic -O2 
 OBJS = avl.o hashtable.o heap.o compras.o catalogo_clientes.o catalogo_produtos.o contabilidade.o leitura.o main.o
 
-avl: avl.c avl.h compras.h  
+growingArray: growingArray.c 
+	gcc $(CFLAGS) -c growingArray.c
+
+avl: avl.c compras.h  growingArray.h
 	gcc $(CFLAGS) -c avl.c  
 
 hashtable: hashtable.c avl.h compras.h 
