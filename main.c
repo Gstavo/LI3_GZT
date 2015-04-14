@@ -13,6 +13,25 @@ void imprime30(char **lista, int index) {
 	for(i=0; i<30; i++) printf("%s\n", lista[index+i]);
 }
 
+void query9(AAVL clnt, Contabilidade contClnt) {
+	int i, j, mes;
+	char *code=(char*) malloc(10*sizeof(char*));
+	GA ga=initGrowingArray(MAX, ArrayString);
+	printf("\nINSIRA UM MES: "); if(scanf("%d", &mes));
+	printf("INSIRA UM CODIGO DE CLIENTE: ");
+	if(scanf("%s", code)) {
+		if(validaMes(mes)==FALSE || existeClnt(code, clnt)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
+		else {
+			produtosComprados(contClnt, code, (mes-1), ga);
+			(char*) ga->Elems;
+			for(i=0; i<ga->max_size; i++) {
+				for(j=0; j<6; j++) printf("%c", ga->Elems[i][j]);
+				putchar('\n');
+			}
+		}
+	}
+}
+
 int main(){
 	int comprasMes[12], optn, prim, ult, i=0, compras_mes[12][1], clientes_mes[12][1], query, mes,N;
 	int seguintes=0,anteriores=0,q=0,k;/*Query 6*/
@@ -175,6 +194,7 @@ int main(){
 				}
 			}
 		}
+		else if(query==9) query9(clnt, contClnt);
 		else if(query==11) {	/*Funcional*/
 			preenchecmp(compras_mes);
 			preencheclientes(clientes_mes);
