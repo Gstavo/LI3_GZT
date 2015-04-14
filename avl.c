@@ -219,8 +219,8 @@ void guardArrayAVL(AVL aux, GrowingArray lista,int tipo) {
 	if(aux!=NULL) {
 		insertGrowingArray(lista,aux->info,tipo);
 		/*Insere primeiro na matriz os elementos que estao na AVL esquerda e depois insere os da direita*/
-		guardArrayCl(aux->left, lista, index);
-		guardArrayCl(aux->right, lista, index);
+		guardArrayAVL(aux->left, lista, tipo);
+		guardArrayAVL(aux->right, lista, tipo);
 	}
 }
 
@@ -260,11 +260,11 @@ void guardOcurrencesAVL(AVL avl,GrowingArray array,int tipo,char* codigo){
 			}
 		if(strcmp(codigo,tmp) < 0)
 			{
-				guardOcurrences(avl->right,array,tipo,codigo);
+				guardOcurrencesAVL(avl->right,array,tipo,codigo);
 			}
 		else
 			{
-				guardOcurrences(avl->left,array,tipo,codigo);
+				guardOcurrencesAVL(avl->left,array,tipo,codigo);
 			}
 	}
 }
@@ -274,7 +274,7 @@ void guardOcurrencesAVL(AVL avl,GrowingArray array,int tipo,char* codigo){
 
 void limpaLista(char **lista){
 	int i=0;
-	for(i=0; i<MAX; i++){lista[i]=NULL;}
+	for(i=0; i<MAX_PROD;i++){lista[i]=NULL;}
 }
 
 INDICE_CODIGOS indexL(char* code) {return code[0] - 65;}

@@ -2,6 +2,7 @@
 
 #define CATALOGO_PRODUTOS_H
 
+#include "growingArray.h"
 #include "avl.h"
 #include "boolean.h"
 
@@ -17,6 +18,6 @@ void codProdutos(AVL array[]);
 
 BOOLEAN existeProd(char* produto, AAVL pl);
 
-void imprimir_produto(char **lista, AAVL array, char letra);
+void imprimir_produto(GrowingArray ga, AAVL array, char letra);
 
 #endif

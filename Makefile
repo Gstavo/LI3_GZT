@@ -1,5 +1,5 @@
 CFLAGS= -ansi -Wall -pedantic -O2 
-OBJS = avl.o hashtable.o heap.o compras.o catalogo_clientes.o catalogo_produtos.o contabilidade.o leitura.o main.o
+OBJS = avl.o hashtable.o heap.o compras.o catalogo_clientes.o catalogo_produtos.o contabilidade.o leitura.o main.o growingArray.o
 
 growingArray: growingArray.c 
 	gcc $(CFLAGS) -c growingArray.c
@@ -13,10 +13,10 @@ hashtable: hashtable.c avl.h compras.h
 heap: heap.c hashtable.h
 	gcc $(CFLAGS) -c heap.c
 
-catalogo_clientes: catalogo_clientes.c avl.h compras.h
+catalogo_clientes: catalogo_clientes.c avl.h compras.h growingArray.h
 	gcc $(CFLAGS) -c catalogo_clientes.c 
 
-catalogo_produtos: catalogo_produtos.c avl.h compras.h
+catalogo_produtos: catalogo_produtos.c avl.h compras.h growingArray.h
 	gcc $(CFLAGS) -c catalogo_produtos.c 
 
 

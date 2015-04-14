@@ -4,6 +4,7 @@
 
 #include "catalogo_clientes.h"
 
+
 static int Codigos_Cliente = 0;
 
 /* return AAVL ?? bug tipos */
@@ -63,9 +64,9 @@ BOOLEAN existeClnt(char* cliente, AAVL cl)
 	return existeC_aux(cliente,cl[indexL(cliente)]);
 } 
 
-void imprimir_cliente(char **lista, AAVL array, char letra) {
+void imprimir_cliente(GrowingArray ga, AAVL array, char letra) {
 	if((letra>97 && letra<122)) letra-=32;	/*Se for minuscula passa para maiuscula*/
-	guardArrayCl(array[letra-65], lista, 0);	/*Coloca na matriz todos os clientes iniciados pela letra dada*/
+	guardArrayAVL(array[letra-65], ga, ArrayString);	/*Coloca na matriz todos os clientes iniciados pela letra dada*/
 }
 
 
