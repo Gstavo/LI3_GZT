@@ -5,7 +5,7 @@
 
 
 #define MAX_LETTERS 26
-
+#define MAX_PROD 200000
 #define Catalogo_C 1
 #define Catalogo_P 2
 #define Compras_Ord_CP 3
