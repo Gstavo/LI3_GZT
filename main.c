@@ -48,7 +48,7 @@ int main(){
 	if(scanf("%d", &query)) {
 		if(query==2) {		/*Não lê o carater escolha, imprime resultados errados e anterior=segm.fault*/
 			printf("\nESCOLHA A OPCAO:\n1-NUMERO DE CLIENTES POR LETRA\n2-NUMERO DE PRODUTOS POR LETRA\n3-LISTA PRODUTOS\n");
-		*	if(scanf("%d", &optn)) {
+			if(scanf("%d", &optn)) {
 				if(optn==1) {
 					printf("\n-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
 					codClientes(clnt);
