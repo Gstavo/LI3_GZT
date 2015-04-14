@@ -212,31 +212,49 @@ NUM_NODOS contarNodos(AVL aux){
         return 1 + contarNodos(aux->left) + contarNodos(aux->right);
 }
 
-void guardArrayCl(AVL aux, char **lista, int index) {	/*index corresponde ao indice da matriz onde colocar o cliente*/
- 	if(aux!=NULL) {
-		char *p=(char*) aux->info;
-		lista[index]=(char*) malloc(5*sizeof(char*));
-		strncpy(lista[index], p, 5);
-		index++;
+/* Tipo Defined ArrayString == char** lista */
+/* Funciona Só para AVLs do tipo Catalogo_C ou Catalogo_P */
+
+void guardArrayAVL(AVL aux, GrowingArray lista,int tipo) {	
+	if(aux!=NULL) {
+		insertGrowingArray(lista,aux->info,tipo);
 		/*Insere primeiro na matriz os elementos que estao na AVL esquerda e depois insere os da direita*/
-		/*O index vai aumentando em cada chamada recursiva*/
 		guardArrayCl(aux->left, lista, index);
 		guardArrayCl(aux->right, lista, index);
 	}
 }
 
-void guardArrayPr(AVL aux, char **lista, int index) {	/*index corresponde ao indice da matriz onde colocar o cliente*/
- 	if(aux!=NULL) {
-		char *p=(char*) aux->info;
-		lista[index]=(char*) malloc(6*sizeof(char*));
-		strncpy(lista[index], p, 6);
-		index++;
-		/*Insere primeiro na matriz os elementos que estao na AVL esquerda e depois insere os da direita*/
-		/*O index vai aumentando em cada chamada recursiva*/
-		guardArrayPr(aux->left, lista, index);
-		guardArrayPr(aux->right, lista, index);
+/* Guarda no array todos os elementos iguais ao argumento */
+/* Funciona para codigos de cliente e produto */
+
+void guardOcurrencesAVLaux(AVL avl,GrowingArray array,int tipo,char* codigo)
+
+void guardOcurrencesAVL(AVL avl,GrowingArray array,int tipo,char* codigo){
+	if(aux)
+	{
+		Comp compra = avl->info;
+		char* tmp;
+		if(strlen(codigo) == 6) tmp = compra->codigo_produto;
+			else tmp = compra->codigo_cliente;
+		if(strcmp(codigo,tmp) == 0)
+			{
+				insertGrowingArray(array,tmp,tipo);
+				guardOcurrencesAVLaux(avl->left,array,tipo,codigo);
+				guardOcurrencesAVLaux(avl->right,array,tipo,codigo);
+			}
+		if(strcmp(codigo,tmp) < 0)
+			{
+				guardOcurrences(avl->right,array,tipo,codigo);
+			}
+		else
+			{
+				guardOcurrences(avl->left,array,tipo,codigo);
+			}
 	}
 }
+
+
+
 
 void limpaLista(char **lista){
 	int i=0;
@@ -253,14 +271,14 @@ NUM_OCORRENCIAS_CODE avl_count(AVL c, char* code, int tipo, char mode) {
 		Comp info=(Comp) c->info;
 		if(strncmp(info->codigo_cliente, code, 5)>0) res=avl_count(c->left, code, tipo, mode);
 		else if(strncmp(info->codigo_cliente, code, 5)<0) res=avl_count(c->right, code, tipo, mode);
-		else res=1+avl_count(c->right, code, tipo, mode);	/*iguais foram inseridos na AVL direita*/
+		else res=1+avl_count(c->right, code, tipo, mode) + avl_count(c->left, code, tipo,mode);	/*iguais foram inseridos na AVL direita*/
 	}
 	else {
 		Comp info=(Comp) c->info;
 		if(strncmp(info->codigo_produto, code, 6)>0) res=avl_count(c->left, code, tipo, mode);
 		else if(strncmp(info->codigo_produto, code, 6)<0) res=avl_count(c->right, code, tipo, mode);
-		else if(strncmp(info->codigo_produto, code, 6)==0 && mode==info->tipo) res=1+avl_count(c->right, code, tipo, mode);
-		else res=avl_count(c->right, code, tipo, mode);
+		else if(strncmp(info->codigo_produto, code, 6)==0 && mode==info->tipo) res=1+avl_count(c->right, code, tipo, mode) + avl_count(c->left,code,tipo,mode);
+		else res=avl_count(c->right, code, tipo, mode) + avl_count(c->left,code,tipo,mode);
 	}
 	return res;
 }
@@ -273,7 +291,7 @@ double avl_countFact(AVL c, char* code) {
 		Comp info=(Comp) c->info;
 		if(strncmp(info->codigo_produto, code, 6)>0) res=avl_countFact(c->left, code);
 		else if(strncmp(info->codigo_produto, code, 6)<0) res=avl_countFact(c->right, code);
-		else res=(info->preco*info->quantidade)+avl_countFact(c->right, code);
+		else res=(info->preco*info->quantidade)+avl_countFact(c->right, code) + avl_countFact(c->left,code);
 	}
 	return res;
 }
