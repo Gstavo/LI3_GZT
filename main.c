@@ -12,6 +12,8 @@
 
 void query4(HashTable ht, AAVL cp);
 
+void query9(AAVL clnt, Contabilidade contClnt);
+
 void query10();
 
 void query14();
@@ -192,6 +194,7 @@ sobre a atividade de cada -> Query 10 e 14(1/2)
 				}
 			}
 		}
+		else if(query==9) query9(clnt, contClnt);
 		else if(query==10) query10();
 		else if(query==11) {	/*Funcional*/
 			preenchecmp(compras_mes);
@@ -235,6 +238,24 @@ void query4(HashTable ht, AAVL cp)
 			counter++;
 			}
 	printf("\n %d codigos de produto inativos\n",counter);
+}
+
+void query9(AAVL clnt, Contabilidade contClnt) {
+	int i, mes;
+	char *code=(char*) malloc(10*sizeof(char*));
+	GrowingArray ga=initGrowingArray(200000, ArrayCompProduto);		/*Seg.Fault initGrowingArray*/
+	printf("\nINSIRA UM MES: "); if(scanf("%d", &mes));
+	printf("INSIRA UM CODIGO DE CLIENTE: ");
+	if(scanf("%s", code)) {
+		if(validaMes(mes)==FALSE || existeClnt(code, clnt)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
+		else {
+			guardOcurrencesAVL(contClnt[mes-1][indexL(code)], ga, ArrayCompProduto, code);
+			for(i=0; i<ga->size; i++) {
+				CompProduto aux=(CompProduto) ga->Elems[i];
+				printf("%s\n", aux->codigo_produto);
+			}
+		}
+	}
 }
 
 void query10()
