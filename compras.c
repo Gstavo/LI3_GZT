@@ -47,7 +47,7 @@ HashTable insertComprasHashCP(HashTable ht,Comp compra)
 
 
 
-CpInfoList query8(HashTable ht,char* cp){
+CpInfoList query8Aux(HashTable ht,char* cp){
 	CpInfo cpinfo = searchHash(ht,cp);
 	if(!cpinfo) return NULL;
 	return cpinfo->first;			

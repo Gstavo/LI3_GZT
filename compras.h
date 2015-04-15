@@ -32,7 +32,7 @@ HashTable insertComprasHashCP(HashTable ht,Comp compra);
 */
 void insertComprasCP(AAVL a,Comp compra,int* cresceu);
 
-CpInfoList query8(HashTable ht,char* cp);
+CpInfoList query8Aux(HashTable ht,char* cp);
 
 void compracpy(Comp dest,Comp src);
 

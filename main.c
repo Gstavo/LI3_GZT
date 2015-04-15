@@ -8,14 +8,12 @@
 #include <math.h>
 #include "leitura.h"
 
-/* Imprime bue codigos depois melhorar o visual */
-
 void query4(HashTable ht, AAVL cp);
-
+void query8(HashTable ht);
 void query9(AAVL clnt, Contabilidade contClnt);
-
 void query10();
-
+void query11(int compras_mes[12][1], int clientes_mes[12][1]);
+void query12(HashTable ht);
 void query14();
 
 void imprime30(GrowingArray ga,int index) {
@@ -24,15 +22,13 @@ void imprime30(GrowingArray ga,int index) {
 }
 
 int main(){
-	int comprasMes[12], optn, prim, ult, i=0, compras_mes[12][1], clientes_mes[12][1], query, mes,N;
-	int seguintes=0,anteriores=0;/*Query 6*/
+	int comprasMes[12], optn, prim, ult, i=0, compras_mes[12][1], clientes_mes[12][1], query, mes;
+	int seguintes=0, anteriores=0;/*Query 6*/
 	int compModeN, compModeP;
 	double time_spent;
 	VENDAS_MES vendas=0;
 	double fact=0;
-	char *code=(char*) malloc(10*sizeof(char*)); 
-	char nome[30]="query11\0";
-	char cp[10],sn;/*Q 8*/ 
+	char *code=(char*) malloc(10*sizeof(char*));  
 	char escolha='A';
 	FILE *compras_cliente;
 	AAVL clnt, prod;
@@ -58,7 +54,7 @@ int main(){
 	Faz uma travessia a todos os codigos de cliente recolhendo informaçoes
 sobre a atividade de cada -> Query 10 e 14(1/2)
 				*/
-/*	gatherData(clnt,contClnt);*/
+	gatherData(clnt, contClnt);
 
 	puts("ESCOLHA UMA QUERY: ");
 	if(scanf("%d", &query)) {
@@ -176,49 +172,18 @@ sobre a atividade de cada -> Query 10 e 14(1/2)
 			printf("TOTAL DE VENDAS EFETUADAS NESSE INTERVALO: %d\n", vendas);
 			printf("FATURACAO TOTAL NESSE INTERVALO: %.2f Euros\n\n", fact);
 		}
-		else if(query==8) {	/*Funcional*/
-			printf("\nINSIRA UM CODIGO DE PRODUTO:\n");
-			if(scanf("%s", cp)) {
-				CpInfoList tmp=query8(ht,cp);
-				if(getRemakes()) puts("A HASH TABLE FOI REALOCADA E NAO IRA FUNCIONAR DEVIDAMENTE!");
-				if(!tmp) puts("O PRODUTO NAO EXISTE!");
-				else {
-					for(i=0;tmp && i<25; i++) {
-						printf("CLIENTE %s  TIPO %c\n", tmp->cliente, tmp->tipo);
-						tmp=tmp->next;
-						if(i==24 && tmp) {
-							puts("DESEJA ACEDER A MAIS INFORMACAO? SIM-s/S, NAO-n/N\n");
-							if(scanf("%c", &sn)) if(sn=='s'||sn=='S') i=-1;
-						}
-					}
-				}
-			}
-		}
-		else if(query==9) query9(clnt, contClnt);
-		else if(query==10) query10();
-		else if(query==11) {	/*Funcional*/
-			preenchecmp(compras_mes);
-			preencheclientes(clientes_mes);
-			create_csv(nome, compras_mes, clientes_mes);
-		}
-
-		else if(query==12) {	/*Funcional*/
-			puts("\nINSIRA N PARA OBTER OS N PRODUTOS MAIS VENDIDOS: ");
-			if(scanf("%d", &N)) {
-				Heap* h=initHeap(ht);
-				for(i=0;i < N;i++) {
-					printf("PRODUTO: %s\n", h->values[i]->produto);
-					printf("      VENDAS: %d CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
-				}
-			}
-		}
-		else if(query==14) query14();
+		else if(query==8) query8(ht);				/*Funcional*/
+		else if(query==9) query9(clnt, contClnt);		/*Falta ordenar resultados*/
+		else if(query==10) query10();				/*Resultado errado*/
+		else if(query==11) query11(compras_mes, clientes_mes);	/*Funcional*/
+		else if(query==12) query12(ht);				/*Funcional*/
+		else if(query==14) query14();				/*Resultado dos clientes errado*/
 	
 	}
 
 	end=clock();
 	time_spent=(double)(end-begin)/CLOCKS_PER_SEC ;
-	printf("\nTempo de execucao: %.2f segundos\n\n", time_spent);
+	printf("\nTEMPO DE EXECUCAO: %.2f segundos\n\n", time_spent);
 
 	return 0;
 
@@ -237,43 +202,83 @@ void query4(HashTable ht, AAVL cp)
 			printf("%s\n",(char*)ga->Elems[i]);
 			counter++;
 			}
-	printf("\n %d codigos de produto inativos\n",counter);
+	printf("\n %d PRODUTOS INEXISTENTES\n",counter);
+}
+
+void query8(HashTable ht) {
+	int i;
+	char cp[10], sn;
+	printf("\nINSIRA UM CODIGO DE PRODUTO: ");
+	if(scanf("%s", cp)) {
+		CpInfoList tmp=query8Aux(ht,cp);
+		if(getRemakes()) puts("A HASH TABLE FOI REALOCADA E NAO IRA FUNCIONAR DEVIDAMENTE!");
+		if(!tmp) puts("O PRODUTO NAO EXISTE!");
+		else {
+			putchar('\n');
+			for(i=0;tmp && i<25; i++) {
+				printf("CLIENTE %s | TIPO %c\n", tmp->cliente, tmp->tipo);
+				tmp=tmp->next;
+				if(i==24 && tmp) {
+					puts("DESEJA ACEDER A MAIS INFORMACAO? SIM-s/S, NAO-n/N\n");
+					if(scanf("%c", &sn)) if(sn=='s'||sn=='S') i=-1;
+				}
+			}
+		}
+	}
 }
 
 void query9(AAVL clnt, Contabilidade contClnt) {
 	int i, mes;
 	char *code=(char*) malloc(10*sizeof(char));
 	GrowingArray ga=initGrowingArray(200000, ArrayCompProduto);		
-	puts("Inited");
-/*Seg.Fault initGrowingArray*/
 	printf("\nINSIRA UM MES: "); if(scanf("%d", &mes));
 	printf("INSIRA UM CODIGO DE CLIENTE: ");
 	if(scanf("%s", code)) {
 		if(validaMes(mes)==FALSE || existeClnt(code, clnt)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
 		else{
 			guardOcurrencesAVL(contClnt[mes-1][indexL(code)], ga, ArrayCompProduto, code);
-			if(ga->size == 0) puts("Nao encontrou nada");
-			for(i=0; i<ga->size; i++) {
-				CompProduto aux=(CompProduto) ga->Elems[i];
-				printf("%s\n", aux->codigo_produto);
+			if(ga->size == 0) puts("\nNADA ENCONTRADO");
+			else {
+				putchar('\n');
+				for(i=0; i<ga->size; i++) {
+					CompProduto aux=(CompProduto) ga->Elems[i];
+					printf("PRODUTO: %s | QUANTIDADE: %d\n", aux->codigo_produto, aux->quantidade);
+				}
 			}
 		}
 	}
 }
 
-void query10()
-{
-	GrowingArray cm = getClientesMensais();
+void query10() {
+	GrowingArray cm=getClientesMensais();
 	int i;
-	for(i=0 ; i < cm->size; i++)
-		printf("%s\n",(char*)cm->Elems[i]);
-	printf("\n%d codigos\n",cm->size);
+	for(i=0; i<cm->size; i++) printf("%s\n", (char*) cm->Elems[i]);
+	printf("\n%d CODIGOS\n",cm->size);
 }
 
-void query14()
-{
+void query11(int compras_mes[12][1], int clientes_mes[12][1]) {
+	preenchecmp(compras_mes);
+	preencheclientes(clientes_mes);
+	create_csv(compras_mes, clientes_mes);
+	printf("\nFICHEIRO \"query11.csv\" CRIADO COM SUCESSO!\n");
+}
+
+void query12(HashTable ht) {
+	int i, N;
+	puts("\nINSIRA N PARA OBTER OS N PRODUTOS MAIS VENDIDOS: ");
+	if(scanf("%d", &N)) {
+		Heap* h=initHeap(ht);
+		putchar('\n');
+		for(i=0;i < N;i++) {
+			printf("PRODUTO: %s | ", h->values[i]->produto);
+			printf("VENDAS: %d | CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
+		}
+	}
+}
+
+void query14() {
 	int clientes_inativos = getClientesInativos();
 	int produtos_inativos = codigos_Produto() - getCodigosProdutosUsados();
-	printf("Clientes inativos = %d\nProdutos inativos = %d",clientes_inativos,produtos_inativos);
+	printf("\nCLIENTES QUE NAO REALIZARAM COMPRAS: %d\nPRODUTOS QUE NINGUEM COMPROU: %d\n",clientes_inativos, produtos_inativos);
 
 }

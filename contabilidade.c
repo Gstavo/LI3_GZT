@@ -112,17 +112,14 @@ void preencheclientes(int clientes_mes[12][1]){
 	}
 }
 
-void create_csv(char *nome_ficheiro, int compras_mes[12][1], int clientes_mes[12][1]) {
+void create_csv(int compras_mes[12][1], int clientes_mes[12][1]) {
 	int i;
+	char nome_ficheiro[20]="query11.csv\0";
 	FILE *aux;
-	printf("\nCriar Ficheiro %s.csv", nome_ficheiro);
-	nome_ficheiro=strcat(nome_ficheiro,".csv");
-	aux=fopen(nome_ficheiro,"w+");
+	aux=fopen(nome_ficheiro, "w+");
 	fprintf(aux, "%s %s %s\n", "Mes\0", "#Compras\0", "#Clientes\0");
-	
-	for(i=0;i<12;i++) fprintf(aux,"%d %d %d\n", (i+1), compras_mes[i][1], clientes_mes[i][1]);/*Dá o mês*/
+	for(i=0;i<12;i++) fprintf(aux,"%d %d %d\n", (i+1), compras_mes[i][1], clientes_mes[i][1]);	/*Dá o mês*/
 	fclose(aux);
-	printf("\n%s :Ficheiro Criado com Sucesso!!!\n",nome_ficheiro);
 }
 
 /*Devolve o numero de compras do tipo modo nesse mes*/
@@ -138,30 +135,6 @@ double totalFactProdMes(Contabilidade contProd, int mes, char *code) {
 	res=avl_countFact(contProd[mes][iL], code);
 	return res;
 }
-
-
-
-/*
-	Query 9 : 
-		Recebe um cliente e um mes
-		Show lista CP que comprou ordenada por ordem decrescente 
-		  de quantidade
-*/
-/*
-char** query9(Contabilidade c,char* cliente,int mes){return NULL;}
-{*/
-	/* 
-	Prototipo
-	1 encontrar a primeira compra do cliente( O resto das compras encontram-se seguidas)
-	Retirar os codigos de produto e a respetiva quantidade de cada compra do cliente para uma estrutura nova
-	Ordenar a estrutura 
-	Filtrar a quantidade de cada um
-	Devolver a lista de codigos de produto
-
-	A verificar se a info filtrada é util para outras queries
-	*/
-/*}*/
-
 
 void gatherData(AAVL cl,Contabilidade c)
 {
