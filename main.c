@@ -242,14 +242,17 @@ void query4(HashTable ht, AAVL cp)
 
 void query9(AAVL clnt, Contabilidade contClnt) {
 	int i, mes;
-	char *code=(char*) malloc(10*sizeof(char*));
-	GrowingArray ga=initGrowingArray(200000, ArrayCompProduto);		/*Seg.Fault initGrowingArray*/
+	char *code=(char*) malloc(10*sizeof(char));
+	GrowingArray ga=initGrowingArray(200000, ArrayCompProduto);		
+	puts("Inited");
+/*Seg.Fault initGrowingArray*/
 	printf("\nINSIRA UM MES: "); if(scanf("%d", &mes));
 	printf("INSIRA UM CODIGO DE CLIENTE: ");
 	if(scanf("%s", code)) {
 		if(validaMes(mes)==FALSE || existeClnt(code, clnt)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
-		else {
+		else{
 			guardOcurrencesAVL(contClnt[mes-1][indexL(code)], ga, ArrayCompProduto, code);
+			if(ga->size == 0) puts("Nao encontrou nada");
 			for(i=0; i<ga->size; i++) {
 				CompProduto aux=(CompProduto) ga->Elems[i];
 				printf("%s\n", aux->codigo_produto);
