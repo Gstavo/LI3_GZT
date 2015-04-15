@@ -11,21 +11,23 @@ GrowingArray initGrowingArray(int max_size,int tipo)
 	novo->max_size = max_size;
 	if(tipo == ArrayString)
 	{
-		int i;
+	/*	int i;*/
 		novo->Elems = calloc(max_size,sizeof(char *));
-		for(i=0;i < max_size;i++)
-			novo->Elems[i] = malloc(10*sizeof(char));
+/*		for(i=0;i < max_size;i++)
+			novo->Elems[i] = malloc(10*sizeof(char));*/
 	}
 	if(tipo == ArrayCompProduto)
 	{
-		int i;
-		novo->Elems = calloc(max_size,sizeof(struct compras_prod));
+/*		int i;*/
+		novo->Elems = calloc(max_size,sizeof(CompProduto));
+	/*
 		for(i=0;i < max_size;i++)
 		{
 			CompProduto o = novo->Elems[i];
 			o->codigo_produto = malloc(10*sizeof(char));
 			o->quantidade = 0;
 		}
+	*/
 	}	
 	return novo;
 }
@@ -40,11 +42,11 @@ void insertGrowingArray(GrowingArray a, Objeto o,int tipo)
 
 void resizeGrowingArray(GrowingArray a,int tipo)
 { 
-	int i = a->max_size;
+/*	int i = a->max_size; */
 	a->max_size*= 1.5; 
 	a->Elems = realloc(a->Elems,a->max_size);
 	
-	for(;i<a->max_size;i++)
+/*	for(;i<a->max_size;i++)
 	{
 		if(tipo==ArrayString) a->Elems[i] = malloc(10*sizeof(char));
 	
@@ -54,7 +56,7 @@ void resizeGrowingArray(GrowingArray a,int tipo)
 			o->codigo_produto = malloc(10*sizeof(char));
 			o->quantidade = 0;
 		}
-	}
+	}*/
 }
 
 

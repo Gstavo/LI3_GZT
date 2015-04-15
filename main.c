@@ -58,7 +58,7 @@ int main(){
 	Faz uma travessia a todos os codigos de cliente recolhendo informaçoes
 sobre a atividade de cada -> Query 10 e 14(1/2)
 				*/
-	gatherData(clnt,contClnt);
+/*	gatherData(clnt,contClnt);*/
 
 	puts("ESCOLHA UMA QUERY: ");
 	if(scanf("%d", &query)) {
