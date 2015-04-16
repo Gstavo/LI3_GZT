@@ -8,11 +8,17 @@
 #include <math.h>
 #include "leitura.h"
 
+void query1(int valid[]);
+void query2(AAVL clnt, AAVL prod);
+void query3(Contabilidade contProd, AAVL prod);
 void query4(HashTable ht, AAVL cp);
+void query5(Contabilidade contClnt);
+void query6(AAVL clnt);
+void query7();
 void query8(HashTable ht);
 void query9(AAVL clnt, Contabilidade contClnt);
 void query10();
-void query11(int compras_mes[12][1], int clientes_mes[12][1]);
+void query11();
 void query12(HashTable ht);
 void query14();
 
@@ -22,15 +28,8 @@ void imprime30(GrowingArray ga,int index) {
 }
 
 int main(){
-	int comprasMes[12], optn, prim, ult, i=0, compras_mes[12][1], clientes_mes[12][1], query, mes;
-	int seguintes=0, anteriores=0;/*Query 6*/
-	int compModeN, compModeP;
+	int query, valid[5];			/*valid guarda os resultados da leitura para posterior impressao na query1*/
 	double time_spent;
-	VENDAS_MES vendas=0;
-	double fact=0;
-	char *code=(char*) malloc(10*sizeof(char*));  
-	char escolha='A';
-	FILE *compras_cliente;
 	AAVL clnt, prod;
 	Contabilidade contClnt, contProd;	/*contProd - contabilidade por codigo de produto*/
 	HashTable ht;
@@ -47,103 +46,74 @@ int main(){
 	initContabilidade(contClnt);
 	initContabilidade(contProd);
 
-	/*Query 1 (Funcional)*/
-	leitura(clnt, prod, contClnt, contProd, ht, compra);
+	/*Preenchimento e leitura das estruturas de dados*/
+	leitura(clnt, prod, contClnt, contProd, ht, compra, valid);
 
-	/*
-	Faz uma travessia a todos os codigos de cliente recolhendo informaçoes
-sobre a atividade de cada -> Query 10 e 14(1/2)
-				*/
+	/*Faz uma travessia a todos os codigos de cliente recolhendo informaçoes sobre a atividade de cada um*/
 	gatherData(clnt, contClnt);
 
-	puts("ESCOLHA UMA QUERY: ");
+	puts("\nESCOLHA UMA QUERY: ");
 	if(scanf("%d", &query)) {
-		if(query==2) {		/*Não lê o carater escolha, imprime resultados errados e anterior=segm.fault*/
-			printf("\nESCOLHA A OPCAO:\n1-NUMERO DE CLIENTES POR LETRA\n2-NUMERO DE PRODUTOS POR LETRA\n3-LISTA PRODUTOS\n");
-			if(scanf("%d", &optn)) {
-				if(optn==1) {
-					printf("\n-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n\n");
-					codClientes(clnt);
-					printf("\n");
+		switch(query) {
+			case 1: query1(valid); break;			/*Funcional*/
+			case 2: query2(clnt, prod); break;		/*Segm.fault na impressao da lista*/
+			case 3: query3(contProd, prod);	break;		/*Fact da resultado inteiro*/
+			case 4: query4(ht,prod); break;			/*Falta fazer navegacao na lista*/
+			case 5: query5(contClnt); break;		/*Funcional*/
+			case 6: query6(clnt); break;			/*Segm.fault*/
+			case 7: query7(); break;			/*Funcional*/
+			case 8: query8(ht); break;			/*Funcional*/
+			case 9: query9(clnt, contClnt);	break;		/*Falta ordenar resultados*/
+			case 10: query10(); break;			/*Resultado errado*/
+			case 11: query11(); break;			/*Funcional*/
+			case 12: query12(ht); break;			/*Funcional*/
+			case 14: query14(); 				/*Resultado dos clientes errado*/
+		}
+	}
 
-				}
-				else if(optn==2) {
-					printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n\n");
-					codProdutos(prod);
-					printf("\n");
-				}
-				else {
-					GrowingArray ga = initGrowingArray(10,ArrayString);
-					printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE PRODUTOS QUE DESEJA SABER:\n");
-					/*escolha=getchar();*/
-					imprimir_produto(ga, prod, escolha);
-    					printf("\nPRIMEIROS RESULTADOS:\n");
-    					imprime30(ga, i);
-					do {
-						printf("\n1-SAIR\n2-PROXIMO\n3-ANTERIOR\n");
-						if(scanf("%d", &optn)) {
-							if(optn==1) break;
-        						else if(optn==2) {
-								seguintes++;
-								i+=(30*seguintes);
-								imprime30(ga, i);
-							}
-        						else if(optn==3) {
-								anteriores++;
-								i-=(30*anteriores);
-								imprime30(ga,i);
-							}
-						}
-    					} while(optn!=1);
-				}
-			}
+	end=clock();
+	time_spent=(double)(end-begin)/CLOCKS_PER_SEC ;
+	printf("\nTEMPO DE EXECUCAO: %.2f segundos\n\n", time_spent);
+
+	return 0;
+
+}
+
+void query1(int valid[]) {
+	printf("\nPRODUTOS: %d\n", codigos_Produto());
+	printf("CLIENTES: %d\n", codigos_Cliente());
+	printf("LINHAS DE COMPRAS: %d\n", valid[0]);
+	printf("CODIGOS DE CLIENTE INEXISTENTES: %d\n", valid[1]);
+	printf("CODIGOS DE PRODUTO INEXISTENTES: %d\n", valid[2]);
+	printf("TOTAL DE COMPRAS INVALIDAS: %d\n", valid[3]);
+	printf("--------------------------------------------\n");
+	printf("COMPRAS VALIDAS: %d\n", valid[4]);
+	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", returnFactTotal());
+}
+
+void query2(AAVL clnt, AAVL prod) {
+	int i=0, optn, seguintes=0, anteriores=0;
+	char escolha;
+	printf("\nESCOLHA A OPCAO:\n1-NUMERO DE CLIENTES POR LETRA\n2-NUMERO DE PRODUTOS POR LETRA\n3-LISTA PRODUTOS\n");
+	if(scanf("%d", &optn)) {
+		if(optn==1) {
+			printf("\n-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n");
+			for(i=0; i<MAX_LETTERS; i++) printf("%c: %d\n", i+65, contarNodos(devolveAVL(clnt, i+65)));
+			printf("\n");
 		}
-		else if(query==3) {	/*Funcional*/
-			printf("\nINSIRA UM MES: "); if(scanf("%d", &mes));
-			printf("INSIRA UM CODIGO DE PRODUTO: ");
-			if(scanf("%s", code)) {
-				if(validaMes(mes)==FALSE || existeProd(code, prod)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
-				else {
-					compModeN=comprasModo(contProd, (mes-1), code, 'N');
-					compModeP=comprasModo(contProd, (mes-1), code, 'P');
-					fact=totalFactProdMes(contProd, (mes-1), code);
-					printf("\nTOTAL DE COMPRAS EM MODO N: %d\n", compModeN);
-					printf("TOTAL DE COMPRAS EM MODO P: %d\n", compModeP);
-					printf("TOTAL FATURADO PELO PRODUTO NESSE MES: %.2f Euros\n", fact);
-				}
-			}
+		else if(optn==2) {
+			printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n");
+			for(i=0;i<MAX_LETTERS;i++) printf("%c: %d\n",i+65,contarNodos(devolveAVL(prod, i+65)));
+			printf("\n");
 		}
-		else if(query==4) query4(ht,prod);
-		else if(query==5) {	/*Funcional*/
-			printf("\nINSIRA UM CLIENTE: ");
-			if(scanf("%s", code)) {	
-				compMes(contClnt, code, comprasMes);
-				printf("DESEJA GUARDAR O RESULTADO NUM FICHEIRO DE TEXTO OU IMPRIMIR NO ECRA?\n0 - FICHEIRO, 1 - ECRA: ");
-				if(scanf("%d", &optn)) {
-					if(optn==1) {
-						printf("\n");
-						printf("COMPRAS DE "); for(i=0; i<5; i++) printf("%c", code[i]); printf(" POR MES:\n");
-						for(i=0; i<12; i++) printf("%d: %d\n", (i+1), comprasMes[i]);
-					} 
-					else {
-						compras_cliente=fopen("compras_cliente.txt", "w");
-						fprintf(compras_cliente, "COMPRAS DE ");  
-						for(i=0; i<5; i++) fprintf(compras_cliente, "%c", code[i]);
-						fprintf(compras_cliente, " POR MES:\n");
-						for(i=0; i<12; i++) fprintf(compras_cliente, "%d: %d\n", (i+1), comprasMes[i]);
-						fclose(compras_cliente);
-					}
-				}
-			}
-		}
-		else if(query==6) {	/*Não lê o carater escolha, imprime resultados errados e anterior=segm.fault*/
+		else {
 			GrowingArray ga = initGrowingArray(10,ArrayString);
-			printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
-			/*escolha=getchar();*/
-			imprimir_cliente(ga, clnt, escolha);
-    			printf("\nOS PRIMEIROS RESULTADOS:\n");
-    			imprime30(ga, 0);
-    			do {
+			printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE PRODUTOS QUE DESEJA SABER:\n");
+			escolha=getchar();
+			imprimir_produto(ga, prod, escolha);
+    			printf("\nPRIMEIROS RESULTADOS:\n");
+    			imprime30(ga, i);
+			do {
 				printf("\n1-SAIR\n2-PROXIMO\n3-ANTERIOR\n");
 				if(scanf("%d", &optn)) {
 					if(optn==1) break;
@@ -160,10 +130,115 @@ sobre a atividade de cada -> Query 10 e 14(1/2)
 				}
     			} while(optn!=1);
 		}
-		else if(query==7) {	/*Funcional*/
-			printf("\nINSIRA UM INTERVALO DE MESES:\n");
-			printf("MES INICIAL: "); if(scanf("%d", &prim));
-			printf("MES FINAL: "); if(scanf("%d", &ult));
+	}
+}
+
+void query3(Contabilidade contProd, AAVL prod) {
+	int mes, compModeN, compModeP;
+	double fact=0;
+	char *code=(char*) malloc(10*sizeof(char*));  
+	printf("\nINSIRA UM MES: "); 
+	if(scanf("%d", &mes)) {
+		printf("INSIRA UM CODIGO DE PRODUTO: ");
+		if(scanf("%s", code)) {
+			if(validaMes(mes)==FALSE || existeProd(code, prod)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
+			else {
+				compModeN=comprasModo(contProd, (mes-1), code, 'N');
+				compModeP=comprasModo(contProd, (mes-1), code, 'P');
+				fact=totalFactProdMes(contProd, (mes-1), code);
+				printf("\nTOTAL DE COMPRAS EM MODO N: %d\n", compModeN);
+				printf("TOTAL DE COMPRAS EM MODO P: %d\n", compModeP);
+				printf("TOTAL FATURADO PELO PRODUTO NESSE MES: %.2f Euros\n", fact);
+			}
+		}
+	}
+}
+
+void query4(HashTable ht, AAVL cp) {
+        int i,res,counter=0,total=0;
+        int booleano=0;
+        GrowingArray ga = initGrowingArray(200000,ArrayString);
+
+        for(i=0;i<MAX_LETTERS;i++) guardArrayAVL(cp[i],ga,ArrayString);
+        for(i=0;booleano!=1 && i < ga->size;i++) if(!searchHash(ht,ga->Elems[i])) {total++;}
+        for(i=0;booleano!=1 && i < ga->size;i++) {
+                if(!searchHash(ht,ga->Elems[i])) {
+			printf("%s\n",(char*)ga->Elems[i]);
+			counter++;
+			if(counter%30==0){
+				printf("\nDESEJA CONTINUAR?\n1-NAO\n2-SIM\n");
+				if(scanf("%d", &res)) {
+					if(res==1) booleano=1;
+				}
+			}
+		}
+	}
+	printf("\nNUMERO DE PRODUTOS QUE NINGUEM COMPROU: %d\n",total);
+}
+
+void query5(Contabilidade contClnt) {
+	int i, comprasMes[12], optn;
+	char *code=(char*) malloc(10*sizeof(char*));  
+	FILE *compras_cliente;
+	printf("\nINSIRA UM CLIENTE: ");
+	if(scanf("%s", code)) {	
+		compMes(contClnt, code, comprasMes);
+		printf("DESEJA GUARDAR O RESULTADO NUM FICHEIRO DE TEXTO OU IMPRIMIR NO ECRA?\n0 - FICHEIRO, 1 - ECRA: ");
+		if(scanf("%d", &optn)) {
+			if(optn==1) {
+				printf("\n");
+				printf("COMPRAS DE "); for(i=0; i<5; i++) printf("%c", code[i]); printf(" POR MES:\n");
+				for(i=0; i<12; i++) printf("%d: %d\n", (i+1), comprasMes[i]);
+			} 
+			else {
+				compras_cliente=fopen("compras_cliente.txt", "w");
+				fprintf(compras_cliente, "COMPRAS DE ");  
+				for(i=0; i<5; i++) fprintf(compras_cliente, "%c", code[i]);
+				fprintf(compras_cliente, " POR MES:\n");
+				for(i=0; i<12; i++) fprintf(compras_cliente, "%d: %d\n", (i+1), comprasMes[i]);
+				printf("\nFICHEIRO \"compras_cliente.txt\" CRIADO COM SUCESSO!\n");
+				fclose(compras_cliente);
+			}
+		}
+	}
+}
+
+void query6(AAVL clnt) {
+	int i=0, optn, seguintes=0, anteriores=0;
+	char escolha;
+	GrowingArray ga = initGrowingArray(10,ArrayString);
+	printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
+	escolha=getchar();
+	imprimir_cliente(ga, clnt, escolha);
+    	printf("\nOS PRIMEIROS RESULTADOS:\n");
+    	imprime30(ga, 0);
+    	do {
+		printf("\n1-SAIR\n2-PROXIMO\n3-ANTERIOR\n");
+		if(scanf("%d", &optn)) {
+			if(optn==1) break;
+        		else if(optn==2) {
+				seguintes++;
+				i+=(30*seguintes);
+				imprime30(ga, i);
+			}
+        		else if(optn==3) {
+				anteriores++;
+				i-=(30*anteriores);
+				imprime30(ga,i);
+			}
+		}
+    	} while(optn!=1);
+}
+
+void query7() {
+	int i, prim, ult;
+	double fact=0;
+	VENDAS_MES vendas=0;
+	printf("\nINSIRA UM INTERVALO DE MESES:\n");
+	printf("MES INICIAL: "); 
+	if(scanf("%d", &prim)) {
+		printf("MES FINAL: "); 
+		if(scanf("%d", &ult)) {
 			for(i=prim-1; i<ult; i++) {
 				fact+=returnFact(i);
 				vendas+=returnVendas(i);
@@ -172,46 +247,7 @@ sobre a atividade de cada -> Query 10 e 14(1/2)
 			printf("TOTAL DE VENDAS EFETUADAS NESSE INTERVALO: %d\n", vendas);
 			printf("FATURACAO TOTAL NESSE INTERVALO: %.2f Euros\n\n", fact);
 		}
-		else if(query==8) query8(ht);				/*Funcional*/
-		else if(query==9) query9(clnt, contClnt);		/*Falta ordenar resultados*/
-		else if(query==10) query10();				/*Resultado errado*/
-		else if(query==11) query11(compras_mes, clientes_mes);	/*Funcional*/
-		else if(query==12) query12(ht);				/*Funcional*/
-		else if(query==14) query14();				/*Resultado dos clientes errado*/
-	
 	}
-
-	end=clock();
-	time_spent=(double)(end-begin)/CLOCKS_PER_SEC ;
-	printf("\nTEMPO DE EXECUCAO: %.2f segundos\n\n", time_spent);
-
-	return 0;
-
-}
-
-void query4(HashTable ht, AAVL cp)
-{
-        int i,res,counter=0,total=0;
-        int booleano=0;
-        GrowingArray ga = initGrowingArray(200000,ArrayString);
-
-        for(i=0;i<MAX_LETTERS;i++)
-                guardArrayAVL(cp[i],ga,ArrayString);
-        for(i=0;booleano!=1 && i < ga->size;i++)
-                if(!searchHash(ht,ga->Elems[i])){total++;}
-        for(i=0;booleano!=1 && i < ga->size;i++)
-                if(!searchHash(ht,ga->Elems[i])) 
-			{
-			printf("%s\n",(char*)ga->Elems[i]);
-			counter++;
-			if(counter%30==0){
-				printf("\nDESEJA CONTINUAR?\n1-NÃO\n2-SIM\n");
-				if(scanf("%d", &res)) {
-					if(res==1) booleano=1;
-				}
-			}
-			}
-	printf("\n %d PRODUTOS INEXISTENTES\n",total);
 }
 
 void query8(HashTable ht) {
@@ -265,7 +301,8 @@ void query10() {
 	printf("\n%d CODIGOS\n",cm->size);
 }
 
-void query11(int compras_mes[12][1], int clientes_mes[12][1]) {
+void query11() {
+	int compras_mes[12][1], clientes_mes[12][1];
 	preenchecmp(compras_mes);
 	preencheclientes(clientes_mes);
 	create_csv(compras_mes, clientes_mes);

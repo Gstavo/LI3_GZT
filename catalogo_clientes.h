@@ -14,9 +14,6 @@ void insertCatalogo_Clientes(AAVL cl,char* code,int* cresceu);
 
 int codigos_Cliente();
 
-/* funçao a alterar(esta a fazer printf) */
-void codClientes(AVL array[]);
-
 BOOLEAN existeClnt(char* cliente, AAVL cl);
 
 void imprimir_cliente(GrowingArray ga, AAVL array, char letra);

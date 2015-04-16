@@ -28,15 +28,6 @@ int removeCatalogo_Clientes(AVL c,char* code)
 
 int codigos_Produto(){return Codigos_Produto;}
 
-/* funçao a alterar n pode printf*/
-
-void codProdutos(AVL array[]){
-        int i;
-  for (i=0;i<MAX_LETTERS;i++){
-     printf("%c : %d\n",i+65,contarNodos(devolveAVL(array, i+65)));
-        }
-}
-
 BOOLEAN existeP_aux(char* produto,AVL p)
 {
         int res;

@@ -8,7 +8,7 @@
 #include <math.h>
 #include "leitura.h"
 
-void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, Contabilidade contProd, HashTable ht, Comp compra) {
+void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, Contabilidade contProd, HashTable ht, Comp compra, int valid[]) {
 	int i, *cresceu=(int*) malloc(sizeof(int)), clntInv=0, prodInv=0;	
 	BOOLEAN validaClnt=FALSE, validaProd=FALSE, validaCmpr=FALSE;
 	int countCompras=0, compras_invalidas=0;
@@ -42,7 +42,6 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, Contabilidade contPro
 			else {
 				insertContabilidade(contClnt, contProd, compra, cresceu);
 				ht = insertHashTable(ht,compra);	
-			/* Futuramente vai inserir a compra nas estruturas de dados em compras.c tambemaqui */
 			}
 			countCompras++;
 	}
@@ -51,37 +50,11 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, Contabilidade contPro
 	fclose(produtos);
 	fclose(fcompras);
 
-	/* Hash - Compras (TESTE) */
-	/*
-	printf("Numero de vezes de realocaçao da hash : %d\n",getRemakes());
-	printf("Tamanho da hash : %d\n",ht->size);
-	printf("Numero de não colisoes %d\n",getNoncolisions());
-	printf("Numero de colisões %d\n",getColisions());
-	printf("Percentagem de hash codes em colisao %f\n", getColisionsRate());
-	printf("Codigos de produtos inseridos na hashtable: %d\n",getCodigosProdutosUsados());
-	*/
-	/* Depois tiro isto da hash*/
-
-
-	printf("\nPRODUTOS: %d\n", codigos_Produto());
-	printf("CLIENTES: %d\n", codigos_Cliente());
-	printf("LINHAS DE COMPRAS: %d\n", countCompras);
-	printf("CODIGOS DE CLIENTE INEXISTENTES: %d\n", clntInv);
-	printf("CODIGOS DE PRODUTO INEXISTENTES: %d\n", prodInv);
-	printf("TOTAL DE COMPRAS INVALIDAS: %d\n", compras_invalidas);
-	printf("--------------------------------------------\n");
-	printf("COMPRAS VALIDAS: %d\n", (countCompras-compras_invalidas));
-	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", returnFactTotal());
-}
-
-/*Funcao util para imprimir as compras*/
-void printCompras(Comp a){
-	printf("Codigo Produto = %s\n",a->codigo_produto);
-	printf("Preco Unitario = %f\n",a->preco);
-	printf("Unidades Compradas = %d\n",a->quantidade);
-	printf("Tipo = %c\n",a->tipo);
-	printf("Codigo Cliente = %s\n",a->codigo_cliente);
-	printf("Mes = %d\n",a->mes);
+	valid[0]=countCompras;
+	valid[1]=clntInv;
+	valid[2]=prodInv;
+	valid[3]=compras_invalidas;
+	valid[4]=countCompras-compras_invalidas;
 }
 
 BOOLEAN validaMes(int mes){
