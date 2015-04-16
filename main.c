@@ -301,8 +301,22 @@ void query9(AAVL clnt, Contabilidade contClnt) {
 
 void query10() {
 	GrowingArray cm=getClientesMensais();
-	int i;
-	for(i=0; i<cm->size; i++) printf("%s\n", (char*) cm->Elems[i]);
+	int j,res,counter=0,booleano=0,quantas;
+	for(j=0;booleano!=1 && j < cm->size;j++) {
+		printf("%s\n",(char*)cm->Elems[j]);
+		counter++;
+		if(counter%30==0) {
+			printf("\nESCOLHA UMA OPCAO:\n1-SAIR\n2-PROXIMA\n3-ANTERIOR\n\n");
+			if(scanf("%d", &res)) {
+				if(res==1) booleano=1;
+				if(res==3) {
+					printf("ESCREVA QUANTAS PAGINAS QUER VOLTAR A ATRAS?\n");
+					if(scanf("%d", &quantas)) 
+						if(quantas>0) j-=(j*quantas);
+				}	
+			}
+		}
+	}
 	printf("\n%d CODIGOS\n",cm->size);
 }
 
@@ -326,7 +340,7 @@ void query12(HashTable ht) {
 		}
 	}
 }
-
+/*
 void query13(AAVL clnt, Contabilidade contClnt) {
 	int i, mes, max1=0, max2=0, max3=0,m1=0,m2=0,m3=0;
 	char *code=(char*) malloc(10*sizeof(char));
@@ -353,7 +367,7 @@ void query13(AAVL clnt, Contabilidade contClnt) {
 		}
 	}
 }
-
+*/
 void query14() {
 	int clientes_inativos = getClientesInativos();
 	int produtos_inativos = codigos_Produto() - getCodigosProdutosUsados();
