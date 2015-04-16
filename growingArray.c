@@ -28,3 +28,21 @@ void resizeGrowingArray(GrowingArray a,int tipo) {
 	
 
 
+void ordenaGrowingArray(GrowingArray a,int tipo){
+	int i;
+	GrowingArray aux=initGrowingArray(200000, ArrayCompProduto);
+	if(tipo==ArrayCompProduto){
+		for(i=0;i+1<a->size;i++){
+			CompProduto o=(CompProduto) aux->Elems[i];
+			CompProduto p=(CompProduto) a->Elems[i];
+			CompProduto q=(CompProduto) a->Elems[i+1];
+			if((p->quantidade)>(q->quantidade)){
+				o->quantidade =p->quantidade;
+				p->quantidade = q->quantidade;
+				q->quantidade = o->quantidade;
+			}
+		}
+	}
+	/*else if(tipo==ArrayString){....}*/
+}
+

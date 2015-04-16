@@ -90,8 +90,8 @@ void query1(int valid[]) {
 	printf("COMPRAS VALIDAS: %d\n", valid[4]);
 	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", returnFactTotal());
 }
-
-void query2(AAVL clnt, AAVL prod) {
+/*
+void query2_1(AAVL clnt, AAVL prod) {
 	int i=0, optn, seguintes=0, anteriores=0;
 	char escolha;
 	printf("\nESCOLHA A OPCAO:\n1-NUMERO DE CLIENTES POR LETRA\n2-NUMERO DE PRODUTOS POR LETRA\n3-LISTA PRODUTOS\n");
@@ -129,6 +129,57 @@ void query2(AAVL clnt, AAVL prod) {
 					}
 				}
     			} while(optn!=1);
+		}
+	}
+}
+*/
+void query2(AAVL clnt, AAVL prod) {/*FUNCIONAL mas ir para anterior mais do que uma vez da segmentation fault*/
+	int i=0, optn;
+	char escolha='A';
+	printf("\nESCOLHA A OPCAO:\n1-NUMERO DE CLIENTES POR LETRA\n2-NUMERO DE PRODUTOS POR LETRA\n3-LISTA PRODUTOS\n");
+	if(scanf("%d", &optn)) 
+	{
+		if(optn==1)
+		{
+			printf("\n-- CODIGOS DE CLIENTES POR LETRA NO CATALOGO --\n");
+			for(i=0; i<MAX_LETTERS; i++) printf("%c: %d\n", i+65, contarNodos(devolveAVL(clnt, i+65)));
+			printf("\n");
+		}
+		else if(optn==2) 
+		{
+			printf("\n-- CODIGOS DE PRODUTOS POR LETRA NO CATALOGO --\n");
+			for(i=0;i<MAX_LETTERS;i++) printf("%c: %d\n",i+65,contarNodos(devolveAVL(prod, i+65)));
+			printf("\n");
+		}
+		else 
+		{
+			int j,res,counter=0;
+        	int booleano=0;
+       		int quantas;
+        	GrowingArray ga = initGrowingArray(10000,ArrayString);
+        	printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE PRODUTOS QUE DESEJA SABER:\n");
+			/*escolha=getchar();*/
+			guardArrayAVL(prod[escolha-65],ga,ArrayString);
+        	for(j=0;booleano!=1 && j < ga->size;j++) 
+        	{
+				printf("%s\n",(char*)ga->Elems[j]);
+				counter++;
+				if(counter%30==0)
+				{
+					printf("\nDESEJA CONTINUAR?\n1-SAIR\n2-PRÓXIMA\n3-ANTERIOR\n\n");
+					if(scanf("%d", &res)) 
+					{
+						if(res==1) booleano=1;
+						if(res==3) 
+						{
+							printf("ESCREVA QUANTAS PÁGINAS QUER VOLTAR A ATRÁS?\n");
+							if(scanf("%d", &quantas))
+							{
+								if(quantas>0) j-=(j*quantas);
+							}
+						}
+				}	}
+			}
 		}
 	}
 }
@@ -210,7 +261,40 @@ void query5(Contabilidade contClnt) {
 	}
 }
 
-void query6(AAVL clnt) {
+void query6(AAVL clnt) {/*Quando volta para tras da Segmentation fault*/
+	char escolha='A';
+	int j,res,counter=0,booleano=0,quantas;
+    GrowingArray ga = initGrowingArray(10000,ArrayString);
+    printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
+	/*escolha=getchar();*/
+	guardArrayAVL(clnt[escolha-65],ga,ArrayString);
+    for(j=0;booleano!=1 && j < ga->size;j++) 
+    {
+		printf("%s\n",(char*)ga->Elems[j]);
+		counter++;
+		if(counter%30==0)
+		{
+			printf("\nDESEJA CONTINUAR?\n1-SAIR\n2-PRÓXIMA\n3-ANTERIOR\n\n");
+			if(scanf("%d", &res)) 
+			{
+				if(res==1) booleano=1;
+				if(res==3) 
+				{
+					printf("ESCREVA QUANTAS PÁGINAS QUER VOLTAR A ATRÁS?\n");
+					if(scanf("%d", &quantas))
+					{
+						if(quantas>0) j-=(j*quantas);
+				}	}
+			}
+		}
+	}
+}
+
+
+
+
+/*
+void query6_1(AAVL clnt) {
 	int i=0, optn, seguintes=0, anteriores=0;
 	char escolha;
 	GrowingArray ga = initGrowingArray(10,ArrayString);
@@ -236,6 +320,7 @@ void query6(AAVL clnt) {
 		}
     	} while(optn!=1);
 }
+*/
 
 void query7() {
 	int i, prim, ult;
@@ -288,9 +373,11 @@ void query9(AAVL clnt, Contabilidade contClnt) {
 	if(scanf("%s", code)) {
 		if(validaMes(mes)==FALSE || existeClnt(code, clnt)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
 		else{
+
 			guardOcurrencesAVL(contClnt[mes-1][indexL(code)], ga, ArrayCompProduto, code);
 			if(ga->size == 0) puts("\nNADA ENCONTRADO");
 			else {
+				ordenaGrowingArray(ga,ArrayCompProduto);
 				putchar('\n');
 				for(i=0; i<ga->size; i++) {
 					CompProduto aux=(CompProduto) ga->Elems[i];
