@@ -58,7 +58,7 @@ int main(){
 			case 1: query1(valid); break;			/*Funcional*/
 			case 2: query2(clnt, prod); break;		/*Segm.fault na impressao da lista*/
 			case 3: query3(contProd, prod);	break;		/*Fact da resultado inteiro*/
-			case 4: query4(ht,prod); break;			/*Falta fazer navegacao na lista*/
+			case 4: query4(ht,prod); break;			/*Funcional*/
 			case 5: query5(contClnt); break;		/*Funcional*/
 			case 6: query6(clnt); break;			/*Segm.fault*/
 			case 7: query7(); break;			/*Funcional*/
