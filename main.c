@@ -191,18 +191,27 @@ sobre a atividade de cada -> Query 10 e 14(1/2)
 
 void query4(HashTable ht, AAVL cp)
 {
-        int i,counter=0;
+        int i,res,counter=0,total=0;
+        int booleano=0;
         GrowingArray ga = initGrowingArray(200000,ArrayString);
 
         for(i=0;i<MAX_LETTERS;i++)
                 guardArrayAVL(cp[i],ga,ArrayString);
-        for(i=0;i < ga->size;i++)
+        for(i=0;booleano!=1 && i < ga->size;i++)
+                if(!searchHash(ht,ga->Elems[i])){total++;}
+        for(i=0;booleano!=1 && i < ga->size;i++)
                 if(!searchHash(ht,ga->Elems[i])) 
 			{
 			printf("%s\n",(char*)ga->Elems[i]);
 			counter++;
+			if(counter%30==0){
+				printf("\nDESEJA CONTINUAR?\n1-NÃO\n2-SIM\n");
+				if(scanf("%d", &res)) {
+					if(res==1) booleano=1;
+				}
 			}
-	printf("\n %d PRODUTOS INEXISTENTES\n",counter);
+			}
+	printf("\n %d PRODUTOS INEXISTENTES\n",total);
 }
 
 void query8(HashTable ht) {
