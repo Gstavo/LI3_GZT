@@ -20,6 +20,7 @@ void query9(AAVL clnt, Contabilidade contClnt);
 void query10();
 void query11();
 void query12(HashTable ht);
+void query13(AAVL clnt, Contabilidade contClnt);
 void query14();
 
 void imprime30(GrowingArray ga,int index) {
@@ -67,6 +68,7 @@ int main(){
 			case 10: query10(); break;			/*Funcional, mas falta a navegacao*/
 			case 11: query11(); break;			/*Funcional*/
 			case 12: query12(ht); break;			/*Funcional*/
+			case 13: query13(clnt, contClnt); break;	/*Funcional*/
 			case 14: query14(); 				/*Funcional*/
 		}
 	}
@@ -340,34 +342,46 @@ void query12(HashTable ht) {
 		}
 	}
 }
-/*
+
 void query13(AAVL clnt, Contabilidade contClnt) {
-	int i, mes, max1=0, max2=0, max3=0,m1=0,m2=0,m3=0;
+	int i, mes, max1=0, max2=0, max3=0;
+	char *m1=malloc(10*sizeof(char)), *m2=malloc(10*sizeof(char)), *m3=malloc(10*sizeof(char));
 	char *code=(char*) malloc(10*sizeof(char));
 	GrowingArray ga=initGrowingArray(200000, ArrayCompProduto);		
 	printf("INSIRA UM CODIGO DE CLIENTE: ");
 	if(scanf("%s", code)) {
 		if(existeClnt(code, clnt)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
-		else{
-			for(mes=0:mes<12;mes++){
-			guardOcurrencesAVL(contClnt[mes-1][indexL(code)], ga, ArrayCompProduto, code);
-			}
-			if(ga->size == 0) puts("\nNADA ENCONTRADO");
+		else {
+			for(mes=0; mes<12; mes++) guardOcurrencesAVL(contClnt[mes-1][indexL(code)], ga, ArrayCompProduto, code);
+			if(ga->size==0) puts("\nNADA ENCONTRADO");
 			else {
-				for(i=0:i<ga->size;i++){
-					if(ga->Elems[i]->quantidade>max1) {max1=ga->Elems[i]->quantidade;m1=i;}
-					else if(ga->Elems[i]->quantidade<max1 && ga->Elems[i]->quantidade>max2) {max2=ga->Elems[i]->quantidade;m2=i;}
-					else if(ga->Elems[i]->quantidade<max1 && ga->Elems[i]->quantidade<max2 && ga->Elems[i]->quantidade>max3) {max3=ga->Elems[i]->quantidade;m3=i;}
+				putchar('\n');
+				for(i=0; i<ga->size; i++) {
+					CompProduto aux=ga->Elems[i];
+					if(aux->quantidade>max1 || aux->quantidade>max2 || aux->quantidade>max3) {
+						if(aux->quantidade>max1 && (max2>max1 || max3>max1)) {
+							max1=aux->quantidade; 
+							strncpy(m1, aux->codigo_produto, 6);
+						}
+						else if(aux->quantidade>max2 && (max1>max2 || max3>max2)) {
+							max2=aux->quantidade;
+							strncpy(m2, aux->codigo_produto, 6);
+						}
+						else {
+							max3=aux->quantidade;
+							strncpy(m3, aux->codigo_produto, 6);
+						}
+					}
 				}
-				printf("1º PRODUTO MAIS VENDIDO: %s | QUANTIDADE: %d\n", ga->Elems[m1]->codigo_produto, max1);
-				printf("2º PRODUTO MAIS VENDIDO: %s | QUANTIDADE: %d\n", ga->Elems[m2]->codigo_produto, max2);
-				printf("3º PRODUTO MAIS VENDIDO: %s | QUANTIDADE: %d\n", ga->Elems[m3]->codigo_produto, max3);
+				printf("PRODUTO: %s | QUANTIDADE: %d\n", m1, max1);
+				printf("PRODUTO: %s | QUANTIDADE: %d\n", m2, max2);
+				printf("PRODUTO: %s | QUANTIDADE: %d\n", m3, max3);
 
 			}
 		}
 	}
 }
-*/
+
 void query14() {
 	int clientes_inativos = getClientesInativos();
 	int produtos_inativos = codigos_Produto() - getCodigosProdutosUsados();
