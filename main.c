@@ -157,6 +157,7 @@ void query3(Contabilidade contProd, AAVL prod) {
 void query4(HashTable ht, AAVL cp) {
         int i,res,counter=0,total=0;
         int booleano=0;
+        int quantas;
         GrowingArray ga = initGrowingArray(200000,ArrayString);
 
         for(i=0;i<MAX_LETTERS;i++) guardArrayAVL(cp[i],ga,ArrayString);
@@ -166,9 +167,15 @@ void query4(HashTable ht, AAVL cp) {
 			printf("%s\n",(char*)ga->Elems[i]);
 			counter++;
 			if(counter%30==0){
-				printf("\nDESEJA CONTINUAR?\n1-NAO\n2-SIM\n");
+				printf("\nDESEJA CONTINUAR?\n1-NAO\n2-SIM\n3-ANTERIOR\n\n");
 				if(scanf("%d", &res)) {
 					if(res==1) booleano=1;
+					if(res==3) {
+						printf("ESCREVA QUANTAS PÁGINAS QUER VOLTAR A ATRÁS?\n");
+						if(scanf("%d", &quantas)){
+							if(quantas>0) i-=(counter*quantas);
+						}
+					}
 				}
 			}
 		}
