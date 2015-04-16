@@ -47,6 +47,11 @@ all: avl.c leitura.c catalogo_clientes.c catalogo_produtos.c contabilidade.c com
 	make leitura
 	make main
 	make gesthip
+	make clean
 clean:
 	rm -f *.o
+
+cleanall:
+	rm -f *.o
 	rm -f *.csv
+	rm compras_cliente.txt

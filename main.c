@@ -327,6 +327,33 @@ void query12(HashTable ht) {
 	}
 }
 
+void query13(AAVL clnt, Contabilidade contClnt) {
+	int i, mes, max1=0, max2=0, max3=0,m1=0,m2=0,m3=0;
+	char *code=(char*) malloc(10*sizeof(char));
+	GrowingArray ga=initGrowingArray(200000, ArrayCompProduto);		
+	printf("INSIRA UM CODIGO DE CLIENTE: ");
+	if(scanf("%s", code)) {
+		if(existeClnt(code, clnt)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
+		else{
+			for(mes=0:mes<12;mes++){
+			guardOcurrencesAVL(contClnt[mes-1][indexL(code)], ga, ArrayCompProduto, code);
+			}
+			if(ga->size == 0) puts("\nNADA ENCONTRADO");
+			else {
+				for(i=0:i<ga->size;i++){
+					if(ga->Elems[i]->quantidade>max1) {max1=ga->Elems[i]->quantidade;m1=i;}
+					else if(ga->Elems[i]->quantidade<max1 && ga->Elems[i]->quantidade>max2) {max2=ga->Elems[i]->quantidade;m2=i;}
+					else if(ga->Elems[i]->quantidade<max1 && ga->Elems[i]->quantidade<max2 && ga->Elems[i]->quantidade>max3) {max3=ga->Elems[i]->quantidade;m3=i;}
+				}
+				printf("1º PRODUTO MAIS VENDIDO: %s | QUANTIDADE: %d\n", ga->Elems[m1]->codigo_produto, max1);
+				printf("2º PRODUTO MAIS VENDIDO: %s | QUANTIDADE: %d\n", ga->Elems[m2]->codigo_produto, max2);
+				printf("3º PRODUTO MAIS VENDIDO: %s | QUANTIDADE: %d\n", ga->Elems[m3]->codigo_produto, max3);
+
+			}
+		}
+	}
+}
+
 void query14() {
 	int clientes_inativos = getClientesInativos();
 	int produtos_inativos = codigos_Produto() - getCodigosProdutosUsados();
