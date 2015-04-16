@@ -10,7 +10,8 @@
 
 void query1(int valid[]);
 void query2(AAVL clnt, AAVL prod);
-void query3(Contabilidade contProd, AAVL prod);
+/*void query3o(Contabilidade contProd, AAVL prod);*/
+void query3(HashTable ht);
 void query4(HashTable ht, AAVL cp);
 void query5(Contabilidade contClnt);
 void query6(AAVL clnt);
@@ -32,7 +33,7 @@ int main(){
 	int query, valid[5];			/*valid guarda os resultados da leitura para posterior impressao na query1*/
 	double time_spent;
 	AAVL clnt, prod;
-	Contabilidade contClnt, contProd;	/*contProd - contabilidade por codigo de produto*/
+	Contabilidade contClnt;	
 	HashTable ht;
 	Comp compra;
 	clock_t begin, end;
@@ -45,10 +46,9 @@ int main(){
 	initCatalogo_Clientes(clnt);
 	initCatalogo_Produtos(prod);
 	initContabilidade(contClnt);
-	initContabilidade(contProd);
 
 	/*Preenchimento e leitura das estruturas de dados*/
-	leitura(clnt, prod, contClnt, contProd, ht, compra, valid);
+	leitura(clnt, prod, contClnt, ht, compra, valid);
 
 	/*Faz uma travessia a todos os codigos de cliente recolhendo informaçoes sobre a atividade de cada um*/
 	gatherData(clnt, contClnt);
@@ -58,7 +58,7 @@ int main(){
 		switch(query) {
 			case 1: query1(valid); break;			/*Funcional*/
 			case 2: query2(clnt, prod); break;		/*Funcional, mas nao volta para tras*/
-			case 3: query3(contProd, prod);	break;		/*Funcional*/
+			case 3: query3(ht);  	break;		/*Funcional*/
 			case 4: query4(ht,prod); break;			/*Funcional, mas nao volta para tras*/
 			case 5: query5(contClnt); break;		/*Funcional*/
 			case 6: query6(clnt); break;			/*Funcional, mas nao volta para tras*/
@@ -133,7 +133,7 @@ void query2(AAVL clnt, AAVL prod) {
 		}
 	}
 }
-
+/*
 void query3(Contabilidade contProd, AAVL prod) {
 	int mes, compModeN, compModeP;
 	double fact=0;
@@ -154,6 +154,45 @@ void query3(Contabilidade contProd, AAVL prod) {
 		}
 	}
 }
+*/
+void query3(HashTable ht)
+{
+	
+	int mes, compModeN, compModeP;
+	double fact=0;
+	char *code=(char*) malloc(10*sizeof(char*));  
+	
+	compModeN = compModeP = 0;
+
+	printf("\nINSIRA UM MES: "); 
+	
+	if(scanf("%d", &mes)) {
+		
+		printf("INSIRA UM CODIGO DE PRODUTO: ");
+		
+		if(scanf("%s", code)) {
+			
+			CpInfo cpinfo = searchHash(ht,code);
+			
+			if(validaMes(mes)==FALSE || cpinfo==NULL) printf("\nARGUMENTOS INVALIDOS!!!\n");
+			else{
+				CpInfoList tmp;				
+	
+				for(tmp = cpinfo->first ; tmp ; tmp = tmp->next) 
+					if(tmp->mes == mes)
+					{
+						fact += tmp->fact;
+						if(tmp->tipo == 'N') compModeN++; else compModeP++;
+					}
+				
+				printf("\nTOTAL DE COMPRAS EM MODO N: %d\n",compModeN);
+				printf("TOTAL DE COMPRAS EM MODO P: %d\n",compModeP);
+				printf("TOTAL FATURADO PELO PRODUTO NESSE MES: %.2f Euros\n",fact);
+			}
+		}
+	}
+}
+
 
 void query4(HashTable ht, AAVL cp) {
         int i,res,counter=0,total=0;

@@ -5,6 +5,8 @@
 typedef struct cpinfolist{
         char* cliente;
         char tipo;
+	int mes;
+	double fact;
         struct cpinfolist *next;
 }cpinfolist;
 

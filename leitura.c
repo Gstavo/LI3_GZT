@@ -8,7 +8,7 @@
 #include <math.h>
 #include "leitura.h"
 
-void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, Contabilidade contProd, HashTable ht, Comp compra, int valid[]) {
+void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, HashTable ht, Comp compra, int valid[]) {
 	int i, *cresceu=(int*) malloc(sizeof(int)), clntInv=0, prodInv=0;	
 	BOOLEAN validaClnt=FALSE, validaProd=FALSE, validaCmpr=FALSE;
 	int countCompras=0, compras_invalidas=0;
@@ -40,7 +40,7 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, Contabilidade contPro
 			if(validaProd==FALSE) prodInv++;
 			if(validaClnt==FALSE || validaProd==FALSE || validaCmpr==FALSE) compras_invalidas++;
 			else {
-				insertContabilidade(contClnt, contProd, compra, cresceu);
+				insertContabilidade(contClnt, compra, cresceu);
 				ht = insertHashTable(ht,compra);	
 			}
 			countCompras++;

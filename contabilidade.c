@@ -38,10 +38,10 @@ void initContabilidade(Contabilidade c)
 }
 
 
-void insertContabilidade(Contabilidade contClnt, Contabilidade contProd, Comp compra, int* cresceu) {
-	int iM=indexM(compra), iLC=indexL(compra->codigo_cliente), iLP=indexL(compra->codigo_produto);
+void insertContabilidade(Contabilidade contClnt, Comp compra, int* cresceu) {
+	int iM=indexM(compra), iLC=indexL(compra->codigo_cliente);/* iLP=indexL(compra->codigo_produto);*/
 	contClnt[iM][iLC]=insert(contClnt[iM][iLC], compra, cresceu, Compras_Ord_CC);
-	contProd[iM][iLP]=insert(contProd[iM][iLP], compra, cresceu, Compras_Ord_CP);
+/*	contProd[iM][iLP]=insert(contProd[iM][iLP], compra, cresceu, Compras_Ord_CP); */
 	compras_mes[iM]++;
 	mDATA[iM].nvendas+=compra->quantidade;
 	mDATA[iM].nclientes+=1;

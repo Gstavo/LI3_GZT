@@ -61,6 +61,8 @@ CpInfo insertCPinfo(CpInfo infoL,Comp compra){
 		infoL->first->cliente = malloc(10*sizeof(char));
 		strcpy(infoL->first->cliente,compra->codigo_cliente);
 		infoL->first->tipo = compra->tipo;
+		infoL->first->mes = compra->mes;
+		infoL->first->fact = compra->quantidade * compra->preco;
 		infoL->first->next = NULL;
 
 		infoL->clientes = 1;
@@ -72,6 +74,8 @@ CpInfo insertCPinfo(CpInfo infoL,Comp compra){
 		new->cliente = malloc(10*sizeof(char));
 		strcpy(new->cliente,compra->codigo_cliente);
 		new->tipo = compra->tipo;
+		new->mes = compra->mes;
+		new->fact = compra->quantidade * compra->preco;
 		new->next = NULL;
 		
 		infoL->last->next = new;
