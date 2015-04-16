@@ -58,7 +58,7 @@ int main(){
 		switch(query) {
 			case 1: query1(valid); break;			/*Funcional*/
 			case 2: query2(clnt, prod); break;		/*Funcional, mas nao volta para tras*/
-			case 3: query3(contProd, prod);	break;		/*Fact da resultado inteiro*/
+			case 3: query3(contProd, prod);	break;		/*Funcional*/
 			case 4: query4(ht,prod); break;			/*Funcional, mas nao volta para tras*/
 			case 5: query5(contClnt); break;		/*Funcional*/
 			case 6: query6(clnt); break;			/*Funcional, mas nao volta para tras*/
@@ -76,7 +76,7 @@ int main(){
 	end=clock();
 	time_spent=(double)(end-begin)/CLOCKS_PER_SEC ;
 	printf("\nTEMPO DE EXECUCAO: %.2f segundos\n\n", time_spent);
-
+	/*system clear*/
 	return 0;
 
 }
