@@ -87,7 +87,8 @@ GrowingArray getClientesMensais()
 /* Retorna metade do resultado da query 14 */
 int getClientesInativos()
 {
-	return clientes_inativos;
+/*	return clientes_inativos; */
+	return clientesMensais->size;
 }
 
 /*Devolve o numero de compras de um cliente em cada mes*/
@@ -140,9 +141,10 @@ void gatherData(AAVL cl,Contabilidade c)
 {
 	int i;
 	GrowingArray clientes = initGrowingArray(20000,ArrayString);
-        clientesMensais = initGrowingArray(10,ArrayString);
+        clientesMensais = initGrowingArray(10000,ArrayString);
 	for(i=0;i<MAX_LETTERS;i++)
 		guardArrayAVL(cl[i],clientes,ArrayString);
+	
 	for(i=0;i<clientes->size;i++){
 		int im,meses_activos=0;		
 		for(im = 0; im < MAX_MONTHS;im++)
@@ -151,7 +153,10 @@ void gatherData(AAVL cl,Contabilidade c)
 			if(countainAVL(c[im][iL],clientes->Elems[i])) meses_activos++;
 		}
 		if(meses_activos == 0) clientes_inativos++;
-		if(meses_activos == 12) insertGrowingArray(clientesMensais,clientes->Elems[i],ArrayString);  
-		
+		if(meses_activos == 12) {	
+			char* insert = malloc(10*sizeof(char));
+			strcpy(insert,clientes->Elems[i]);	
+			insertGrowingArray(clientesMensais,insert,ArrayString);  
+		}
 	}
 }

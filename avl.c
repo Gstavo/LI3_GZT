@@ -239,15 +239,19 @@ void guardOcurrencesAVL(AVL avl, GrowingArray array, int tipo, char* codigo){
 }
 
 /*Feito para o tipo AVL Compras_Ord_CC*/
-BOOLEAN countainAVL(AVL a, char* code) {
-	if(a) {
+BOOLEAN countainAVL(AVL a,char* code)
+{
+	if(a == NULL) return FALSE;
+	else{
 		Comp compra = a->info;
-		if(strcmp(code,compra->codigo_cliente)==0) return TRUE;
-		else if(strcmp(code,compra->codigo_cliente)<0) countainAVL(a->left, code);
-		else countainAVL(a->right,code);
+		
+		if(strcmp(code,compra->codigo_cliente) == 0) return TRUE;
+		else if(strcmp(code,compra->codigo_cliente) < 0) return countainAVL(a->left,code);
+		else return countainAVL(a->right,code);
 	}
-	return FALSE;
 }
+
+
 
 void limpaLista(char **lista) {
 	int i=0;
