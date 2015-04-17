@@ -87,8 +87,7 @@ GrowingArray getClientesMensais()
 /* Retorna metade do resultado da query 14 */
 int getClientesInativos()
 {
-/*	return clientes_inativos; */
-	return clientesMensais->size;
+	return clientes_inativos; 
 }
 
 /*Devolve o numero de compras de um cliente em cada mes*/
@@ -137,6 +136,19 @@ double totalFactProdMes(Contabilidade contProd, int mes, char *code) {
 	return res;
 }
 
+/* Nao ta a ser usada apagar depois, pode dar jeito por enquanto */
+void printAVL(AVL a)
+{
+	if(a)
+		{
+			Comp compra=a->info;
+			printAVL(a->left);
+			printf("code: %s mes: %d \n",compra->codigo_cliente,compra->mes);
+			/*printCompras(a->info);*/
+			printAVL(a->right);
+		}
+}
+
 void gatherData(AAVL cl,Contabilidade c)
 {
 	int i;
@@ -146,8 +158,8 @@ void gatherData(AAVL cl,Contabilidade c)
 		guardArrayAVL(cl[i],clientes,ArrayString);
 	
 	for(i=0;i<clientes->size;i++){
-		int im,meses_activos=0;		
-		for(im = 0; im < MAX_MONTHS;im++)
+		int im,meses_activos;		
+		for(im = 0,meses_activos = 0; im < MAX_MONTHS;im++)
 		{
 			int iL = indexL(clientes->Elems[i]);
 			if(countainAVL(c[im][iL],clientes->Elems[i])) meses_activos++;
