@@ -141,7 +141,7 @@ void gatherData(AAVL cl,Contabilidade c)
 {
 	int i;
 	GrowingArray clientes = initGrowingArray(20000,ArrayString);
-        clientesMensais = initGrowingArray(10000,ArrayString);
+        clientesMensais = initGrowingArray(20000,ArrayString);
 	for(i=0;i<MAX_LETTERS;i++)
 		guardArrayAVL(cl[i],clientes,ArrayString);
 	
