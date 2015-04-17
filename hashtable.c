@@ -94,7 +94,7 @@ HashTable insertHashTable(HashTable ht, Comp compra)
 
 	if( ocupacao > 0.3)
 	{
-		ht = remakeHash(ht,1.5*ht->max_size);
+		ht = remakeHash(ht,1.5*ht->max_size); 
 		remakes++;
 	}
 	

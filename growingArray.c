@@ -20,17 +20,10 @@ void insertGrowingArray(GrowingArray a, Objeto o, int tipo) {
 	if(a->size==a->max_size) 
 		{
 			a->max_size*=1.5; 
-			a->Elems=realloc(a->Elems, a->max_size);
+			a->Elems=realloc(a->Elems,sizeof(void*) *  a->max_size);
 		}	
-		/*resizeGrowingArray(a,tipo);*/
 	a->Elems[a->size]=o;
 	a->size+=1;
-}
-
-/*Aumenta o tamanho do GrowingArray 1.5 vezes, caso este atinja o tamanho maximo*/
-void resizeGrowingArray(GrowingArray a,int tipo) { 
-	a->max_size*=1.5; 
-	a->Elems=realloc(a->Elems, a->max_size);
 }
 	
 
@@ -56,12 +49,7 @@ void ordenaGrowingArray(GrowingArray a,int tipo){
 
 void swapCP(ComprasProd a[],int i,int j)
 {	
-	ComprasProd tmp;
-	tmp.codigo_produto = malloc(10*sizeof(char));
-	strcpy(tmp.codigo_produto,a[i].codigo_produto);
-	tmp.quantidade = a[i].quantidade;
-	
-	tmp = a[i];
+	ComprasProd tmp = a[i];
 	a[i] = a[j];
 	a[j] = tmp;
 
@@ -94,14 +82,13 @@ int partition(ComprasProd a[],int N)
 {
 	int j,i;
 	int pivo = a[0].quantidade;
-	for(i=1,j=N-1;j>i;)
-		if(pivo >= a[i].quantidade)
+	for(i=1,j=N;j>i+1;)
+		if(pivo < a[i].quantidade)
 		{
-			swapCP(a,i,j);
-			j--;
+			swapCP(a,i,--j);
 		}
 		else i++;
-	swapCP(a,0,i);
+	swapCP(a,0,--i);
 	return i;	
 }
 
@@ -111,7 +98,7 @@ void qSortGrowingArray(ComprasProd a[],int N)
 	if(N > 1)
 	{
 		p = partition(a,N);
-		qSortGrowingArray(a,p+1);
+		qSortGrowingArray(a,p);
 		qSortGrowingArray(a + p,N-p); 
 	}
 }

@@ -14,7 +14,7 @@ Comp initCompra() {
 }
 
 HashTable initHashCompras() {
-	HashTable ht=initHashTable(4*N_Codigos_Produto);
+	HashTable ht=initHashTable(4 * N_Codigos_Produto);
 	return ht;
 }
 

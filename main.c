@@ -168,7 +168,7 @@ void query4(HashTable ht, AAVL cp) {
         int i,res,counter=0,total=0;
         int booleano=0;
         int quantas;
-        GrowingArray ga = initGrowingArray(200000,ArrayString);
+        GrowingArray ga = initGrowingArray(10,ArrayString);
 	printf("\nLISTA DE PRODUTOS NAO COMPRADOS: \n");
         for(i=0;i<MAX_LETTERS;i++) guardArrayAVL(cp[i],ga,ArrayString);
         for(i=0;booleano!=1 && i < ga->size;i++) if(!searchHash(ht,ga->Elems[i])) {total++;}
