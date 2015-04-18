@@ -17,94 +17,38 @@ GrowingArray initGrowingArray(int max_size, int tipo) {
 
 /*Insere um novo CompProduto no GrowingArray*/
 void insertGrowingArray(GrowingArray a, Objeto o, int tipo) {
-	if(a->size==a->max_size) 
-		{
-			a->max_size*=1.5; 
-			a->Elems=realloc(a->Elems,sizeof(void*) *  a->max_size);
-		}	
+	if(a->size==a->max_size) {
+		a->max_size*=1.5; 
+		a->Elems=realloc(a->Elems,sizeof(void*) *  a->max_size);
+	}	
 	a->Elems[a->size]=o;
 	a->size+=1;
 }
 	
+void ordenaArrayAux(int **arrayAux, int length) {
+	qSort(arrayAux, 0, length-1);
+}
 
-/*
-void ordenaGrowingArray(GrowingArray a,int tipo){
-	int i;
-	GrowingArray aux=initGrowingArray(200000, ArrayCompProduto);
-	if(tipo==ArrayCompProduto){
-		for(i=0;i+1<a->size;i++){
-			CompProduto o=(CompProduto) aux->Elems[i];
-			CompProduto p=(CompProduto) a->Elems[i];
-			CompProduto q=(CompProduto) a->Elems[i+1];
-			if((p->quantidade)>(q->quantidade)){
-				o->quantidade =p->quantidade;
-				p->quantidade = q->quantidade;
-				q->quantidade = o->quantidade;
-			}
+void qSort(int **arrayAux, int left, int right) {
+	int i=left, j=right, x=arrayAux[(left+right)/2][0], y[2];
+	while(i<=j) {
+		while(arrayAux[i][0]>x && i<right) {
+			i++;
+		}
+		while(arrayAux[j][0]<x && j>left) {
+			j--;
+		}
+		if(i<=j) {
+			y[0]=arrayAux[i][0];
+			y[1]=arrayAux[i][1];
+			arrayAux[i][0]=arrayAux[j][0];
+			arrayAux[i][1]=arrayAux[j][1];
+			arrayAux[j][0]=y[0];
+			arrayAux[j][1]=y[1];
+			i++; j--;
 		}
 	}
-	*else if(tipo==ArrayString){....}*
+	if(j>left) qSort(arrayAux, left, j);
+	if(i<right) qSort(arrayAux, i, right);
 }
-*/
-
-void swapCP(ComprasProd a[],int i,int j)
-{	
-	ComprasProd tmp = a[i];
-	a[i] = a[j];
-	a[j] = tmp;
-
-}
-/*
-void ordenaGrowingArray(GrowingArray a,int tipo)
-{
-	int i;
-	int i2;
-	int j = a->size - 1;
 	
-	if(tipo==ArrayCompProduto)
-
-	for(i=2; i <= a->size ;i++)
-		for(j= i - 1,i2 = j -1 ; i2 >= 0 ; i2--)
-		{
-			CompProduto elem = a->Elems[j];
-			CompProduto comp = a->Elems[i2];
-			if(elem->quantidade > comp->quantidade)
-			{
-				swapCP((ComprasProd*)a->Elems,i2,j);
-				j=i2;
-			}
-		}
-
-}
-*/
-
-int partition(ComprasProd a[],int N)
-{
-	int j,i;
-	int pivo = a[0].quantidade;
-	for(i=1,j=N;j>i+1;)
-		if(pivo < a[i].quantidade)
-		{
-			swapCP(a,i,--j);
-		}
-		else i++;
-	swapCP(a,0,--i);
-	return i;	
-}
-
-void qSortGrowingArray(ComprasProd a[],int N)
-{
-	int p;
-	if(N > 1)
-	{
-		p = partition(a,N);
-		qSortGrowingArray(a,p);
-		qSortGrowingArray(a + p,N-p); 
-	}
-}
-
-
-void ordenaGrowingArray(GrowingArray a,int tipo)
-{
-	qSortGrowingArray((ComprasProd*)a->Elems,a->size);
-}
