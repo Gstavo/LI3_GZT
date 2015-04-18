@@ -293,7 +293,7 @@ void query8(HashTable ht) {
 }
 
 void query9(AAVL clnt, Contabilidade contClnt) {
-	int i, mes;
+	int i, mes, **arrayAux=malloc(200000*sizeof(int*)), index;
 	char *code=(char*) malloc(10*sizeof(char));
 	GrowingArray ga=initGrowingArray(200000, ArrayCompProduto);		
 	printf("\nINSIRA UM MES: "); 
@@ -302,7 +302,6 @@ void query9(AAVL clnt, Contabilidade contClnt) {
 		if(scanf("%s", code)) {
 			if(validaMes(mes)==FALSE || existeClnt(code, clnt)==FALSE) printf("\nARGUMENTOS INVALIDOS!!!\n");
 			else {
-				int **arrayAux=malloc(ga->size*sizeof(int*)), index;
 				guardOcurrencesAVL(contClnt[mes-1][indexL(code)], ga, ArrayCompProduto, code);
 				if(ga->size == 0) puts("\nNADA ENCONTRADO");
 				else {
@@ -313,11 +312,11 @@ void query9(AAVL clnt, Contabilidade contClnt) {
 						arrayAux[i][1]=i;
 					}
 					ordenaArrayAux(arrayAux, ga->size);
-					for(i=0; i<ga->size; i++) printf("%d, %d\n", arrayAux[i][0], arrayAux[i][1]);
 					putchar('\n');
 					for(i=0; i<ga->size; i++) {
+						CompProduto aux;
 						index=arrayAux[i][1];
-						CompProduto aux=(CompProduto) ga->Elems[index];
+						aux=(CompProduto) ga->Elems[index];
 						printf("PRODUTO: %s | QUANTIDADE: %d\n", aux->codigo_produto, aux->quantidade);
 					}
 				}
