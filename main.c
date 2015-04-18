@@ -48,32 +48,6 @@ void imprimeQuantos(GrowingArray ga,int index,int quantos) {
 	}
 }
 
-
-void imprimeQ4(GrowingArray ga,HashTable ht,int index,int quantos) {
-	int i=0,resposta,conta=0,paginas;
-	while(conta<quantos && (index + i) < ga->size) {
-	if(!searchHash(ht,ga->Elems[i])) { 
-		printf("%s\n",(char*)ga->Elems[index+i]);
-		conta++;
-		i++;
-		if(conta==quantos){
-			printf("\nDESEJA CONTINUAR?\n1-SAIR\n2-PROXIMA\n3-ANTERIOR\n\n");
-			if(scanf("%d", &resposta)){
-				if(resposta==1) break;
-				if(resposta==2) conta=0;
-				if(resposta==3){
-					printf("ESCREVA QUANTAS PAGINAS QUER VOLTAR A ATRAS?\n");
-					if(scanf("%d", &paginas)) if(paginas>0) {
-						conta=0;
-						i-=(paginas*quantos);
-					}
-				}
-			}
-	}	}
-	}
-}
-
-
 int main(){
 	int query, valid[5];			/*valid guarda os resultados da leitura para posterior impressao na query1*/
 	double time_spent;
@@ -198,18 +172,35 @@ void query3(HashTable ht) {
 	}
 }
 
-
 void query4(HashTable ht, AAVL cp) {
-        int i,total=0,quantos;
-        GrowingArray ga = initGrowingArray(10,ArrayString);
+   		int i,resposta,conta=0,paginas,total=0,quantos;
+        GrowingArray ga = initGrowingArray(200000,ArrayString);
 		printf("\nLISTA DE PRODUTOS NAO COMPRADOS: \n");
         for(i=0;i<MAX_LETTERS;i++) guardArrayAVL(cp[i],ga,ArrayString);
         for(i=0;i < ga->size;i++) if(!searchHash(ht,ga->Elems[i])) {total++;}
-     	printf("QUANTOS RESULTADOS PRETENDE VER AGORA?\n");
-		if(scanf("%d", &quantos)){
-			imprimeQ4(ga,ht,0,quantos);
+        printf("QUANTOS RESULTADOS PRETENDE VER AGORA?\n");
+		if(scanf("%d", &quantos));
+        for(i=0;conta<quantos && i < ga->size;i++) {
+                if(!searchHash(ht,ga->Elems[i])) {
+			printf("%s\n",(char*)ga->Elems[i]);
+			conta++;
+			if(conta==quantos){
+				printf("\nESCOLHA UMA OPCAO?\n1-SAIR\n2-PROXIMO\n3-ANTERIOR\n\n");
+				if(scanf("%d", &resposta)) {
+					if(resposta==1) break;
+					if(resposta==2) conta=0;
+					if(resposta==3) {
+						printf("ESCREVA QUANTAS PAGINAS QUER VOLTAR A ATRAS?\n");
+						if(scanf("%d", &paginas)) if(paginas>0) {
+							conta=0;
+							i-=(paginas*quantos);
+						}
+					}
+				}
+			}
 		}
-		printf("\nNUMERO DE PRODUTOS QUE NINGUEM COMPROU: %d\n",total);
+	}
+	printf("\nNUMERO DE PRODUTOS QUE NINGUEM COMPROU: %d\n",total);
 }
 
 void query5(Contabilidade contClnt) {
