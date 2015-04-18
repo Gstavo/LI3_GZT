@@ -24,10 +24,55 @@ void query12(HashTable ht);
 void query13(AAVL clnt, Contabilidade contClnt);
 void query14();
 
-void imprime30(GrowingArray ga,int index) {
-	int i;
-	for(i=0; i<30 && (index + i) < ga->size ; i++) printf("%s\n",(char*)ga->Elems[index+i]);
+
+void imprimeQuantos(GrowingArray ga,int index,int quantos) {
+	int i=0,resposta,conta=0,paginas;
+	while(conta<quantos && (index + i) < ga->size) {
+		printf("%s\n",(char*)ga->Elems[index+i]);
+		conta++;
+		i++;
+		if(conta==quantos){
+			printf("\nDESEJA CONTINUAR?\n1-SAIR\n2-PROXIMA\n3-ANTERIOR\n\n");
+			if(scanf("%d", &resposta)){
+				if(resposta==1) break;
+				if(resposta==2) conta=0;
+				if(resposta==3){
+					printf("ESCREVA QUANTAS PAGINAS QUER VOLTAR A ATRAS?\n");
+					if(scanf("%d", &paginas)) if(paginas>0) {
+						conta=0;
+						i-=(paginas*quantos);
+					}
+				}
+			}
+		}
+	}
 }
+
+
+void imprimeQ4(GrowingArray ga,HashTable ht,int index,int quantos) {
+	int i=0,resposta,conta=0,paginas;
+	while(conta<quantos && (index + i) < ga->size) {
+	if(!searchHash(ht,ga->Elems[i])) { 
+		printf("%s\n",(char*)ga->Elems[index+i]);
+		conta++;
+		i++;
+		if(conta==quantos){
+			printf("\nDESEJA CONTINUAR?\n1-SAIR\n2-PROXIMA\n3-ANTERIOR\n\n");
+			if(scanf("%d", &resposta)){
+				if(resposta==1) break;
+				if(resposta==2) conta=0;
+				if(resposta==3){
+					printf("ESCREVA QUANTAS PAGINAS QUER VOLTAR A ATRAS?\n");
+					if(scanf("%d", &paginas)) if(paginas>0) {
+						conta=0;
+						i-=(paginas*quantos);
+					}
+				}
+			}
+	}	}
+	}
+}
+
 
 int main(){
 	int query, valid[5];			/*valid guarda os resultados da leitura para posterior impressao na query1*/
@@ -57,15 +102,15 @@ int main(){
 	if(scanf("%d", &query)) {
 		switch(query) {
 			case 1: query1(valid); break;			/*Funcional*/
-			case 2: query2(clnt, prod); break;		/*Corrijir navegacao*/
+			case 2: query2(clnt, prod); break;		/*Funcional*/
 			case 3: query3(ht); break;			/*Funcional*/
-			case 4: query4(ht,prod); break;			/*Corrijir navegacao*/
+			case 4: query4(ht,prod); break;			/*Funcional*/
 			case 5: query5(contClnt); break;		/*Funcional*/
-			case 6: query6(clnt); break;			/*Corrijir navegacao*/
+			case 6: query6(clnt); break;			/*Funcional*/
 			case 7: query7(); break;			/*Funcional*/
 			case 8: query8(ht); break;			/*Funcional*/
 			case 9: query9(clnt, contClnt);	break;		/*Falta ordenar resultados*/
-			case 10: query10(); break;			/*Corrijir navegacao*/
+			case 10: query10(); break;			/*Funcional*/
 			case 11: query11(); break;			/*Funcional*/
 			case 12: query12(ht); break;			/*Funcional*/
 			case 13: query13(clnt, contClnt); break;	/*Funcional*/
@@ -108,30 +153,20 @@ void query2(AAVL clnt, AAVL prod) {
 			for(i=0;i<MAX_LETTERS;i++) printf("%c: %d\n",i+65,contarNodos(devolveAVL(prod, i+65)));
 			printf("\n");
 		}
-		else {
-			int j,res,counter=0;
-        		int booleano=0;
-       			int quantas;
-        		GrowingArray ga = initGrowingArray(10000,ArrayString);
-        		printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE PRODUTOS QUE DESEJA SABER:\n");
-			if(scanf("%s", aux)) {
-				escolha=aux[0];
+		else{
+			int quantos;
+			GrowingArray ga = initGrowingArray(10000,ArrayString);
+        	printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE PRODUTOS QUE DESEJA SABER:\n");
+        	if(scanf("%s", aux)){
+        		escolha=aux[0];
+				if((escolha>97 && escolha<122)) escolha-=32;
+				printf("\nLISTA DE PRODUTOS INICIADOS PELA LETRA %c:\n", escolha);
 				guardArrayAVL(prod[escolha-65],ga,ArrayString);
-        			for(j=0;booleano!=1 && j < ga->size;j++) {
-					printf("%s\n",(char*)ga->Elems[j]);
-					counter++;
-					if(counter%30==0) {
-						printf("\nDESEJA CONTINUAR?\n1-SAIR\n2-PROXIMA\n3-ANTERIOR\n\n");
-						if(scanf("%d", &res)) {
-							if(res==1) booleano=1;
-							if(res==3) {
-								printf("ESCREVA QUANTAS PAGINAS QUER VOLTAR A ATRAS?\n");
-								if(scanf("%d", &quantas)) if(quantas>0) j-=(j*quantas);
-							}
-						}
-					}
+				printf("QUANTOS RESULTADOS PRETENDE VER AGORA?\n");
+				if(scanf("%d", &quantos)){
+					imprimeQuantos(ga,0,quantos);
 				}
-			}
+        	}
 		}
 	}
 }
@@ -165,32 +200,16 @@ void query3(HashTable ht) {
 
 
 void query4(HashTable ht, AAVL cp) {
-        int i,res,counter=0,total=0;
-        int booleano=0;
-        int quantas;
+        int i,total=0,quantos;
         GrowingArray ga = initGrowingArray(10,ArrayString);
-	printf("\nLISTA DE PRODUTOS NAO COMPRADOS: \n");
+		printf("\nLISTA DE PRODUTOS NAO COMPRADOS: \n");
         for(i=0;i<MAX_LETTERS;i++) guardArrayAVL(cp[i],ga,ArrayString);
-        for(i=0;booleano!=1 && i < ga->size;i++) if(!searchHash(ht,ga->Elems[i])) {total++;}
-        for(i=0;booleano!=1 && i < ga->size;i++) {
-                if(!searchHash(ht,ga->Elems[i])) {
-			printf("%s\n",(char*)ga->Elems[i]);
-			counter++;
-			if(counter%30==0){
-				printf("\nESCOLHA UMA OPCAO?\n1-SAIR\n2-PROXIMO\n3-ANTERIOR\n\n");
-				if(scanf("%d", &res)) {
-					if(res==1) booleano=1;
-					if(res==3) {
-						printf("ESCREVA QUANTAS PÁGINAS QUER VOLTAR A ATRÁS?\n");
-						if(scanf("%d", &quantas)){
-							if(quantas>0) i-=(counter*quantas);
-						}
-					}
-				}
-			}
+        for(i=0;i < ga->size;i++) if(!searchHash(ht,ga->Elems[i])) {total++;}
+     	printf("QUANTOS RESULTADOS PRETENDE VER AGORA?\n");
+		if(scanf("%d", &quantos)){
+			imprimeQ4(ga,ht,0,quantos);
 		}
-	}
-	printf("\nNUMERO DE PRODUTOS QUE NINGUEM COMPROU: %d\n",total);
+		printf("\nNUMERO DE PRODUTOS QUE NINGUEM COMPROU: %d\n",total);
 }
 
 void query5(Contabilidade contClnt) {
@@ -222,27 +241,18 @@ void query5(Contabilidade contClnt) {
 
 void query6(AAVL clnt) {
 	char aux[1], escolha;
-	int j,res,counter=0,booleano=0,quantas;
-        GrowingArray ga = initGrowingArray(20000,ArrayString);
-        printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
+	int quantos;
+    GrowingArray ga = initGrowingArray(20000,ArrayString);
+    printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
 	if(scanf("%s", aux)) {
 		escolha=aux[0];
+		if((escolha>97 && escolha<122)) escolha-=32;
 		printf("\nLISTA DE CLIENTES INICIADOS PELA LETRA %c:\n", escolha);
 		guardArrayAVL(clnt[escolha-65],ga,ArrayString);
-        	for(j=0;booleano!=1 && j < ga->size;j++) {
-			printf("%s\n",(char*)ga->Elems[j]);
-			counter++;
-			if(counter%30==0) {
-				printf("\nESCOLHA UMA OPCAO:\n1-SAIR\n2-PROXIMA\n3-ANTERIOR\n\n");
-				if(scanf("%d", &res)) {
-					if(res==1) booleano=1;
-					if(res==3) {
-						printf("ESCREVA QUANTAS PAGINAS QUER VOLTAR A ATRAS?\n");
-						if(scanf("%d", &quantas)) if(quantas>0) j-=(j*quantas);
-					}	
-				}
-			}
-		}
+		printf("QUANTOS RESULTADOS PRETENDE VER AGORA?\n");
+		if(scanf("%d", &quantos)){
+			imprimeQuantos(ga,0,quantos);
+		}	
 	}
 }
 
@@ -314,21 +324,10 @@ void query9(AAVL clnt, Contabilidade contClnt) {
 
 void query10() {
 	GrowingArray cm=getClientesMensais();
-	int j,res,counter=0,booleano=0,quantas;
-	for(j=0;booleano!=1 && j < cm->size;j++) {
-		printf("%s\n",(char*)cm->Elems[j]);
-		counter++;
-		if(counter%30==0) {
-			printf("\nESCOLHA UMA OPCAO:\n1-SAIR\n2-PROXIMA\n3-ANTERIOR\n\n");
-			if(scanf("%d", &res)) {
-				if(res==1) booleano=1;
-				if(res==3) {
-					printf("ESCREVA QUANTAS PAGINAS QUER VOLTAR A ATRAS?\n");
-					if(scanf("%d", &quantas)) 
-						if(quantas>0) j-=(j*quantas);
-				}	
-			}
-		}
+	int quantos;
+	printf("QUANTOS RESULTADOS PRETENDE VER AGORA?\n");
+	if(scanf("%d", &quantos)){
+		imprimeQuantos(cm,0,quantos);
 	}
 	printf("\nCLIENTES QUE NAO REALIZARAM COMPRAS: %d\n",cm->size);
 }
