@@ -170,6 +170,7 @@ void query4(HashTable ht, AAVL cp) {
         int booleano=0;
 	char prodNComp[200000][10];	/*guarda os produtos nao comprados*/
         GrowingArray ga = initGrowingArray(10,ArrayString);
+	if(getRemakes()) puts("A HASH TABLE FOI REALOCADA E NAO IRA FUNCIONAR DEVIDAMENTE!");
         for(i=0;i<MAX_LETTERS;i++) guardArrayAVL(cp[i],ga,ArrayString);
         for(i=0;booleano!=1 && i < ga->size;i++) {
 		if(!searchHash(ht,ga->Elems[i])) {
