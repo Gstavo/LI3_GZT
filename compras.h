@@ -3,7 +3,7 @@
 
 #define COMPRAS_H
 
-
+/* Struct com a informaçao do codigo de compra */
 
 typedef struct compras{
 	char* codigo_produto;
@@ -16,23 +16,88 @@ typedef struct compras{
 
 typedef struct compras* Comp;
 
-#include "avl.h"
-#include "hashtable.h"
+/* Struct HASH & CPINFO */
+
+typedef struct cpinfolist{
+        char* cliente;
+        char tipo;
+        int mes;
+        double fact;
+        struct cpinfolist *next;
+}cpinfolist;
+
+typedef cpinfolist* CpInfoList;
+
+typedef struct cpinfo{
+        int vendas;
+        int clientes;
+        char* produto;
+        CpInfoList first;
+        CpInfoList last;
+}cpinfo;
+
+typedef cpinfo* CpInfo;
+
+typedef struct hashtable{
+        CpInfo* table;
+        int max_size;
+        int size;
+} Hashtable;
+
+typedef Hashtable* HashTable;
+
+/* Heap Structure */
+
+typedef CpInfo Elem;
+
+typedef struct {
+  int size;
+  int used;
+  Elem *values;
+} Heap;
+
 #include "heap.h"
+#include "avl.h"
 #include "catalogo_clientes.h"
 #include "catalogo_produtos.h"
+
+/* FUNÇOES DE ACESSO */
+
+
+
+int getCodigosProdutosUsados();
+
+int getColisions();
+
+int getNoncolisions();
+
+float getColisionsRate();
+
+int getRemakes();
+
+
 
 Comp initCompra();
 
 HashTable initHashCompras();
 
 Heap* initHeap(HashTable ht);
-/*
-HashTable insertComprasHashCP(HashTable ht,Comp compra);
-*/
+
 void insertComprasCP(AAVL a,Comp compra,int* cresceu);
 
+CpInfo searchHash(HashTable ht,char* code);
+
+HashTable insertHashTable( HashTable ht, Comp compra);
+
+
+
+HashTable remakeHash(HashTable ht,int N);
+
+unsigned int hash(char* str);
+
 CpInfoList query8Aux(HashTable ht,char* cp);
+
+
 
 void compracpy(Comp dest,Comp src);
 

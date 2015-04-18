@@ -17,7 +17,7 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, HashTable ht, Comp co
 
 	clientes=fopen("clientes.txt","r"); 
 	produtos=fopen("produtos.txt","r");
-	fcompras=fopen("compras1.txt","r");
+	fcompras=fopen("compras3.txt","r");
 
 	for(i=0; fgets(linha, MAX_LINE, clientes); i++) {
 			linha[strlen(linha)-1]='\0';

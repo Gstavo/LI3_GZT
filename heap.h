@@ -2,8 +2,7 @@
 #ifndef HEAP_H
 #define HEAP_H
 
-#include "hashtable.h"
-
+#include "compras.h"
 
 Heap* newHeap(int size);
 

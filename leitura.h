@@ -4,13 +4,10 @@
 #define MAX_LINE 40
 #define MAX 500000
 
-#include "avl.h"
-#include "hashtable.h"
 #include "catalogo_clientes.h"
 #include "catalogo_produtos.h"
 #include "compras.h"
 #include "contabilidade.h"
-#include "boolean.h"
 
 typedef int COMPRIMENTO;
 
