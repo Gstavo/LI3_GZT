@@ -114,6 +114,7 @@ void query2(AAVL clnt, AAVL prod) {
         		printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE PRODUTOS QUE DESEJA SABER:\n");
 			if(scanf("%s", aux)) {
 				escolha=aux[0];
+				if((escolha>97 && escolha<122)) escolha-=32;
 				guardArrayAVL(prod[escolha-65], ga, ArrayString);
 				printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 				if(scanf("%d", &res)) {
@@ -231,7 +232,12 @@ void query6(AAVL clnt) {
         printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
 	if(scanf("%s", aux)) {
 		escolha=aux[0];
-		guardArrayAVL(clnt[escolha-65],ga,ArrayString);
+		if((escolha>=97 && escolha<=122)){
+			guardArrayAVL(clnt[escolha-97],ga,ArrayString);
+		}
+		else{
+			guardArrayAVL(clnt[escolha-65],ga,ArrayString);
+		}
         	printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 		if(scanf("%d", &res)) {
 			printf("\nLISTA DE CLIENTES INICIADOS PELA LETRA %c:\n", escolha);
