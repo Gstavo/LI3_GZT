@@ -59,7 +59,7 @@ int main(){
 			case 6: query6(clnt); break;			/*Funcional*/
 			case 7: query7(); break;			/*Funcional*/
 			case 8: query8(ht); break;			/*Funcional*/
-			case 9: query9(clnt, contClnt);	break;		/*Falta ordenar resultados*/
+			case 9: query9(clnt, contClnt);	break;		/*Funcional*/
 			case 10: query10(); break;			/*Funcional*/
 			case 11: query11(); break;			/*Funcional*/
 			case 12: query12(ht); break;			/*Funcional*/
@@ -109,12 +109,8 @@ void query2(AAVL clnt, AAVL prod) {
         		printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE PRODUTOS QUE DESEJA SABER:\n");
 			if(scanf("%s", aux)) {
 				escolha=aux[0];
-				if((escolha>=97 && escolha<=122)){
-					guardArrayAVL(prod[escolha-97],ga,ArrayString);
-				}
-				else{
-					guardArrayAVL(prod[escolha-65],ga,ArrayString);
-				}
+				if((escolha>=97 && escolha<=122)) guardArrayAVL(prod[escolha-97],ga,ArrayString);
+				else guardArrayAVL(prod[escolha-65],ga,ArrayString);
 				printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 				if(scanf("%d", &res)) {
 					intervalo=ga->size/res;
@@ -122,11 +118,12 @@ void query2(AAVL clnt, AAVL prod) {
 						printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 						if(scanf("%d", &optn)) {
 							if(optn>intervalo) {	/*ultima pagina tem sempre res ou menos codigos*/
-								for(i=optn-1; i<(optn-1)+(ga->size-(intervalo*res)); i++) 
+								for(i=(optn-1)*res; i<(optn-1)*res+(ga->size-(intervalo*res)); i++) 
 									printf("%s\n",(char*)ga->Elems[i]);
 							}
 							else if(optn>0 && optn<=intervalo+1) {
-								for(i=optn-1; i<(optn-1)+res; i++) printf("%s\n",(char*)ga->Elems[i]);
+								for(i=(optn-1)*res; i<(optn-1)*res+res; i++) 
+									printf("%s\n",(char*)ga->Elems[i]);
 							}
 						}
 					} while(optn>0 && optn<=intervalo+1);
@@ -186,10 +183,10 @@ void query4(HashTable ht, AAVL cp) {
 			printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 			if(scanf("%d", &optn)) {
 				if(optn>intervalo) {	/*ultima pagina tem sempre res ou menos codigos*/
-					for(i=optn-1; i<(optn-1)+(total-(intervalo*res)); i++) printf("%s\n", prodNComp[i]);
+					for(i=(optn-1)*res; i<(optn-1)*res+(total-(intervalo*res)); i++) printf("%s\n", prodNComp[i]);
 				}
 				else if(optn>0 && optn<=intervalo+1) {
-					for(i=optn-1; i<(optn-1)+res; i++) printf("%s\n", prodNComp[i]);
+					for(i=(optn-1)*res; i<(optn-1)*res+res; i++) printf("%s\n", prodNComp[i]);
 				}
 			}
 		} while(optn>0 && optn<=intervalo+1);
@@ -231,12 +228,8 @@ void query6(AAVL clnt) {
         printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE CLIENTES QUE DESEJA SABER:\n");
 	if(scanf("%s", aux)) {
 		escolha=aux[0];
-		if((escolha>=97 && escolha<=122)){
-			guardArrayAVL(clnt[escolha-97],ga,ArrayString);
-		}
-		else{
-			guardArrayAVL(clnt[escolha-65],ga,ArrayString);
-		}
+		if((escolha>=97 && escolha<=122)) guardArrayAVL(clnt[escolha-97],ga,ArrayString);
+		else guardArrayAVL(clnt[escolha-65],ga,ArrayString);
         	printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 		if(scanf("%d", &res)) {
 			printf("\nLISTA DE CLIENTES INICIADOS PELA LETRA %c:\n", escolha);
@@ -245,10 +238,11 @@ void query6(AAVL clnt) {
 				printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 				if(scanf("%d", &optn)) {
 					if(optn>intervalo) {	/*ultima pagina tem sempre res ou menos codigos*/
-						for(i=optn-1; i<(optn-1)+(ga->size-(intervalo*res)); i++) printf("%s\n",(char*)ga->Elems[i]);
+						for(i=(optn-1)*res; i<(optn-1)*res+(ga->size-(intervalo*res)); i++) 
+							printf("%s\n",(char*)ga->Elems[i]);
 					}
 					else if(optn>0 && optn<=intervalo+1) {
-						for(i=optn-1; i<(optn-1)+res; i++) printf("%s\n",(char*)ga->Elems[i]);
+						for(i=(optn-1)*res; i<(optn-1)*res+res; i++) printf("%s\n",(char*)ga->Elems[i]);
 					}
 				}
 			} while(optn>0 && optn<=intervalo+1);
@@ -341,10 +335,11 @@ void query10() {
 			printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 			if(scanf("%d", &optn)) {
 				if(optn>intervalo) {	/*ultima pagina tem sempre res ou menos codigos*/
-					for(i=optn-1; i<(optn-1)+(ga->size-(intervalo*res)); i++) printf("%s\n",(char*)ga->Elems[i]);
+					for(i=(optn-1)*res; i<(optn-1)*res+(ga->size-(intervalo*res)); i++) 
+						printf("%s\n",(char*)ga->Elems[i]);
 				}
 				else if(optn>0 && optn<=intervalo+1) {
-					for(i=optn-1; i<(optn-1)+res; i++) printf("%s\n",(char*)ga->Elems[i]);
+					for(i=(optn-1)*res; i<(optn-1)*res+res; i++) printf("%s\n",(char*)ga->Elems[i]);
 				}
 			}
 		} while(optn>0 && optn<=intervalo+1);
