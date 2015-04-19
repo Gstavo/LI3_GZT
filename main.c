@@ -114,8 +114,12 @@ void query2(AAVL clnt, AAVL prod) {
         		printf("\nINSIRA A LETRA QUE INICIA OS CODIGOS DE PRODUTOS QUE DESEJA SABER:\n");
 			if(scanf("%s", aux)) {
 				escolha=aux[0];
-				if((escolha>97 && escolha<122)) escolha-=32;
-				guardArrayAVL(prod[escolha-65], ga, ArrayString);
+				if((escolha>=97 && escolha<=122)){
+					guardArrayAVL(prod[escolha-97],ga,ArrayString);
+				}
+				else{
+					guardArrayAVL(prod[escolha-65],ga,ArrayString);
+				}
 				printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 				if(scanf("%d", &res)) {
 					intervalo=ga->size/res;
