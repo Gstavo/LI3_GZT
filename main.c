@@ -24,11 +24,6 @@ void query12(HashTable ht);
 void query13(AAVL clnt, Contabilidade contClnt);
 void query14();
 
-void imprime30(GrowingArray ga,int index) {
-	int i;
-	for(i=0; i<30 && (index + i) < ga->size ; i++) printf("%s\n",(char*)ga->Elems[index+i]);
-}
-
 int main(){
 	int query, valid[5];			/*valid guarda os resultados da leitura para posterior impressao na query1*/
 	double time_spent;
