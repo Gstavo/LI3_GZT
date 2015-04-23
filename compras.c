@@ -81,7 +81,7 @@ Comp initCompra() {
 
 HashTable initHashCompras() {
         HashTable ht;
-        int HT_SIZE = 4 * N_Codigos_Produto ;
+        int HT_SIZE = 8 * N_Codigos_Produto ;
         ht = malloc(sizeof(struct hashtable));
         ht->table = calloc( HT_SIZE ,sizeof(CpInfo));
 	ht->max_size = HT_SIZE;

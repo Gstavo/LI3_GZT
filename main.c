@@ -48,6 +48,8 @@ int main(){
 	/*Faz uma travessia a todos os codigos de cliente recolhendo informaçoes sobre a atividade de cada um*/
 	gatherData(clnt, contClnt);
 
+	printf("Colisions %f\n",getColisionsRate());
+
 	puts("\nESCOLHA UMA QUERY: ");
 	if(scanf("%d", &query)) {
 		switch(query) {
