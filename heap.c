@@ -69,7 +69,7 @@ int extractMin(Heap *h, Elem *x){
 
 void heapSort(Elem v[],int N){
 	int i;
-	for(i=0;i<N;i++) bubbleUp(v,i);
+/*	for(i=0;i<N;i++) bubbleUp(v,i);*/
 	for(i=N-1;i>0;i--) {
 		swap(v,0,i);
 		bubbleDown(v,i);
