@@ -8,7 +8,7 @@
 #include <math.h>
 #include "leitura.h"
 
-void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, HashTable ht, Comp compra, int valid[]) {
+void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, HashTable ht, Comp compra, int valid[],char* comprastxt) {
 	int i, *cresceu=(int*) malloc(sizeof(int)), clntInv=0, prodInv=0;	
 	BOOLEAN validaClnt=FALSE, validaProd=FALSE, validaCmpr=FALSE;
 	int countCompras=0, compras_invalidas=0;
@@ -17,7 +17,7 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, HashTable ht, Comp co
 
 	clientes=fopen("clientes.txt","r"); 
 	produtos=fopen("produtos.txt","r");
-	fcompras=fopen("compras.txt","r");
+	fcompras=fopen(comprastxt,"r");
 
 	for(i=0; fgets(linha, MAX_LINE, clientes); i++) {
 			linha[strlen(linha)-1]='\0';

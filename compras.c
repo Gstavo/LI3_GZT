@@ -29,8 +29,6 @@ CpInfo const REMOVED;
 
 static int codigo_produto_usado = 0;
 
-static int remakes = 0;
-
 static int noncolisions = 0;
 
 static int colisions = 0;
@@ -54,11 +52,6 @@ int getNoncolisions()
 float getColisionsRate()
 {return (float)colisions / (noncolisions + colisions) ;}
 
-int getRemakes()
-{return remakes;}
-
-
-
 /*
  *
  * 	INICIALIZAR AS ESTRUTURAS DE DADOS
@@ -79,6 +72,7 @@ Comp initCompra() {
 	return compra;
 }
 
+/* 24 % de colisoes para HT_SIZE dado */
 HashTable initHashCompras() {
         HashTable ht;
         int HT_SIZE = 8 * N_Codigos_Produto ;
@@ -164,7 +158,6 @@ HashTable insertHashTable(HashTable ht, Comp compra)
         if( ocupacao > 0.3)
         {
                 ht = remakeHash(ht,1.5*ht->max_size);
-                remakes++;
         }
 
         hash_code = hash(compra->codigo_produto) % ht->max_size;

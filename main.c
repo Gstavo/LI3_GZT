@@ -26,13 +26,14 @@ void query14();
 
 int main(){
 	int query, valid[5];			/*valid guarda os resultados da leitura para posterior impressao na query1*/
-	double time_spent;
+	char comprastxt[20];
+	double time_spent, qTime_spent;
 	CatalogoClientes clnt;
 	CatalogoProdutos prod;
 	Contabilidade contClnt;	
 	HashTable ht;
 	Comp compra;
-	clock_t begin, end;
+	clock_t begin,qBegin,qEnd, end;
 	
 	begin=clock();
 
@@ -42,16 +43,26 @@ int main(){
 	initCatalogo_Clientes(clnt);
 	initCatalogo_Produtos(prod);
 	initContabilidade(contClnt);
+	
+	puts("INSIRA O NOME DO FICHEIRO DE COMPRAS");
+	if(!scanf("%s",comprastxt)) puts("ERRO");
 
+	puts("\nA CARREGAR ESTRUTURAS DE DADOS");
 	/*Preenchimento e leitura das estruturas de dados*/
-	leitura(clnt, prod, contClnt, ht, compra, valid);
+	leitura(clnt, prod, contClnt, ht, compra, valid,comprastxt);
 
-	/*Faz uma travessia a todos os codigos de cliente recolhendo informaçoes sobre a atividade de cada um*/
+	/*Faz uma travessia a todos os codigos de cliente recolhendo informaçoes sobre a atividade de cada um, útil para a query 14 e 10 */
 	gatherData(clnt, contClnt);
 
 	menu();
 
-	if(scanf("%d", &query)) {
+	while(1)
+	{
+	char c;
+        printf ("\nIntruduza a sua escolha: ");
+	
+	if(scanf("%d", &query) && query > 0 && query < 15) {
+		qBegin=clock();
 		switch(query) {
 			case 1: query1(valid); break;			/*Funcional*/
 			case 2: query2(clnt, prod); break;		/*Funcional*/
@@ -67,7 +78,15 @@ int main(){
 			case 12: query12(ht); break;			/*Funcional*/
 			case 13: query13(clnt, contClnt); break;	/*Funcional*/
 			case 14: query14(); 				/*Funcional*/
-		}
+		}	
+		qEnd=clock();
+		qTime_spent= ( (double) (qEnd-qBegin) * 1000 ) /CLOCKS_PER_SEC;
+		printf("\nTEMPO DE EXECUCAO DA QUERY %d : %f ms\n\n",query,qTime_spent);
+
+	}
+	puts("PARA SAIR 'N', PARA CONTINUAR 'S'");
+	if(scanf(" %c",&c) && (c=='n' || c == 'N')) break; 
+
 	}
 
 	end=clock();
@@ -95,7 +114,6 @@ void menu () {
         printf ("13 - Os tres produtos mais comprados por cada cliente;\n");
         printf ("14 - Clientes que nao compraram nada, assim como os produtos que nao foram adquiridos;\n\n");
         printf ("---------------------------------------------------------------------------------------------------------------\n\n");
-        printf ("Intruduza a sua escolha: ");
         printf ("\n");
 }
 
@@ -191,7 +209,6 @@ void query4(HashTable ht, CatalogoProdutos cp) {
         int booleano=0;
 	char prodNComp[200000][10];	/*guarda os produtos nao comprados*/
         GrowingArray ga = initGrowingArray(10,ArrayString);
-	if(getRemakes()) puts("A HASH TABLE FOI REALOCADA E NAO IRA FUNCIONAR DEVIDAMENTE!");
         for(i=0;i<MAX_LETTERS;i++) guardArrayAVL(cp[i],ga,ArrayString);
         for(i=0;booleano!=1 && i < ga->size;i++) {
 		if(!searchHash(ht,ga->Elems[i])) {
@@ -300,7 +317,6 @@ void query8(HashTable ht) {
 	printf("\nINSIRA UM CODIGO DE PRODUTO: ");
 	if(scanf("%s", cp)) {
 		CpInfoList tmp=query8Aux(ht,cp);
-		if(getRemakes()) puts("A HASH TABLE FOI REALOCADA E NAO IRA FUNCIONAR DEVIDAMENTE!");
 		if(!tmp) puts("O PRODUTO NAO EXISTE!");
 		else {
 			putchar('\n');

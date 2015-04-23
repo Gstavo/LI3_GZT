@@ -11,7 +11,7 @@
 
 typedef int COMPRIMENTO;
 
-void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, HashTable ht, Comp compra, int valid[]);
+void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, HashTable ht, Comp compra, int valid[],char* comprastxt);
 BOOLEAN validaMes(int mes);
 BOOLEAN validaTipo(char a);
 BOOLEAN validaUnidades(int unidade);
