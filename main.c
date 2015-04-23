@@ -44,10 +44,10 @@ int main(){
 	initCatalogo_Produtos(prod);
 	initContabilidade(contClnt);
 	
-	puts("INSIRA O NOME DO FICHEIRO DE COMPRAS");
+	puts("\nINSIRA O NOME DO FICHEIRO DE COMPRAS");
 	if(!scanf("%s",comprastxt)) puts("ERRO");
 
-	puts("\nA CARREGAR ESTRUTURAS DE DADOS");
+	puts("\nA CARREGAR ESTRUTURAS DE DADOS...");
 	/*Preenchimento e leitura das estruturas de dados*/
 	leitura(clnt, prod, contClnt, ht, compra, valid,comprastxt);
 
@@ -56,43 +56,41 @@ int main(){
 
 	menu();
 
-	while(1)
-	{
-	char c;
-        printf ("\nIntruduza a sua escolha: ");
+	while(1) {
+		char c;
+        	printf ("\nESCOLHA UMA QUERY: ");
 	
-	if(scanf("%d", &query) && query > 0 && query < 15) {
-		qBegin=clock();
-		switch(query) {
-			case 1: query1(valid); break;			/*Funcional*/
-			case 2: query2(clnt, prod); break;		/*Funcional*/
-			case 3: query3(ht); break;			/*Funcional*/
-			case 4: query4(ht,prod); break;			/*Funcional*/
-			case 5: query5(contClnt); break;		/*Funcional*/
-			case 6: query6(clnt); break;			/*Funcional*/
-			case 7: query7(); break;			/*Funcional*/
-			case 8: query8(ht); break;			/*Funcional*/
-			case 9: query9(clnt, contClnt);	break;		/*Funcional*/
-			case 10: query10(); break;			/*Funcional*/
-			case 11: query11(); break;			/*Funcional*/
-			case 12: query12(ht); break;			/*Funcional*/
-			case 13: query13(clnt, contClnt); break;	/*Funcional*/
-			case 14: query14(); 				/*Funcional*/
-		}	
-		qEnd=clock();
-		qTime_spent= ( (double) (qEnd-qBegin) * 1000 ) /CLOCKS_PER_SEC;
-		printf("\nTEMPO DE EXECUCAO DA QUERY %d : %f ms\n\n",query,qTime_spent);
+		if(scanf("%d", &query) && query > 0 && query < 15) {
+			qBegin=clock();
+			switch(query) {
+				case 1: query1(valid); break;			/*Funcional*/
+				case 2: query2(clnt, prod); break;		/*Funcional*/
+				case 3: query3(ht); break;			/*Funcional*/
+				case 4: query4(ht,prod); break;			/*Funcional*/
+				case 5: query5(contClnt); break;		/*Funcional*/
+				case 6: query6(clnt); break;			/*Funcional*/
+				case 7: query7(); break;			/*Funcional*/
+				case 8: query8(ht); break;			/*Funcional*/
+				case 9: query9(clnt, contClnt);	break;		/*Funcional*/
+				case 10: query10(); break;			/*Funcional*/
+				case 11: query11(); break;			/*Funcional*/
+				case 12: query12(ht); break;			/*Funcional*/
+				case 13: query13(clnt, contClnt); break;	/*Funcional*/
+				case 14: query14(); 				/*Funcional*/
+			}	
+			qEnd=clock();
+			qTime_spent=(double)(qEnd-qBegin)/CLOCKS_PER_SEC;
+			qTime_spent*=1000;
+			printf("\nTEMPO DE EXECUCAO DA QUERY %d: %.2f ms\n\n", query, qTime_spent);
 
-	}
-	puts("PARA SAIR 'N', PARA CONTINUAR 'S'");
-	if(scanf(" %c",&c) && (c=='n' || c == 'N')) break; 
-
+		}
+		puts("PARA SAIR 'N', PARA CONTINUAR 'S'");
+		if(scanf(" %c",&c) && (c=='n' || c == 'N')) break; 
 	}
 
 	end=clock();
 	time_spent=(double)(end-begin)/CLOCKS_PER_SEC ;
-	printf("\nTEMPO DE EXECUCAO: %.2f segundos\n\n", time_spent);
-	/*system clear*/
+	printf("\nTEMPO DE EXECUCAO TOTAL: %.2f segundos\n\n", time_spent);
 	return 0;
 
 }

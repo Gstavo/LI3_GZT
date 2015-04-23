@@ -3,6 +3,7 @@ OBJS = avl.o heap.o compras.o catalogo_clientes.o catalogo_produtos.o contabilid
 
 gesthip: $(OBJS)
 	gcc $(OBJS) -o gesthip
+	make clean
 
 growingArray: growingArray.c 
 	gcc $(CFLAGS) -c growingArray.c
