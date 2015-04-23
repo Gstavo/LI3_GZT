@@ -379,18 +379,44 @@ void query11() {
 	printf("\nFICHEIRO \"query11.csv\" CRIADO COM SUCESSO!\n");
 }
 
-void query12(HashTable ht) {
+void query12(HashTable ht) {/*O ramo do else de paginacao nao esta a funcionar!!!*/
 	int i, N;
 	puts("\nINSIRA N PARA OBTER OS N PRODUTOS MAIS VENDIDOS: ");
 	if(scanf("%d", &N)) {
 		Heap* h=initHeap(ht);
 		putchar('\n');
-		for(i=0;i < N;i++) {
-			printf("PRODUTO: %s | ", h->values[i]->produto);
-			printf("VENDAS: %d | CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
+		if(N<=10){
+			for(i=0;i < N;i++) {
+				printf("PRODUTO: %s | ", h->values[i]->produto);
+				printf("VENDAS: %d | CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
+			}
+		}
+		else{
+			int intervalo, res, optn;
+			printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");			
+			if(scanf("%d", &res)){
+				intervalo=h->size/res;
+				do {
+						printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
+						if(scanf("%d", &optn)) {
+							if(optn>intervalo) {	/*ultima pagina tem sempre res ou menos codigos*/
+								for(i=(optn-1)*res; i<(optn-1)*res+(h->size-(intervalo*res)); i++) 
+									printf("PRODUTO: %s | ", h->values[i]->produto);
+									printf("VENDAS: %d | CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
+							}
+							else if(optn>0 && optn<=intervalo+1) {
+								for(i=(optn-1)*res; i<(optn-1)*res+res; i++) 
+									printf("PRODUTO: %s | ", h->values[i]->produto);
+									printf("VENDAS: %d | CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
+							}
+						}
+					} while(optn>0 && optn<=intervalo+1);
+			}
 		}
 	}
 }
+
+
 
 void query13(CatalogoClientes clnt, Contabilidade contClnt) {
 	int i, mes, max1=0, max2=0, max3=0;
