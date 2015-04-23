@@ -98,24 +98,23 @@ int main(){
 }
 
 void menu () {
-        printf ("\n\n------------------------------------------------------MENU-----------------------------------------------------\n\n");
-        printf ("1 - Ler ficheiros;\n");
-        printf ("2 - Lista e total de produtos;\n");
-        printf ("3 - Numero total de vendas de um produto num dado mes;\n");
-        printf ("4 - Lista de codigos de produtos;\n");
-        printf ("5 - Numero de produtos comprados por cliente;\n");
-        printf ("6 - ???;\n");
-        printf ("7 - Total de compras registadas entre dois meses;\n");
-        printf ("8 - Clientes que compraram determinado produto;\n");
-        printf ("9 - Produtos comprados por cliente;\n");
-        printf ("10 - Clientes que realizaram compras neste ano;\n");
-        printf ("11 - Criar ficheiro (em Excel) com o numero de compras realizadas e o numero de compradores por mes;\n");
-        printf ("12 - Produtos mais vendidos no ano;\n");
-        printf ("13 - Os tres produtos mais comprados por cada cliente;\n");
-        printf ("14 - Clientes que nao compraram nada, assim como os produtos que nao foram adquiridos;\n\n");
-        printf ("---------------------------------------------------------------------------------------------------------------\n\n");
-        printf ("\n");
-}
+        printf ("\n\n--------------------------------MENU----------------------------------------\n\n");
+        printf ("1 - INFORMACOES;\n");
+        printf ("2 - NUMERO DE CLIENTES E DE PRODUTOS POR LETRA / LISTA DE PRODUTOS POR LETRA;\n");
+        printf ("3 - NUMERO DE VENDAS DE UM PRODUTO NUM MES;\n");
+        printf ("4 - LISTA DOS PRODUTOS NAO COMPRADOS;\n");
+        printf ("5 - COMPRAS MENSAIS DE CADA CLIENTE;\n");
+        printf ("6 - LISTA DE CLIENTES INICIADOS POR DADA LETRA;\n");
+        printf ("7 - TOTAL DE COMPRAS REALIZADAS DENTRO DE UM INTERVALO DE MESES;\n");
+        printf ("8 - CLIENTES QUE COMPRARAM DETERMINADO PRODUTO;\n");
+        printf ("9 - PRODUTOS COMPRADOS POR CLIENTE;\n");
+        printf ("10 - CLIENTES QUE FIZERAM COMPRAS EM TODOS OS MESES DO ANO;\n");
+        printf ("11 - FICHEIRO (EXCEL) COM COMPRAS E CLIENTES MENSAIS;\n");
+        printf ("12 - PRODUTOS MAIS VENDIDOS DO ANO;\n");
+        printf ("13 - OS 3 PRODUTOS MAIS COMPRADOS POR CLIENTE;\n");
+        printf ("14 - CLIENTES E PRODUTOS INATIVOS;\n\n");
+        printf ("----------------------------------------------------------------------------\n\n");
+  }
 
 
 void query1(int valid[]) {
@@ -156,6 +155,7 @@ void query2(CatalogoClientes clnt, CatalogoProdutos prod) {
 				printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 				if(scanf("%d", &res)) {
 					intervalo=ga->size/res;
+					printf("\nAJUDA: INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
 					do {
 						printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 						if(scanf("%d", &optn)) {
@@ -218,8 +218,8 @@ void query4(HashTable ht, CatalogoProdutos cp) {
 	}
 	printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 	if(scanf("%d", &res)) {
-		printf("\nLISTA DE PRODUTOS NAO COMPRADOS:\n");
 		intervalo=total/res;
+		printf("\nAJUDA: INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
 		do {
 			printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 			if(scanf("%d", &optn)) {
@@ -273,8 +273,8 @@ void query6(CatalogoClientes clnt) {
 		else guardArrayAVL(clnt[escolha-65],ga,ArrayString);
         	printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 		if(scanf("%d", &res)) {
-			printf("\nLISTA DE CLIENTES INICIADOS PELA LETRA %c:\n", escolha);
 			intervalo=ga->size/res;
+			printf("\nAJUDA: INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
 			do {
 				printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 				if(scanf("%d", &optn)) {
@@ -371,6 +371,7 @@ void query10() {
 	printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 	if(scanf("%d", &res)) {
 		intervalo=ga->size/res;
+		printf("\nAJUDA: INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
 		do {
 			printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 			if(scanf("%d", &optn)) {
@@ -401,12 +402,42 @@ void query12(HashTable ht) {
 	if(scanf("%d", &N)) {
 		Heap* h=initHeap(ht);
 		putchar('\n');
-		for(i=0;i < N;i++) {
-			printf("PRODUTO: %s | ", h->values[i]->produto);
-			printf("VENDAS: %d | CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
+		if(N<=10) {
+			for(i=0;i < N;i++) {
+				printf("PRODUTO: %s | ", h->values[i]->produto);
+				printf("VENDAS: %d | CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
+			}
+		}
+		else {
+			int res, intervalo, optn;
+			printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
+			if(scanf("%d", &res)) {
+				intervalo=N/res;
+				printf("\nAJUDA: INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
+				do {
+					printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
+					if(scanf("%d", &optn)) {
+						putchar('\n');
+						if(optn>intervalo) {	/*ultima pagina tem sempre res ou menos codigos*/
+							for(i=(optn-1)*res; i<(optn-1)*res+(N-(intervalo*res)); i++) {
+								printf("PRODUTO: %s | ", h->values[i]->produto);
+								printf("VENDAS: %d | CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
+							}
+						}
+						else if(optn>0 && optn<=intervalo+1) {
+							for(i=(optn-1)*res; i<(optn-1)*res+res; i++) {
+								printf("PRODUTO: %s | ", h->values[i]->produto);
+								printf("VENDAS: %d | CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
+							}
+						}
+					}
+				} while(optn>0 && optn<=intervalo+1);
+			}
 		}
 	}
 }
+
+
 
 void query13(CatalogoClientes clnt, Contabilidade contClnt) {
 	int i, mes, max1=0, max2=0, max3=0;

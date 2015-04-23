@@ -1,6 +1,18 @@
 CFLAGS= -ansi -Wall -pedantic -O2 
 OBJS = avl.o heap.o compras.o catalogo_clientes.o catalogo_produtos.o contabilidade.o leitura.o main.o growingArray.o
 
+all: avl.c leitura.c catalogo_clientes.c catalogo_produtos.c contabilidade.c compras.c heap.c main.c
+	make avl
+	make heap
+	make catalogo_clientes
+	make catalogo_produtos
+	make compras
+	make contabilidade
+	make leitura
+	make main
+	make gesthip
+	make clean
+
 growingArray: growingArray.c 
 	gcc $(CFLAGS) -c growingArray.c
 
@@ -33,17 +45,6 @@ main : main.c leitura.h
 gesthip: $(OBJS)
 	gcc $(OBJS) -o gesthip
 
-all: avl.c leitura.c catalogo_clientes.c catalogo_produtos.c contabilidade.c compras.c heap.c main.c
-	make avl
-	make heap
-	make catalogo_clientes
-	make catalogo_produtos
-	make compras
-	make contabilidade
-	make leitura
-	make main
-	make gesthip
-	make clean
 clean:
 	rm -f *.o
 
