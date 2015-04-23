@@ -6,7 +6,7 @@
 
 static int Codigos_Produto = 0;
 
-void initCatalogo_Produtos(AAVL pl){
+void initCatalogo_Produtos(CatalogoProdutos pl){
         int i;
         for(i=0; i<MAX_LETTERS; i++)
         {
@@ -16,15 +16,21 @@ void initCatalogo_Produtos(AAVL pl){
 
 /* guardar o resultado do insert em cl faz alguma cena util???? */
 
-void insertCatalogo_Produtos(AAVL pl,char* code,int* cresceu)
+void insertCatalogo_Produtos(CatalogoProdutos pl,char* code,int* cresceu)
         {
                 pl[indexL(code)] = insert(pl[indexL(code)],code,cresceu,Catalogo_P);
                 Codigos_Produto++;
         }
 
-/*
-int removeCatalogo_Clientes(AVL c,char* code)
-*/
+
+int removeCatalogo_Produtos(CatalogoProdutos pl,char* code)
+{
+	int i = indexL(code),r;
+        r = removeAVL(pl[i],code,Catalogo_C);
+        if(r==0) Codigos_Produto--;
+        return r;
+}
+
 
 int codigos_Produto(){return Codigos_Produto;}
 
@@ -40,12 +46,12 @@ BOOLEAN existeP_aux(char* produto,AVL p)
         return res;
 }
 
-BOOLEAN existeProd(char* produto, AAVL pl) 
+BOOLEAN existeProd(char* produto, CatalogoProdutos pl) 
 {
 	return existeP_aux(produto,pl[indexL(produto)]);
 }
 
-void imprimir_produto(GrowingArray ga, AAVL array, char letra) {
+void imprimir_produto(GrowingArray ga, CatalogoProdutos array, char letra) {
     if((letra>97 && letra<122)) letra-=32;  /*Se for minuscula passa para maiuscula*/
     guardArrayAVL(array[letra-65], ga, ArrayString);  /*Coloca na matriz todos os clientes iniciados pela letra dada*/
 }

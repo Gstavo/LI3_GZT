@@ -61,7 +61,6 @@ AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
 }
 
 
-
 AVL insertRight(AVL p, void* info, int *cresceu,int tipo_AVL) {
 	p->right=insert(p->right, info, cresceu,tipo_AVL);
 	if(*cresceu) {
@@ -179,6 +178,11 @@ AVL rotateLeft(AVL p) {
 	}
 	return p;
 }
+
+int removeAVL(AVL p,void* info,int tipo)
+{
+	return 0;
+} 
 
 AVL devolveAVL(AVL array[], char a) {
 	int pos=a-65;

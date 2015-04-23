@@ -7,8 +7,8 @@
 
 static int Codigos_Cliente = 0;
 
-/* return AAVL ?? bug tipos */
-void initCatalogo_Clientes(AAVL cl){
+/* return CatalogoClientes ?? bug tipos */
+void initCatalogo_Clientes(CatalogoClientes cl){
 	int i;
 	for(i=0; i<MAX_LETTERS; i++) 
 	{
@@ -20,20 +20,21 @@ void initCatalogo_Clientes(AAVL cl){
 
 /* guardar o resultado do insert em cl faz alguma cena util???? */
 
-void insertCatalogo_Clientes(AAVL cl,char* code,int* cresceu)
+void insertCatalogo_Clientes(CatalogoClientes cl,char* code,int* cresceu)
 	{
 		int i = indexL(code);
 		cl[i] = insert(cl[i],code,cresceu,Catalogo_C);
 		Codigos_Cliente++;
 	}
 
-/*
-int removeCatalogo_Clientes(AVL c,char* code){
-	int i = indexL(code);
-	cl[i] = remove(cl[i],code,Catalogo_C);
-	Codigos_Cliente--;
+
+int removeCatalogo_Clientes(CatalogoClientes cl,char* code){
+	int i = indexL(code),r;
+	r = removeAVL(cl[i],code,Catalogo_C);
+	if(r==0) Codigos_Cliente--;
+	return r;
 }
-*/
+
 
 
 int codigos_Cliente(){return Codigos_Cliente;}
@@ -51,12 +52,12 @@ BOOLEAN existeC_aux(char* cliente, AVL c)	{
 }
 
 
-BOOLEAN existeClnt(char* cliente, AAVL cl)
+BOOLEAN existeClnt(char* cliente, CatalogoClientes cl)
 {
 	return existeC_aux(cliente,cl[indexL(cliente)]);
 } 
 
-void imprimir_cliente(GrowingArray ga, AAVL array, char letra) {
+void imprimir_cliente(GrowingArray ga, CatalogoClientes array, char letra) {
 	if((letra>97 && letra<122)) letra-=32;	/*Se for minuscula passa para maiuscula*/
 	guardArrayAVL(array[letra-65], ga, ArrayString);	/*Coloca na matriz todos os clientes iniciados pela letra dada*/
 }

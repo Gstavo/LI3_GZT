@@ -6,6 +6,7 @@
 
 #define N_Codigos_Produto 200000
 
+
 /*! \brief Procura o índice de um caracter numa string
 *
 *	Percorre a string, incrementando uma variável, retornando essa variável se o target corresponder ao caracter nessa posição na string.
@@ -24,10 +25,9 @@
  *
 */
 
-/*static AVL REMOVED = malloc(sizeof(struct avl_node));*/
+CpInfo const REMOVED;
 
 static int codigo_produto_usado = 0;
-
 
 static int remakes = 0;
 
@@ -171,8 +171,6 @@ HashTable insertHashTable(HashTable ht, Comp compra)
         i = hash_code;
         do
         {
- /*      if(ht->table[i] != REMOVED)
-                {*/
                 if(ht->table[i] == NULL)
                 {
                         ht->table[i] = insertCPinfo(ht->table[i],compra);
@@ -182,16 +180,15 @@ HashTable insertHashTable(HashTable ht, Comp compra)
 
                         return ht;
                 }
-                if(strcmp(ht->table[i]->produto,compra->codigo_produto) == 0)
+                if(ht->table[i] != REMOVED && strcmp(ht->table[i]->produto,compra->codigo_produto) == 0)
                 {
                         ht->table[i] = insertCPinfo(ht->table[i],compra);
                         if(i == hash_code) noncolisions++; else colisions++;
 
                         return ht;
                 }
-        /*      }*/
          if(i == hash_code) colisions++;
-                i = (i + 1) % ht->max_size;
+         i = (i + 1) % ht->max_size;
 
         }while(i!=hash_code);
 
@@ -203,6 +200,22 @@ HashTable insertHashTable(HashTable ht, Comp compra)
  *	OUTRAS FUNÇÕES DA ESTRUTURA HASH & CPINFO
  *
 */
+
+
+/* Remove a informção toda relativamente ao codigo de produto dado na hashtable */
+
+int removeHash(HashTable ht, char *code)
+{
+	int i = hash(code) % ht->max_size;
+	if(ht)
+	for(; ht->table[i] ; i = (i+1) % ht->max_size)
+                if(strcmp(code,ht->table[i]->produto)==0) 
+			{
+				ht->table[i] = REMOVED;
+				return 0;
+			}
+	return 1;
+}
 
 CpInfo searchHash(HashTable ht,char* code)
 {

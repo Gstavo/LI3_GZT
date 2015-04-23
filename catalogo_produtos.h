@@ -6,15 +6,18 @@
 #include "avl.h"
 #include "boolean.h"
 
+typedef AAVL CatalogoProdutos;
 
 void initCatalogo_Produtos();
 
-void insertCatalogo_Produtos(AAVL pl,char* code,int* cresceu);
+void insertCatalogo_Produtos(CatalogoProdutos pl,char* code,int* cresceu);
+
+int removeCatalogo_Produtos(CatalogoProdutos pl,char* code);
 
 int codigos_Produto();
 
-BOOLEAN existeProd(char* produto, AAVL pl);
+BOOLEAN existeProd(char* produto, CatalogoProdutos pl);
 
-void imprimir_produto(GrowingArray ga, AAVL array, char letra);
+void imprimir_produto(GrowingArray ga, CatalogoProdutos array, char letra);
 
 #endif

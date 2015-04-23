@@ -9,25 +9,25 @@
 #include "leitura.h"
 
 void query1(int valid[]);
-void query2(AAVL clnt, AAVL prod);
-/*void query3o(Contabilidade contProd, AAVL prod);*/
+void query2(CatalogoClientes clnt, CatalogoProdutos prod);
 void query3(HashTable ht);
-void query4(HashTable ht, AAVL cp);
+void query4(HashTable ht, CatalogoProdutos cp);
 void query5(Contabilidade contClnt);
-void query6(AAVL clnt);
+void query6(CatalogoClientes clnt);
 void query7();
 void query8(HashTable ht);
-void query9(AAVL clnt, Contabilidade contClnt);
+void query9(CatalogoClientes clnt, Contabilidade contClnt);
 void query10();
 void query11();
 void query12(HashTable ht);
-void query13(AAVL clnt, Contabilidade contClnt);
+void query13(CatalogoClientes clnt, Contabilidade contClnt);
 void query14();
 
 int main(){
 	int query, valid[5];			/*valid guarda os resultados da leitura para posterior impressao na query1*/
 	double time_spent;
-	AAVL clnt, prod;
+	CatalogoClientes clnt;
+	CatalogoProdutos prod;
 	Contabilidade contClnt;	
 	HashTable ht;
 	Comp compra;
@@ -88,7 +88,7 @@ void query1(int valid[]) {
 	printf("FATURACAO ANUAL TOTAL: %.2f Euros\n\n", returnFactTotal());
 }
 
-void query2(AAVL clnt, AAVL prod) {
+void query2(CatalogoClientes clnt, CatalogoProdutos prod) {
 	int i=0, optn;
 	char aux[1], escolha;
 	printf("\nESCOLHA A OPCAO:\n1-NUMERO DE CLIENTES POR LETRA\n2-NUMERO DE PRODUTOS POR LETRA\n3-LISTA PRODUTOS\n");
@@ -162,7 +162,7 @@ void query3(HashTable ht) {
 }
 
 
-void query4(HashTable ht, AAVL cp) {
+void query4(HashTable ht, CatalogoProdutos cp) {
         int i, res, total=0, intervalo, optn;
         int booleano=0;
 	char prodNComp[200000][10];	/*guarda os produtos nao comprados*/
@@ -221,7 +221,7 @@ void query5(Contabilidade contClnt) {
 	}
 }
 
-void query6(AAVL clnt) {
+void query6(CatalogoClientes clnt) {
 	char aux[1], escolha;
 	int i,res, optn, intervalo;
         GrowingArray ga = initGrowingArray(20000,ArrayString);
@@ -292,7 +292,7 @@ void query8(HashTable ht) {
 	}
 }
 
-void query9(AAVL clnt, Contabilidade contClnt) {
+void query9(CatalogoClientes clnt, Contabilidade contClnt) {
 	int i, mes, **arrayAux=malloc(200000*sizeof(int*)), index;
 	char *code=(char*) malloc(10*sizeof(char));
 	GrowingArray ga=initGrowingArray(200000, ArrayCompProduto);		
@@ -368,7 +368,7 @@ void query12(HashTable ht) {
 	}
 }
 
-void query13(AAVL clnt, Contabilidade contClnt) {
+void query13(CatalogoClientes clnt, Contabilidade contClnt) {
 	int i, mes, max1=0, max2=0, max3=0;
 	char *m1=malloc(10*sizeof(char)), *m2=malloc(10*sizeof(char)), *m3=malloc(10*sizeof(char));
 	char *code=(char*) malloc(10*sizeof(char));

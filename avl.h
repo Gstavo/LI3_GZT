@@ -38,6 +38,7 @@ AVL balanceLeft(AVL p);
 AVL rotateRight(AVL p);
 AVL rotateLeft(AVL p);
 AVL devolveAVL(AVL array[], char a);
+int removeAVL(AVL p,void* info,int tipo);
 NUM_NODOS contarNodos(AVL aux);
 INDICE_CODIGOS indexL(char* code);
 NUM_OCORRENCIAS_CODE avl_count(AVL c, char* code, int tipo, char mode);

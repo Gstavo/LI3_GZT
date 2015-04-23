@@ -6,17 +6,19 @@
 #include "boolean.h"
 #include "growingArray.h"
 
-typedef CompProduto listaProdutos[MAX_PROD];
+typedef AAVL CatalogoClientes;
 
 void initCatalogo_Clientes();
 
-void insertCatalogo_Clientes(AAVL cl,char* code,int* cresceu);
+void insertCatalogo_Clientes(CatalogoClientes cl,char* code,int* cresceu);
+
+int removeCatalogo_Clientes(CatalogoClientes cl,char* code);
 
 int codigos_Cliente();
 
-BOOLEAN existeClnt(char* cliente, AAVL cl);
+BOOLEAN existeClnt(char* cliente, CatalogoClientes cl);
 
-void imprimir_cliente(GrowingArray ga, AAVL array, char letra);
+void imprimir_cliente(GrowingArray ga, CatalogoClientes array, char letra);
 
 
 #endif
