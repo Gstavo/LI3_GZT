@@ -63,7 +63,9 @@ typedef struct {
 
 /* FUNÇOES DE ACESSO */
 
+int getHashTableSize(HashTable ht);
 
+int getRemakes();
 
 int getCodigosProdutosUsados();
 

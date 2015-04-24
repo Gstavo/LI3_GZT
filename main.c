@@ -30,7 +30,7 @@ int main(){
 	double time_spent, qTime_spent;
 	CatalogoClientes clnt;
 	CatalogoProdutos prod;
-	Contabilidade contClnt;	
+	Contabilidade contClnt;
 	HashTable ht;
 	Comp compra;
 	clock_t begin,qBegin,qEnd, end;
@@ -48,9 +48,10 @@ int main(){
 	if(!scanf("%s",comprastxt)) puts("ERRO");
 
 	puts("\nA CARREGAR ESTRUTURAS DE DADOS...");
+	
 	/*Preenchimento e leitura das estruturas de dados*/
 	leitura(clnt, prod, contClnt, ht, compra, valid,comprastxt);
-
+	
 	/*Faz uma travessia a todos os codigos de cliente recolhendo informaçoes sobre a atividade de cada um, útil para a query 14 e 10 */
 	gatherData(clnt, contClnt);
 

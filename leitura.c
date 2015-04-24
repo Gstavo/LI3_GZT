@@ -29,6 +29,7 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, HashTable ht, Comp co
 			trim(linha);
 			insertCatalogo_Produtos(prod, linha, cresceu);
 	}
+
 	for(i=0; fgets(linha, MAX_LINE, fcompras); i++) {
 			linha[strlen(linha)-1] = '\0';
 			trim(linha);

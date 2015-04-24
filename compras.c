@@ -33,12 +33,19 @@ static int noncolisions = 0;
 
 static int colisions = 0;
 
+static int remakes = 0;
+
 /*
  *
  * 	FUNÇOES DE ACESSO ÀS VARIAVEIS GLOBAIS
  *
 */
 
+int getHashTableSize(HashTable ht)
+{return ht->max_size / N_Codigos_Produto;}
+
+int getRemakes()
+{return remakes;}
 
 int getCodigosProdutosUsados()
 {return codigo_produto_usado;}
@@ -75,7 +82,7 @@ Comp initCompra() {
 /* 24 % de colisoes para HT_SIZE dado */
 HashTable initHashCompras() {
         HashTable ht;
-        int HT_SIZE = 8 * N_Codigos_Produto ;
+        int HT_SIZE =  8 * N_Codigos_Produto ;
         ht = malloc(sizeof(struct hashtable));
         ht->table = calloc( HT_SIZE ,sizeof(CpInfo));
 	ht->max_size = HT_SIZE;
@@ -153,11 +160,10 @@ HashTable insertHashTable(HashTable ht, Comp compra)
 {
         unsigned int hash_code;
         int i;
-        float ocupacao = (float)ht->size / ht->max_size;
 
-        if( ocupacao > 0.3)
+        if( (getColisions() / ht->max_size) > 0.3f && getColisionsRate() > 0.3f && getColisions() > 1000 )
         {
-                ht = remakeHash(ht,1.5*ht->max_size);
+		ht = remakeHash(ht,1.5*ht->max_size);
         }
 
         hash_code = hash(compra->codigo_produto) % ht->max_size;
@@ -225,10 +231,15 @@ HashTable remakeHash(HashTable ht,int N){
         int i;
         HashTable new;
 
+	colisions = 0;
+	noncolisions = 0;
+	remakes++;
+
         new = malloc(sizeof(struct hashtable));
         new->table = calloc( N ,sizeof(CpInfo));
 	new->max_size = N;
         new->size = ht->size;
+
 
         for(i=0;i<ht->max_size;i++) 
 		if(ht->table[i]) 
@@ -242,15 +253,19 @@ HashTable remakeHash(HashTable ht,int N){
                				 if(new->table[i] == NULL)
                 			 {
                         			new->table[i] = cpi;
+						if(i == hash_code) noncolisions*=cpi->clientes;
                         			break;
                 			 }
+
+					if(i == hash_code) colisions*=cpi->clientes;
                 			 i = (i + 1) % new->max_size;
 
         			 }while(i!=hash_code);
 
 			}
-        free(ht->table);
-        free(ht);
+        
+/*	free(ht->table);*/
+
         return new;
 }
 
