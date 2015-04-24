@@ -54,10 +54,9 @@ int main(){
 	/*Faz uma travessia a todos os codigos de cliente recolhendo informaçoes sobre a atividade de cada um, útil para a query 14 e 10 */
 	gatherData(clnt, contClnt);
 
-	menu();
-
 	while(1) {
 		char c;
+		menu();
         	printf ("\nESCOLHA UMA QUERY: ");
 	
 		if(scanf("%d", &query) && query > 0 && query < 15) {
@@ -105,7 +104,7 @@ void menu () {
         printf ("6 - LISTA DE CLIENTES INICIADOS POR DADA LETRA;\n");
         printf ("7 - TOTAL DE COMPRAS REALIZADAS DENTRO DE UM INTERVALO DE MESES;\n");
         printf ("8 - CLIENTES QUE COMPRARAM DETERMINADO PRODUTO;\n");
-        printf ("9 - PRODUTOS COMPRADOS POR CLIENTE;\n");
+        printf ("9 - PRODUTOS COMPRADOS POR CLIENTE NUM DADO MES;\n");
         printf ("10 - CLIENTES QUE FIZERAM COMPRAS EM TODOS OS MESES DO ANO;\n");
         printf ("11 - FICHEIRO (EXCEL) COM COMPRAS E CLIENTES MENSAIS;\n");
         printf ("12 - PRODUTOS MAIS VENDIDOS DO ANO;\n");
@@ -153,11 +152,11 @@ void query2(CatalogoClientes clnt, CatalogoProdutos prod) {
 				printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 				if(scanf("%d", &res)) {
 					intervalo=ga->size/res;
-					printf("\nAJUDA: INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
+					printf("\n**AJUDA** INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
 					do {
 						printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 						if(scanf("%d", &optn)) {
-							if(optn>intervalo) {	/*ultima pagina tem sempre res ou menos codigos*/
+							if(optn==intervalo+1) {	/*ultima pagina tem sempre res ou menos codigos*/
 								for(i=(optn-1)*res; i<(optn-1)*res+(ga->size-(intervalo*res)); i++) 
 									printf("%s\n",(char*)ga->Elems[i]);
 							}
@@ -166,7 +165,8 @@ void query2(CatalogoClientes clnt, CatalogoProdutos prod) {
 									printf("%s\n",(char*)ga->Elems[i]);
 							}
 						}
-					} while(optn>0 && optn<=intervalo+1);
+						if(optn<0 || optn>intervalo+1) printf("\nINSIRA UM VALOR CORRETO!\n");
+					} while(optn!=0);
 				}
 			}
 		}
@@ -196,6 +196,7 @@ void query3(HashTable ht) {
 				printf("\nTOTAL DE COMPRAS EM MODO N: %d\n",compModeN);
 				printf("TOTAL DE COMPRAS EM MODO P: %d\n",compModeP);
 				printf("TOTAL FATURADO PELO PRODUTO NESSE MES: %.2f Euros\n",fact);
+				printf("\n**NOTA** A LISTA ESTA APRESENTADA POR COMPRAS, NAO POR QUANTIDADE COMPRADA\n");
 			}
 		}
 	}
@@ -217,18 +218,19 @@ void query4(HashTable ht, CatalogoProdutos cp) {
 	printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 	if(scanf("%d", &res)) {
 		intervalo=total/res;
-		printf("\nAJUDA: INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
+		printf("\n**AJUDA** INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
 		do {
 			printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 			if(scanf("%d", &optn)) {
-				if(optn>intervalo) {	/*ultima pagina tem sempre res ou menos codigos*/
+				if(optn==intervalo+1) {	/*ultima pagina tem sempre res ou menos codigos*/
 					for(i=(optn-1)*res; i<(optn-1)*res+(total-(intervalo*res)); i++) printf("%s\n", prodNComp[i]);
 				}
 				else if(optn>0 && optn<=intervalo+1) {
 					for(i=(optn-1)*res; i<(optn-1)*res+res; i++) printf("%s\n", prodNComp[i]);
 				}
 			}
-		} while(optn>0 && optn<=intervalo+1);
+			if(optn<0 || optn>intervalo+1) printf("\nINSIRA UM VALOR CORRETO!\n");
+		} while(optn!=0);
 	}
 	printf("\nNUMERO DE PRODUTOS QUE NINGUEM COMPROU: %d\n",total);
 }
@@ -246,6 +248,7 @@ void query5(Contabilidade contClnt) {
 				printf("\n");
 				printf("COMPRAS DE "); for(i=0; i<5; i++) printf("%c", code[i]); printf(" POR MES:\n");
 				for(i=0; i<12; i++) printf("%d: %d\n", (i+1), comprasMes[i]);
+				printf("\n**NOTA** A TABELA ESTA APRESENTADA POR COMPRAS, NAO POR QUANTIDADE COMPRADA\n");
 			} 
 			else {
 				compras_cliente=fopen("compras_cliente.txt", "w");
@@ -253,6 +256,7 @@ void query5(Contabilidade contClnt) {
 				for(i=0; i<5; i++) fprintf(compras_cliente, "%c", code[i]);
 				fprintf(compras_cliente, " POR MES:\n");
 				for(i=0; i<12; i++) fprintf(compras_cliente, "%d: %d\n", (i+1), comprasMes[i]);
+				fprintf(compras_cliente, "\n**NOTA** A TABELA ESTA APRESENTADA POR COMPRAS, NAO POR QUANTIDADE COMPRADA\n");
 				printf("\nFICHEIRO \"compras_cliente.txt\" CRIADO COM SUCESSO!\n");
 				fclose(compras_cliente);
 			}
@@ -272,11 +276,11 @@ void query6(CatalogoClientes clnt) {
         	printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 		if(scanf("%d", &res)) {
 			intervalo=ga->size/res;
-			printf("\nAJUDA: INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
+			printf("\n**AJUDA** INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
 			do {
 				printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 				if(scanf("%d", &optn)) {
-					if(optn>intervalo) {	/*ultima pagina tem sempre res ou menos codigos*/
+					if(optn==intervalo+1) {	/*ultima pagina tem sempre res ou menos codigos*/
 						for(i=(optn-1)*res; i<(optn-1)*res+(ga->size-(intervalo*res)); i++) 
 							printf("%s\n",(char*)ga->Elems[i]);
 					}
@@ -284,7 +288,8 @@ void query6(CatalogoClientes clnt) {
 						for(i=(optn-1)*res; i<(optn-1)*res+res; i++) printf("%s\n",(char*)ga->Elems[i]);
 					}
 				}
-			} while(optn>0 && optn<=intervalo+1);
+				if(optn<0 || optn>intervalo+1) printf("\nINSIRA UM VALOR CORRETO!\n");
+			} while(optn!=0);
 		}
 	}
 }
@@ -369,11 +374,11 @@ void query10() {
 	printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 	if(scanf("%d", &res)) {
 		intervalo=ga->size/res;
-		printf("\nAJUDA: INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
+		printf("\n**AJUDA** INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
 		do {
 			printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 			if(scanf("%d", &optn)) {
-				if(optn>intervalo) {	/*ultima pagina tem sempre res ou menos codigos*/
+				if(optn==intervalo+1) {	/*ultima pagina tem sempre res ou menos codigos*/
 					for(i=(optn-1)*res; i<(optn-1)*res+(ga->size-(intervalo*res)); i++) 
 						printf("%s\n",(char*)ga->Elems[i]);
 				}
@@ -381,7 +386,8 @@ void query10() {
 					for(i=(optn-1)*res; i<(optn-1)*res+res; i++) printf("%s\n",(char*)ga->Elems[i]);
 				}
 			}
-		} while(optn>0 && optn<=intervalo+1);
+			if(optn<0 || optn>intervalo+1) printf("\nINSIRA UM VALOR CORRETO!\n");
+		} while(optn!=0);
 	}
 	printf("\nTOTAL DE CLIENTES QUE REALIZARAM COMPRAS EM TODOS OS MESES DO ANO: %d\n", ga->size);
 }
@@ -411,12 +417,12 @@ void query12(HashTable ht) {
 			printf("\nINSIRA O NUMERO DE CODIGOS QUE DESEJA VER POR PAGINA:\n");
 			if(scanf("%d", &res)) {
 				intervalo=N/res;
-				printf("\nAJUDA: INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
+				printf("\n**AJUDA** INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
 				do {
 					printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
 					if(scanf("%d", &optn)) {
 						putchar('\n');
-						if(optn>intervalo) {	/*ultima pagina tem sempre res ou menos codigos*/
+						if(optn==intervalo+1) {	/*ultima pagina tem sempre res ou menos codigos*/
 							for(i=(optn-1)*res; i<(optn-1)*res+(N-(intervalo*res)); i++) {
 								printf("PRODUTO: %s | ", h->values[i]->produto);
 								printf("VENDAS: %d | CLIENTES: %d\n", h->values[i]->vendas, h->values[i]->clientes);
@@ -429,7 +435,8 @@ void query12(HashTable ht) {
 							}
 						}
 					}
-				} while(optn>0 && optn<=intervalo+1);
+					if(optn<0 || optn>intervalo+1) printf("\nINSIRA UM VALOR CORRETO!\n");
+				} while(optn!=0);
 			}
 		}
 	}
