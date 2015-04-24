@@ -107,28 +107,28 @@ void compMes(Contabilidade c, char* cliente, int resultado[]) {
 	for(iM=0; iM < MAX_MONTHS; iM++) resultado[iM]=avl_count(c[iM][iL], cliente, Compras_Ord_CC, 'N');	
 }
 
-/*12 linhas que representam os 12 meses e so tem 1 coluna com o respectivo valor total*/
-void preenchecmp(int compras_mes[12][1]) {
+/*12 linhas que representam os 12 meses onde a posicao 0 refere-se ao mes Janeiro e a posiçao 11 refere-se ao mes Dezembro*/
+void preenchecmp(int compras_mes[12]) {
 	int i;
 	for(i=0; i<12; i++) {
-		compras_mes[i][1]=returnVendas(i);
+		compras_mes[i]=returnVendas(i);
 	}
 }
 
-void preencheclientes(int clientes_mes[12][1]){
+void preencheclientes(int clientes_mes[12]){
 	int i;
 	for(i=0; i<12; i++){
-		clientes_mes[i][1]=returnClientes(i);/*Só falta fazer esta funçao e fica a funcionar a 100%*/
+		clientes_mes[i]=returnClientes(i);/*Só falta fazer esta funçao e fica a funcionar a 100%*/
 	}
 }
 
-void create_csv(int compras_mes[12][1], int clientes_mes[12][1]) {
+void create_csv(int compras_mes[12], int clientes_mes[12]) {
 	int i;
 	char nome_ficheiro[20]="query11.csv\0";
 	FILE *aux;
 	aux=fopen(nome_ficheiro, "w+");
 	fprintf(aux, "%s %s %s\n", "Mes\0", "#Compras\0", "#Clientes\0");
-	for(i=0;i<12;i++) fprintf(aux,"%d %d %d\n", (i+1), compras_mes[i][1], clientes_mes[i][1]);	/*Dá o mês*/
+	for(i=0;i<12;i++) fprintf(aux,"%d %d %d\n", (i+1), compras_mes[i], clientes_mes[i]);	/*Dá o mês*/
 	fclose(aux);
 }
 

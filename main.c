@@ -394,7 +394,7 @@ void query10() {
 }
 
 void query11() {
-	int compras_mes[12][1], clientes_mes[12][1];
+	int compras_mes[12], clientes_mes[12];
 	preenchecmp(compras_mes);
 	preencheclientes(clientes_mes);
 	create_csv(compras_mes, clientes_mes);
