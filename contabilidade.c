@@ -14,16 +14,13 @@ typedef struct mensalidade{
 	double factura;
 } Mensalidade[MAX_MONTHS];
 
-Mensalidade mDATA;
+static Mensalidade mDATA;
 
-GrowingArray clientesMensais;  
+static GrowingArray clientesMensais;  
 
 static int clientes_inativos = 0;
 
-/*Devolve o mes*/
-INDICE_MES indexM(Comp c) {
-	return c->mes-1;
-}
+
 
 /*Inicializa a estrutura de contabilidade*/
 void initContabilidade(Contabilidade c) {
@@ -43,6 +40,24 @@ void insertContabilidade(Contabilidade contClnt, Comp compra, int* cresceu) {
 	mDATA[iM].nvendas+=compra->quantidade;
 	mDATA[iM].nclientes+=1;
 	mDATA[iM].factura+=compra->quantidade * compra->preco; 
+}
+
+/*Remove um nodo da estrutura de contabilidade*/
+int removeContabilidade(Contabilidade c,Comp compra) {
+	int iM=indexM(compra), iLC=indexL(compra->codigo_cliente),r;
+	r = removeAVL(c[iM][iLC], compra, Compras_Ord_CC);
+	if(r==0) {
+		compras_mes[iM]--;
+		mDATA[iM].nvendas-=compra->quantidade;
+		mDATA[iM].nclientes-=1;
+		mDATA[iM].factura-=compra->quantidade * compra->preco;
+	}
+	return r; 
+}
+
+/*Devolve o mes*/
+INDICE_MES indexM(Comp c) {
+	return c->mes-1;
 }
 
 /*Devolve a faturacao desse mes*/
@@ -69,18 +84,7 @@ CLIENTES_MES returnClientes(int mes) {
 	return mDATA[mes].nclientes;
 }
 
-/*Remove um nodo da estrutura de contabilidade*/
-int removeContabilidade(Contabilidade c,Comp compra) {
-	int iM=indexM(compra), iLC=indexL(compra->codigo_cliente),r;
-	r = removeAVL(c[iM][iLC], compra, Compras_Ord_CC);
-	if(r==0) {
-		compras_mes[iM]--;
-		mDATA[iM].nvendas-=compra->quantidade;
-		mDATA[iM].nclientes-=1;
-		mDATA[iM].factura-=compra->quantidade * compra->preco;
-	}
-	return r; 
-}
+
 
 /*Retorna o numero de compras em cada mes do ano*/
 COMPRAS_MES compras_Mes(int mes) {

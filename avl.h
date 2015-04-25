@@ -31,12 +31,6 @@ typedef AVL AAVL[MAX_LETTERS];
 #include "boolean.h"
 
 AVL insert(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
-AVL insertRight(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
-AVL insertLeft(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
-AVL balanceRight(AVL p);
-AVL balanceLeft(AVL p);
-AVL rotateRight(AVL p);
-AVL rotateLeft(AVL p);
 AVL devolveAVL(AVL array[], char a);
 int removeAVL(AVL p,void* info,int tipo);
 NUM_NODOS contarNodos(AVL aux);

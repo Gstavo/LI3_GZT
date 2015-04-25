@@ -16,10 +16,10 @@ typedef int INDICE_MES;
 
 typedef AAVL Contabilidade[MAX_MONTHS];
 
-INDICE_MES indexM(Comp c);
 void initContabilidade(Contabilidade c);
 void insertContabilidade(Contabilidade contClnt, Comp compra, int* cresceu);
 int removeContabilidade(Contabilidade c,Comp compra);
+INDICE_MES indexM(Comp c);
 FACTORACAO_TOTAL returnFactTotal();
 FACTORACAO_TOTAL returnFact(int mes);
 VENDAS_MES returnVendas(int mes);

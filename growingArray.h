@@ -23,12 +23,16 @@ typedef struct growingarray{
 typedef growingarray* GrowingArray;
 
 GrowingArray initGrowingArray(int max_size, int tipo);
+
 void insertGrowingArray(GrowingArray a, Objeto o, int tipo);
+
 void ordenaArrayAux(int **arrayAux, int length);
+
 void qSort(int **arrayAux, int left, int right);
 
 #endif
 
 	
+
 
 

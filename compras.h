@@ -63,10 +63,6 @@ typedef struct {
 
 /* FUNÇOES DE ACESSO */
 
-int getHashTableSize(HashTable ht);
-
-int getRemakes();
-
 int getCodigosProdutosUsados();
 
 int getColisions();
@@ -85,6 +81,7 @@ HashTable initHashCompras();
 
 Heap* initHeap(HashTable ht);
 
+
 void insertComprasCP(AAVL a,Comp compra,int* cresceu);
 
 CpInfo searchHash(HashTable ht,char* code);
@@ -92,13 +89,9 @@ CpInfo searchHash(HashTable ht,char* code);
 HashTable insertHashTable( HashTable ht, Comp compra);
 
 
-
-HashTable remakeHash(HashTable ht,int N);
-
 unsigned int hash(char* str);
 
 CpInfoList query8Aux(HashTable ht,char* cp);
-
 
 
 void compracpy(Comp dest,Comp src);

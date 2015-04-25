@@ -13,12 +13,9 @@ static int noncolisions = 0;
 static int colisions = 0;
 static int remakes = 0;
 
-/*Devolve o tamanho da tabela de Hash*/
-int getHashTableSize(HashTable ht) {
-	return ht->max_size / N_Codigos_Produto;
-}
+HashTable static remakeHash(HashTable ht,int N);
 
-/*Devolve o numero de remakes da tabela de Hash*/
+/*Devolve o numero de resizes da tabela de Hash*/
 int getRemakes() {
 	return remakes;
 }
@@ -62,7 +59,7 @@ HashTable initHashCompras() {
 	return ht;
 }
 
-/*Inicializa a heap*/
+/*Inicializa a heap usada apenas na query 12, insere os elementos e ordena*/
 Heap* initHeap(HashTable ht){
 	int i;
 	Heap* h = newHeap( ht->size );
@@ -116,7 +113,7 @@ HashTable insertHashTable(HashTable ht, Comp compra)
         unsigned int hash_code;
         int i;
 
-        if( (getColisions() / ht->max_size) > 0.3f && getColisionsRate() > 0.3f && getColisions() > 1000 )
+        if( getColisionsRate() > 0.3f && getColisions() > 1000 )
         {
 		ht = remakeHash(ht,1.5*ht->max_size);
         }
@@ -175,8 +172,8 @@ CpInfo searchHash(HashTable ht,char* code)
         return NULL;
 }
 
-/*Faz o remake da tabela de Hash*/
-HashTable remakeHash(HashTable ht,int N){
+/*Faz o resize da tabela de Hash*/
+HashTable static remakeHash(HashTable ht,int N){
         int i;
         HashTable new;
 
@@ -216,7 +213,7 @@ HashTable remakeHash(HashTable ht,int N){
         return new;
 }
 
-/* Funcao de Hash (PJWHash)*/
+/* Funcao de Hash (PJWHash) */
 unsigned int hash(char* str)
 {
    int length = strlen(str);

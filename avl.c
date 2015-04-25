@@ -6,6 +6,13 @@
 #include <ctype.h>
 #include "avl.h"
 
+AVL static insertRight(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
+AVL static insertLeft(AVL p, void* unc_info, int *cresceu,int tipo_AVL);
+AVL static balanceRight(AVL p);
+AVL static balanceLeft(AVL p);
+AVL static rotateRight(AVL p);
+AVL static rotateLeft(AVL p);
+
 /*Insere um nodo na AVL*/
 AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
 	

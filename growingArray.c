@@ -25,7 +25,7 @@ void insertGrowingArray(GrowingArray a, Objeto o, int tipo) {
 	a->size+=1;
 }
 
-/*Ordena a matriz*/	
+/*Ordena a matriz especializada para a query 9*/	
 void ordenaArrayAux(int **arrayAux, int length) {
 	qSort(arrayAux, 0, length-1);
 }
