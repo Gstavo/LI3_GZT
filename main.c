@@ -52,7 +52,6 @@ int main(){
 	/*Preenchimento e leitura das estruturas de dados*/
 	leitura(clnt, prod, contClnt, ht, compra, valid,comprastxt);
 	
-	/*Faz uma travessia a todos os codigos de cliente recolhendo informaçoes sobre a atividade de cada um, útil para a query 14 e 10 */
 	gatherData(clnt, contClnt);
 
 	while(1) {
@@ -63,20 +62,20 @@ int main(){
 		if(scanf("%d", &query) && query > 0 && query < 15) {
 			qBegin=clock();
 			switch(query) {
-				case 1: query1(valid); break;			/*Funcional*/
-				case 2: query2(clnt, prod); break;		/*Funcional*/
-				case 3: query3(ht); break;			/*Funcional*/
-				case 4: query4(ht,prod); break;			/*Funcional*/
-				case 5: query5(contClnt); break;		/*Funcional*/
-				case 6: query6(clnt); break;			/*Funcional*/
-				case 7: query7(); break;			/*Funcional*/
-				case 8: query8(ht); break;			/*Funcional*/
-				case 9: query9(clnt, contClnt);	break;		/*Funcional*/
-				case 10: query10(); break;			/*Funcional*/
-				case 11: query11(); break;			/*Funcional*/
-				case 12: query12(ht); break;			/*Funcional*/
-				case 13: query13(clnt, contClnt); break;	/*Funcional*/
-				case 14: query14(); 				/*Funcional*/
+				case 1: query1(valid); break;			
+				case 2: query2(clnt, prod); break;		
+				case 3: query3(ht); break;			
+				case 4: query4(ht,prod); break;			
+				case 5: query5(contClnt); break;		
+				case 6: query6(clnt); break;			
+				case 7: query7(); break;			
+				case 8: query8(ht); break;			
+				case 9: query9(clnt, contClnt);	break;		
+				case 10: query10(); break;			
+				case 11: query11(); break;			
+				case 12: query12(ht); break;			
+				case 13: query13(clnt, contClnt); break;	
+				case 14: query14(); 				
 			}	
 			qEnd=clock();
 			qTime_spent=(double)(qEnd-qBegin)/CLOCKS_PER_SEC;

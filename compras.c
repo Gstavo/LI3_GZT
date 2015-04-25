@@ -6,72 +6,44 @@
 
 #define N_Codigos_Produto 200000
 
-
-/*! \brief Procura o índice de um caracter numa string
-*
-*	Percorre a string, incrementando uma variável, retornando essa variável se o target corresponder ao caracter nessa posição na string.
-*	Se o caracter não for encontrado retorna -1.
-*
-* \param target O caracter a procurar
-* \param s A string sobre a qual se calcula o tamanho
-* \return O índice do caracter na string
-*/
-
-
-
-/*
- *
- * 	VARIAVEIS GLOBAIS
- *
-*/
-
 CpInfo const REMOVED;
 
 static int codigo_produto_usado = 0;
-
 static int noncolisions = 0;
-
 static int colisions = 0;
-
 static int remakes = 0;
 
-/*
- *
- * 	FUNÇOES DE ACESSO ÀS VARIAVEIS GLOBAIS
- *
-*/
+/*Devolve o tamanho da tabela de Hash*/
+int getHashTableSize(HashTable ht) {
+	return ht->max_size / N_Codigos_Produto;
+}
 
-int getHashTableSize(HashTable ht)
-{return ht->max_size / N_Codigos_Produto;}
+/*Devolve o numero de remakes da tabela de Hash*/
+int getRemakes() {
+	return remakes;
+}
 
-int getRemakes()
-{return remakes;}
+/*Devolve o numero de produtos que foram comprados*/
+int getCodigosProdutosUsados() {
+	return codigo_produto_usado;
+}
 
-int getCodigosProdutosUsados()
-{return codigo_produto_usado;}
+/*Devolve o numero de colisoes da tabela de Hash*/
+int getColisions() {
+	return colisions;
+}
 
-int getColisions()
-{return colisions;}
+/*Devolve o numero de nao colisoes*/
+int getNoncolisions() {
+	return noncolisions;
+}
 
-int getNoncolisions()
-{return noncolisions;}
+/*Devolve a percentagem de colisoes da tabela de Hash*/
+float getColisionsRate() {
+	return (float)colisions / (noncolisions + colisions) ;
+}
 
-float getColisionsRate()
-{return (float)colisions / (noncolisions + colisions) ;}
-
-/*
- *
- * 	INICIALIZAR AS ESTRUTURAS DE DADOS
- *
-*/
-
-/*! \brief Inicializa uma Compra.
-*
-*       Alloca memória para a struct compras, para o codigo de produto e cliente dentro da struct.
-*
-* \return Comp O endereço da struct compras.
-*/
-
+/*Inicializa a estrutura de compras*/
 Comp initCompra() {
 	Comp compra=malloc(sizeof(struct compras));
 	compra->codigo_produto = malloc(10*sizeof(char));
@@ -79,7 +51,7 @@ Comp initCompra() {
 	return compra;
 }
 
-/* 24 % de colisoes para HT_SIZE dado */
+/*Inicializa da tabela de Hash*/
 HashTable initHashCompras() {
         HashTable ht;
         int HT_SIZE =  8 * N_Codigos_Produto ;
@@ -90,19 +62,7 @@ HashTable initHashCompras() {
 	return ht;
 }
 
-
-/*! \brief Inicializa uma Heap e insere os objetos da HashTable.
-*
-*       Alloca memória para uma Heap de Objetos a qual vai ser preenchida 
-com endereços do tipo CpInfoList que representam um conjunto de listas ligadas com o codigo
-de cada cliente e tipo P/N de cada compra do produto. As CpInfoList de cada produto estam guardadas
-na HashTable.
-*
-* \param ht HashTable com a informaçao de cada produto.
-* \return h Heap* gerada.
-*/
-
-
+/*Inicializa a heap*/
 Heap* initHeap(HashTable ht){
 	int i;
 	Heap* h = newHeap( ht->size );
@@ -112,13 +72,7 @@ Heap* initHeap(HashTable ht){
 	return h;
 }
 
-
-/*
- *
- * 	FUNÇÕES DE INSERÇÃO
- *
-*/
-
+/*Insere um elemento na estrutura CP Info*/
 CpInfo insertCPinfo(CpInfo infoL,Comp compra){
         if(infoL==NULL)
         {
@@ -156,6 +110,7 @@ CpInfo insertCPinfo(CpInfo infoL,Comp compra){
         return infoL;
 }
 
+/*Insere na tabela de Hash*/
 HashTable insertHashTable(HashTable ht, Comp compra)
 {
         unsigned int hash_code;
@@ -194,15 +149,7 @@ HashTable insertHashTable(HashTable ht, Comp compra)
         return ht;
 }
 
-/*
- *
- *	OUTRAS FUNÇÕES DA ESTRUTURA HASH & CPINFO
- *
-*/
-
-
 /* Remove a informção toda relativamente ao codigo de produto dado na hashtable */
-
 int removeHash(HashTable ht, char *code)
 {
 	int i = hash(code) % ht->max_size;
@@ -216,6 +163,7 @@ int removeHash(HashTable ht, char *code)
 	return 1;
 }
 
+/*Procura um elemento na tabela de Hash*/
 CpInfo searchHash(HashTable ht,char* code)
 {
         int i = hash(code) % ht->max_size;
@@ -227,6 +175,7 @@ CpInfo searchHash(HashTable ht,char* code)
         return NULL;
 }
 
+/*Faz o remake da tabela de Hash*/
 HashTable remakeHash(HashTable ht,int N){
         int i;
         HashTable new;
@@ -263,14 +212,11 @@ HashTable remakeHash(HashTable ht,int N){
         			 }while(i!=hash_code);
 
 			}
-        
-/*	free(ht->table);*/
 
         return new;
 }
 
-/* hash PJWHash algoritmo */
-
+/* Funcao de Hash (PJWHash)*/
 unsigned int hash(char* str)
 {
    int length = strlen(str);
@@ -295,31 +241,14 @@ unsigned int hash(char* str)
    return (hash & 0x7FFFFFFF);
 }
 
-/*
- *
- *	FUNÇÕES PARA QUERIES ESPECÍFICAS 
- *
-*/
-
-/*
-	Query 8: show lista de CC distiguindo N/P
-		de um dado CP
-*/
-
+/*Funcao auxiliar da query8*/
 CpInfoList query8Aux(HashTable ht,char* cp){
 	CpInfo cpinfo = searchHash(ht,cp);
 	if(!cpinfo) return NULL;
 	return cpinfo->first;			
-	}
+}
 
-
-/*
- *
- *	BASIC COMPRAS STRUCT CODE
- *
-*/
-
-
+/*Faz a copia de uma estrutura de compras para outra*/
 void compracpy(Comp dest,Comp src){
 	strcpy(dest->codigo_produto,src->codigo_produto);
 	strcpy(dest->codigo_cliente,src->codigo_cliente);
@@ -329,10 +258,12 @@ void compracpy(Comp dest,Comp src){
         dest->mes = src->mes;
 }
 
+/*Compara dois codigos de cliente*/
 int compracmpCC(Comp c1,Comp c2) {
         return (strncmp(c1->codigo_cliente,c2->codigo_cliente,5));
 }
 
+/*Compara dois codigos de produto*/
 int compracmpCP(Comp c1,Comp c2) {
         return (strncmp(c1->codigo_produto,c2->codigo_produto,6));
 }

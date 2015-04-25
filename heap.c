@@ -7,6 +7,7 @@
 #define LEFT(i) 2*i+1
 #define RIGHT(i) 2*i+2
 
+/*Verifica se a heap esta valida*/
 int minHeapOK (Heap h){
 	int i,l,r;
 	int used = h.used;
@@ -19,6 +20,7 @@ int minHeapOK (Heap h){
 	return 1;
 }
 
+/*Troca dois elementos*/
 void swap(Elem h[],int i,int j)
 {
 	Elem tmp = h[i];
@@ -26,6 +28,7 @@ void swap(Elem h[],int i,int j)
 	h[j] = tmp;
 }
 
+/*Cria uma nova heap*/
 Heap *newHeap (int size){
 	Heap *h = (Heap*) malloc(sizeof(Heap));
 	h->size = size;
@@ -34,7 +37,7 @@ Heap *newHeap (int size){
 	return h;	
 }
 
-
+/*Faz o bubble up da heap*/
 void bubbleUp (Elem h[], int i){
 	while(i>0){
 		if(h[UP(i)]->vendas > h[i]->vendas) swap(h,UP(i),i);
@@ -43,6 +46,7 @@ void bubbleUp (Elem h[], int i){
 	}
 }
 
+/*Faz o bubble down da heap*/
 void bubbleDown(Elem h[], int N){
 	int mp,i=0;
 	while(LEFT(i)<N){
@@ -57,7 +61,7 @@ void bubbleDown(Elem h[], int N){
 	}
 }
 
-
+/*Extrai o valor minimo da heap (primeiro)*/
 int extractMin(Heap *h, Elem *x){
 	if(h->used == 0) return 1;
 	*x = h->values[0];
@@ -67,16 +71,16 @@ int extractMin(Heap *h, Elem *x){
 	return 0;
 }
 
+/*Utliza a heap para fazer a ordenacao*/
 void heapSort(Elem v[],int N){
 	int i;
-/*	for(i=0;i<N;i++) bubbleUp(v,i);*/
 	for(i=N-1;i>0;i--) {
 		swap(v,0,i);
 		bubbleDown(v,i);
 	}
 }
 
-
+/*Insere um elemento na heap*/
 int insertHeap(Heap *h, Elem x){
 	if(h->used == h->size) return 1;
 	h->values[h->used] = x;

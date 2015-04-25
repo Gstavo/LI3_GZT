@@ -24,11 +24,13 @@ void insertGrowingArray(GrowingArray a, Objeto o, int tipo) {
 	a->Elems[a->size]=o;
 	a->size+=1;
 }
-	
+
+/*Ordena a matriz*/	
 void ordenaArrayAux(int **arrayAux, int length) {
 	qSort(arrayAux, 0, length-1);
 }
 
+/*Funcao auxiliar da ordenaArrayAux que ordena a matriz usando quickSort*/
 void qSort(int **arrayAux, int left, int right) {
 	int i=left, j=right, x=arrayAux[(left+right)/2][0], y[2];
 	while(i<=j) {

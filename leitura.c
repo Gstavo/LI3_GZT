@@ -8,6 +8,7 @@
 #include <math.h>
 #include "leitura.h"
 
+/*Executa a leitura das estruturas de dados*/
 void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, HashTable ht, Comp compra, int valid[],char* comprastxt) {
 	int i, *cresceu=(int*) malloc(sizeof(int)), clntInv=0, prodInv=0;	
 	BOOLEAN validaClnt=FALSE, validaProd=FALSE, validaCmpr=FALSE;
@@ -58,44 +59,55 @@ void leitura(AAVL clnt, AAVL prod, Contabilidade contClnt, HashTable ht, Comp co
 	valid[4]=countCompras-compras_invalidas;
 }
 
+/*Valida o mes*/
 BOOLEAN validaMes(int mes){
-	if(mes>=1 && mes<=12) return TRUE;		/*Verdadeiro*/
-	else return FALSE;				/*Falso*/
+	if(mes>=1 && mes<=12) return TRUE;		
+	else return FALSE;				
 }
 
+/*Valida o tipo da compra*/
 BOOLEAN validaTipo(char a){
-	if(a=='P' || a=='N') return TRUE;		/*Verdadeiro*/
-	else return FALSE;				/*Falso*/
+	if(a=='P' || a=='N') return TRUE;		
+	else return FALSE;				
 }
 
+/*Valida o numero de unidades compradas*/
 BOOLEAN validaUnidades(int unidade){
-	if(unidade>0 && unidade<200000) return TRUE;	/*Verdadeiro*/
-	else return FALSE;					/*Falso*/
+	if(unidade>0 && unidade<200000) return TRUE;	
+	else return FALSE;					
 }
 
+/*Valida o preco do produto*/
 BOOLEAN validaPreco(double p){
-	if(p>=0.0) return TRUE;		/*Verdadeiro*/
-	else return FALSE;			/*Falso*/
+	if(p>=0.0) return TRUE;		
+	else return FALSE;			
 }
 
-BOOLEAN isdigitN(char a) {return ((a >= 48) && (a<=57));}
+/*Verifica se e um digito*/
+BOOLEAN isdigitN(char a) {
+	return ((a >= 48) && (a<=57));
+}
 
+/*Verifica se um cliente existe no catalogo de clientes*/
 BOOLEAN validateClnt(Compras a, AAVL cl) {
         if(existeClnt(a.codigo_cliente, cl)==FALSE) return FALSE;
         else return TRUE;
 }
 
+/*Verifica se um produto existe no catalogo de produtos*/
 BOOLEAN validateProd(Compras a, AAVL pl) {
 	if(existeProd(a.codigo_produto, pl)==FALSE) return FALSE;
 	else return TRUE;
 }
 
+/*Valida a compra*/
 BOOLEAN validateCompras(Compras a) {
 	if(validaMes(a.mes)==FALSE || validaTipo(a.tipo)==FALSE || validaUnidades(a.quantidade)==FALSE || validaPreco(a.preco)==FALSE)
 		return FALSE;
 	else return TRUE;
 } 
 
+/*Parte uma linha do ficheiro de compras*/
 void tokenizer(Comp a, char linha[MAX_LINE]){
 	char* t; 
 	int x=0, n;
@@ -123,23 +135,14 @@ void tokenizer(Comp a, char linha[MAX_LINE]){
 	}	
 }
 
-void printTree(AVL p) {
-	int i;
-	if(p==NULL) printf("NULL\n");
-	else {
-		char* code = p->info;
-		for(i=0; i<6; i++) printf("%c", code[i]);
-		printf("\n");
-		printTree(p->left);
-		printTree(p->right);
-	}
-}
+/*Comprimento de uma string*/
 COMPRIMENTO length(char s[]) {
        int i;
        for(i=0; s[i]!='\0'; i++);
        return i;
 }
 
+/*Move a linha para a esquerda desde um determinado indice*/
 void shiftleft(char* s,int i)
 {
         while(s[i]!='\0')
@@ -149,6 +152,7 @@ void shiftleft(char* s,int i)
         }
 }
 
+/*Retira os espacos em excesso numa linha de compras*/
 void trim(char* s)
 {
         int i;

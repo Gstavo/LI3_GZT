@@ -6,6 +6,7 @@
 
 static int Codigos_Produto = 0;
 
+/*Inicializa a estrutura de dados do catalogo de produtos*/
 void initCatalogo_Produtos(CatalogoProdutos pl){
         int i;
         for(i=0; i<MAX_LETTERS; i++)
@@ -14,15 +15,14 @@ void initCatalogo_Produtos(CatalogoProdutos pl){
         }
 }
 
-/* guardar o resultado do insert em cl faz alguma cena util???? */
-
+/*Insere um codigo de produto no catalogo*/
 void insertCatalogo_Produtos(CatalogoProdutos pl,char* code,int* cresceu)
         {
                 pl[indexL(code)] = insert(pl[indexL(code)],code,cresceu,Catalogo_P);
                 Codigos_Produto++;
         }
 
-
+/*Remove um produto do catalogo*/
 int removeCatalogo_Produtos(CatalogoProdutos pl,char* code)
 {
 	int i = indexL(code),r;
@@ -31,9 +31,10 @@ int removeCatalogo_Produtos(CatalogoProdutos pl,char* code)
         return r;
 }
 
-
+/*Retorna o numero de codigos de produto*/
 int codigos_Produto(){return Codigos_Produto;}
 
+/*Funcao auxiliar da existeProd*/
 BOOLEAN existeP_aux(char* produto,AVL p)
 {
         int res;
@@ -46,11 +47,13 @@ BOOLEAN existeP_aux(char* produto,AVL p)
         return res;
 }
 
+/*Verifica se um produto existe no catalogo*/
 BOOLEAN existeProd(char* produto, CatalogoProdutos pl) 
 {
 	return existeP_aux(produto,pl[indexL(produto)]);
 }
 
+/*Guarda no growing array todos os produto iniciados por dada letra*/
 void imprimir_produto(GrowingArray ga, CatalogoProdutos array, char letra) {
     if((letra>97 && letra<122)) letra-=32;  /*Se for minuscula passa para maiuscula*/
     guardArrayAVL(array[letra-65], ga, ArrayString);  /*Coloca na matriz todos os clientes iniciados pela letra dada*/

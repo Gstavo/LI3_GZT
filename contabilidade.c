@@ -6,8 +6,6 @@
 #include <ctype.h>
 #include "contabilidade.h"
 
-/* Metade da query 11 */
-
 static int compras_mes[MAX_MONTHS];
 
 typedef struct mensalidade{
@@ -22,24 +20,24 @@ GrowingArray clientesMensais;
 
 static int clientes_inativos = 0;
 
-INDICE_MES indexM(Comp c){return c->mes-1;}
+/*Devolve o mes*/
+INDICE_MES indexM(Comp c) {
+	return c->mes-1;
+}
 
-void initContabilidade(Contabilidade c)
-{
+/*Inicializa a estrutura de contabilidade*/
+void initContabilidade(Contabilidade c) {
 	int i,j;
-	for(i=0;i < MAX_MONTHS;i++)
-	{
-		for(j=0;j < MAX_LETTERS;j++)
-			c[i][j] = NULL;
-		
+	for(i=0;i < MAX_MONTHS;i++) {
+		for(j=0;j < MAX_LETTERS;j++)c[i][j] = NULL;
 		compras_mes[i] = 0;
 		mDATA[i].nvendas = 0; mDATA[i].factura = 0; mDATA[i].nclientes=0;
 	}
 }
 
-
+/*Insere um nodo na estrutura de Contabilidade*/
 void insertContabilidade(Contabilidade contClnt, Comp compra, int* cresceu) {
-	int iM=indexM(compra), iLC=indexL(compra->codigo_cliente);/* iLP=indexL(compra->codigo_produto);*/
+	int iM=indexM(compra), iLC=indexL(compra->codigo_cliente);
 	contClnt[iM][iLC]=insert(contClnt[iM][iLC], compra, cresceu, Compras_Ord_CC);
 	compras_mes[iM]++;
 	mDATA[iM].nvendas+=compra->quantidade;
@@ -52,6 +50,7 @@ FACTORACAO_TOTAL returnFact(int mes) {
 	return mDATA[mes].factura;
 }
 
+/*Devolve a faturacao total anual*/
 FACTORACAO_TOTAL returnFactTotal(){
 	int i;
 	FACTORACAO_TOTAL resultado=0;
@@ -70,13 +69,11 @@ CLIENTES_MES returnClientes(int mes) {
 	return mDATA[mes].nclientes;
 }
 
-
-int removeContabilidade(Contabilidade c,Comp compra)
-{
+/*Remove um nodo da estrutura de contabilidade*/
+int removeContabilidade(Contabilidade c,Comp compra) {
 	int iM=indexM(compra), iLC=indexL(compra->codigo_cliente),r;
 	r = removeAVL(c[iM][iLC], compra, Compras_Ord_CC);
-	if(r==0)
-	{
+	if(r==0) {
 		compras_mes[iM]--;
 		mDATA[iM].nvendas-=compra->quantidade;
 		mDATA[iM].nclientes-=1;
@@ -85,18 +82,18 @@ int removeContabilidade(Contabilidade c,Comp compra)
 	return r; 
 }
 
-COMPRAS_MES compras_Mes(int mes){return compras_mes[mes-1];}
+/*Retorna o numero de compras em cada mes do ano*/
+COMPRAS_MES compras_Mes(int mes) {
+	return compras_mes[mes-1];
+}
 
 /* Retorna o resultado da query 10 */
-
-GrowingArray getClientesMensais()
-{
+GrowingArray getClientesMensais() {
 	return clientesMensais;
 }
 
-/* Retorna metade do resultado da query 14 */
-int getClientesInativos()
-{
+/*Retorna o número de clientes inativos*/
+int getClientesInativos() {
 	return clientes_inativos; 
 }
 
@@ -107,7 +104,7 @@ void compMes(Contabilidade c, char* cliente, int resultado[]) {
 	for(iM=0; iM < MAX_MONTHS; iM++) resultado[iM]=avl_count(c[iM][iL], cliente, Compras_Ord_CC, 'N');	
 }
 
-/*12 linhas que representam os 12 meses onde a posicao 0 refere-se ao mes Janeiro e a posiçao 11 refere-se ao mes Dezembro*/
+/*Preenche o array com o numero de clientes que fizeram compras em todos os meses do ano*/
 void preenchecmp(int compras_mes[12]) {
 	int i;
 	for(i=0; i<12; i++) {
@@ -115,25 +112,20 @@ void preenchecmp(int compras_mes[12]) {
 	}
 }
 
+/*Preenche o array com o numero de compras em todos os meses do ano*/
 void preencheclientes(int clientes_mes[12]){
 	int i;
-	for(i=0; i<12; i++){
-		clientes_mes[i]=returnClientes(i);/*Só falta fazer esta funçao e fica a funcionar a 100%*/
-	}
+	for(i=0; i<12; i++) clientes_mes[i]=returnClientes(i);
 }
 
+/*Cria um ficheiro em excel com o numero de clientes e de compras em todos os meses do ano*/
 void create_csv(int compras_mes[12], int clientes_mes[12]) {
 	int i;
 	char nome_ficheiro[20]="query11.csv\0";
 	FILE *aux;
 	aux=fopen(nome_ficheiro, "w+");
-	fprintf(aux, "%s,%s,%s\n", "Mes\0", "#Compras\0", "#Clientes\0");
-	for(i=0;i<12;i++) fprintf(aux,"%d,%d,%d\n", (i+1), compras_mes[i], clientes_mes[i]); /*Dá o mês*/
-	/*
-	Para o excel nos macbooks o separador são os ';' e não as ','
-	fprintf(aux, "%s;%s;%s\n", "Mes\0", "#Compras\0", "#Clientes\0");
-	for(i=0;i<12;i++) fprintf(aux,"%d;%d;%d\n", (i+1), compras_mes[i], clientes_mes[i]);
-	*/
+	fprintf(aux, "%s %s %s\n", "Mes\0", "#Compras\0", "#Clientes\0");
+	for(i=0;i<12;i++) fprintf(aux,"%d %d %d\n", (i+1), compras_mes[i], clientes_mes[i]); 
 	fclose(aux);
 }
 
@@ -151,31 +143,15 @@ double totalFactProdMes(Contabilidade contProd, int mes, char *code) {
 	return res;
 }
 
-/* Nao ta a ser usada apagar depois, pode dar jeito por enquanto */
-void printAVL(AVL a)
-{
-	if(a)
-		{
-			Comp compra=a->info;
-			printAVL(a->left);
-			printf("code: %s mes: %d \n",compra->codigo_cliente,compra->mes);
-			/*printCompras(a->info);*/
-			printAVL(a->right);
-		}
-}
-
-void gatherData(AAVL cl,Contabilidade c)
-{
+/*Faz uma travessia a todos os codigos de cliente recolhendo informaçoes sobre a atividade de cada um*/
+void gatherData(AAVL cl, Contabilidade c) {
 	int i;
 	GrowingArray clientes = initGrowingArray(20000,ArrayString);
         clientesMensais = initGrowingArray(10000,ArrayString);
-	for(i=0;i<MAX_LETTERS;i++)
-		guardArrayAVL(cl[i],clientes,ArrayString);
-	
-	for(i=0;i<clientes->size;i++){
+	for(i=0;i<MAX_LETTERS;i++) guardArrayAVL(cl[i],clientes,ArrayString);
+	for(i=0;i<clientes->size;i++) {
 		int im,meses_activos;		
-		for(im = 0,meses_activos = 0; im < MAX_MONTHS;im++)
-		{
+		for(im = 0,meses_activos = 0; im < MAX_MONTHS;im++) {
 			int iL = indexL(clientes->Elems[i]);
 			if(countainAVL(c[im][iL],clientes->Elems[i])) meses_activos++;
 		}
