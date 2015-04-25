@@ -248,7 +248,7 @@ void query5(Contabilidade contClnt) {
 				printf("\n");
 				printf("COMPRAS DE "); for(i=0; i<5; i++) printf("%c", code[i]); printf(" POR MES:\n");
 				printf("  ____________________________\n");
-				printf(" |       Mês   "); printf("     |# Compras|\n");
+				printf(" |      #Mes   "); printf("     |# Compras|\n");
 				printf(" |__________________|_________|\n");
 				for(i=0; i<9; i++){
 					printf(" |        %d         |   %d     |\n", (i+1), comprasMes[i]);
