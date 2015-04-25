@@ -247,7 +247,17 @@ void query5(Contabilidade contClnt) {
 			if(optn==1) {
 				printf("\n");
 				printf("COMPRAS DE "); for(i=0; i<5; i++) printf("%c", code[i]); printf(" POR MES:\n");
-				for(i=0; i<12; i++) printf("%d: %d\n", (i+1), comprasMes[i]);
+				printf("  ____________________________\n");
+				printf(" |       Mês   "); printf("     |# Compras|\n");
+				printf(" |__________________|_________|\n");
+				for(i=0; i<9; i++){
+					printf(" |        %d         |   %d     |\n", (i+1), comprasMes[i]);
+					printf(" |__________________|_________|\n");
+				}
+				for(i=9; i<12; i++){
+					printf(" |        %d        |   %d     |\n", (i+1), comprasMes[i]);
+					printf(" |__________________|_________|\n");
+				}
 				printf("\n**NOTA** A TABELA ESTA APRESENTADA POR COMPRAS, NAO POR QUANTIDADE COMPRADA\n");
 			} 
 			else {
