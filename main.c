@@ -47,6 +47,7 @@ int main(){
 	puts("\nINSIRA O NOME DO FICHEIRO DE COMPRAS");
 	if(!scanf("%s",comprastxt)) puts("ERRO");
 
+	if(strcmp(comprastxt,"compras.txt")==0 || strcmp(comprastxt,"compras1.txt")==0 || strcmp(comprastxt,"compras3.txt")==0) {
 	puts("\nA CARREGAR ESTRUTURAS DE DADOS...");
 	
 	/*Preenchimento e leitura das estruturas de dados*/
@@ -91,6 +92,11 @@ int main(){
 	time_spent=(double)(end-begin)/CLOCKS_PER_SEC ;
 	printf("\nTEMPO DE EXECUCAO TOTAL: %.2f segundos\n\n", time_spent);
 	return 0;
+	}
+	else {
+		printf("Nome incorrecto!!!\n");
+		return 0;
+	}
 
 }
 
