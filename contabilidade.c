@@ -128,7 +128,12 @@ void create_csv(int compras_mes[12], int clientes_mes[12]) {
 	FILE *aux;
 	aux=fopen(nome_ficheiro, "w+");
 	fprintf(aux, "%s,%s,%s\n", "Mes\0", "#Compras\0", "#Clientes\0");
-	for(i=0;i<12;i++) fprintf(aux,"%d,%d,%d\n", (i+1), compras_mes[i], clientes_mes[i]);	/*Dá o mês*/
+	for(i=0;i<12;i++) fprintf(aux,"%d,%d,%d\n", (i+1), compras_mes[i], clientes_mes[i]); /*Dá o mês*/
+	/*
+	Para o excel nos macbooks o separador são os ';' e não as ','
+	fprintf(aux, "%s;%s;%s\n", "Mes\0", "#Compras\0", "#Clientes\0");
+	for(i=0;i<12;i++) fprintf(aux,"%d;%d;%d\n", (i+1), compras_mes[i], clientes_mes[i]);
+	*/
 	fclose(aux);
 }
 
