@@ -127,8 +127,8 @@ void create_csv(int compras_mes[12], int clientes_mes[12]) {
 	char nome_ficheiro[20]="query11.csv\0";
 	FILE *aux;
 	aux=fopen(nome_ficheiro, "w+");
-	fprintf(aux, "%s %s %s\n", "Mes\0", "#Compras\0", "#Clientes\0");
-	for(i=0;i<12;i++) fprintf(aux,"%d %d %d\n", (i+1), compras_mes[i], clientes_mes[i]);	/*Dá o mês*/
+	fprintf(aux, "%s,%s,%s\n", "Mes\0", "#Compras\0", "#Clientes\0");
+	for(i=0;i<12;i++) fprintf(aux,"%d,%d,%d\n", (i+1), compras_mes[i], clientes_mes[i]);	/*Dá o mês*/
 	fclose(aux);
 }
 
