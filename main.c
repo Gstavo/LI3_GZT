@@ -435,7 +435,7 @@ void query12(HashTable ht) {
 				intervalo=N/res;
 				printf("\n**AJUDA** INSIRA PRIMEIRO O NUMERO DA PAGINA ANTES DE VIZUALIZAR A LISTA\n");
 				do {
-					printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo+1);
+					printf("\nSAIR-0\nESCOLHER PAGINA-1/%d\n", intervalo);
 					if(scanf("%d", &optn)) {
 						putchar('\n');
 						if(optn==intervalo+1) {	/*ultima pagina tem sempre res ou menos codigos*/
