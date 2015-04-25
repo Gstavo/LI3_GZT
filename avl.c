@@ -185,10 +185,42 @@ AVL rotateLeft(AVL p) {
 	return p;
 }
 
-int removeAVL(AVL p,void* info,int tipo)
+/* Remove informaçao sobre um elemento na AVL */
+int removeAVL(AVL a,void* rem,int tipo)
 {
-	return 0;
+	AVL tmp = a;
+	while(tmp)
+	{
+		if(tipo == Catalogo_C || tipo == Catalogo_P)
+		{
+			int cmp = strcmp(tmp->info,rem);
+
+			if(cmp < 0) tmp = tmp->right;
+			else if(cmp > 0) tmp = tmp->left;
+			else 
+			{
+		        	tmp->info = NULL;						return 0;		
+			}	
+		}
+		else
+		{
+			Comp compra = (Comp) tmp->info;
+			Comp remCompra = (Comp) rem;
+			int cmp = strcmp(compra->codigo_cliente,remCompra->codigo_cliente);
+			
+			if(cmp < 0) tmp = tmp->right;
+			else if(cmp > 0) tmp = tmp->left;
+			else 
+			{
+		        	tmp->info = NULL;						return 0;		
+			}	
+		}
+
+	}
+	
+	return 1; 
 } 
+
 
 AVL devolveAVL(AVL array[], char a) {
 	int pos=a-65;
