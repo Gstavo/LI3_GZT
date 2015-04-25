@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include "avl.h"
 
+/*Insere um nodo na AVL*/
 AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
 	
 	if(tipo_AVL == Catalogo_C || tipo_AVL == Catalogo_P)
@@ -60,7 +61,7 @@ AVL insert(AVL p,void* unc_info , int *cresceu,int tipo_AVL) {
 	return p;
 }
 
-
+/*Faz a insercao a direita na AVL*/
 AVL insertRight(AVL p, void* info, int *cresceu,int tipo_AVL) {
 	p->right=insert(p->right, info, cresceu,tipo_AVL);
 	if(*cresceu) {
@@ -81,6 +82,7 @@ AVL insertRight(AVL p, void* info, int *cresceu,int tipo_AVL) {
 	return p;
 }
 
+/*Faz a insercao a esquerda na AVL*/
 AVL insertLeft(AVL p, void* info, int *cresceu,int tipo_AVL) {
 	p->left=insert(p->left, info, cresceu,tipo_AVL);
 	if(*cresceu) {
@@ -101,6 +103,7 @@ AVL insertLeft(AVL p, void* info, int *cresceu,int tipo_AVL) {
 	return p;
 }
 
+/*Balanceamento da AVL a direita*/
 AVL balanceRight(AVL p) {
 	if(p->right->bf==RH) {
 		p=rotateLeft(p);
@@ -128,6 +131,7 @@ AVL balanceRight(AVL p) {
 	return p;
 }
 
+/*Balanceamento da AVL a esquerda*/
 AVL balanceLeft(AVL p) {
 	if(p->left->bf==LH) {
 		p=rotateRight(p);
@@ -155,6 +159,7 @@ AVL balanceLeft(AVL p) {
 	return p;
 }
 
+/*Rotacao da AVL a direita*/
 AVL rotateRight(AVL p) {	
 	AVL aux;
 	if((!p) || (!p->left)) printf("Erro!\n");
@@ -167,6 +172,7 @@ AVL rotateRight(AVL p) {
 	return p;
 }
 
+/*Rotacao da AVL a esquerda*/
 AVL rotateLeft(AVL p) {
 	AVL aux;
 	if((!p) || (!p->right)) printf("Erro!\n");
@@ -191,13 +197,13 @@ AVL devolveAVL(AVL array[], char a) {
 	return aux;
 }
 
+/*Conta o numero de nodos da AVL*/
 NUM_NODOS contarNodos(AVL aux) {
 	if(aux == NULL) return 0;
 	else return 1 + contarNodos(aux->left) + contarNodos(aux->right);
 }
 
-/* Tipo Defined ArrayString == char** lista */
-/* Funciona Só para AVLs do tipo Catalogo_C ou Catalogo_P */
+/*Guarda a AVL num growingArray*/
 void guardArrayAVL(AVL aux, GrowingArray lista, int tipo) {	
 	if(aux!=NULL) {
 		char* o = malloc(10*sizeof(char));
@@ -208,8 +214,7 @@ void guardArrayAVL(AVL aux, GrowingArray lista, int tipo) {
 	}
 }
 
-/* Guarda no array todos os elementos iguais ao argumento */
-/* Funciona para codigos de cliente e produto */
+/*Guarda as ocurrencias de um codigo na AVL num growingArray*/
 void guardOcurrencesAVL(AVL avl, GrowingArray array, int tipo, char* codigo){
 	if(avl) {
 		Comp compra=(Comp) avl->info;
@@ -242,7 +247,7 @@ void guardOcurrencesAVL(AVL avl, GrowingArray array, int tipo, char* codigo){
 	}
 }
 
-/*Feito para o tipo AVL Compras_Ord_CC*/
+/*Verifica se o codigo existe na AVL*/
 BOOLEAN countainAVL(AVL a,char* code)
 {
 	if(a == NULL) return FALSE;
@@ -255,13 +260,13 @@ BOOLEAN countainAVL(AVL a,char* code)
 	}
 }
 
-
-
+/*Limpa uma matriz*/
 void limpaLista(char **lista) {
 	int i=0;
 	for(i=0; i<MAX_PROD;i++) lista[i]=NULL;
 }
 
+/*Devolve o indice onde vai ser introduzido um codigo*/
 INDICE_CODIGOS indexL(char* code) {
 	return code[0]-65;
 }
